@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+  #aplicação web (PHP+NGINX)
+  doc-viewer:
+    container_name: doc-viewer
+    image: lfelipeapo/php-nginx-web:1.0.0
+    build: 
+      args:
+        user: admin
+        uid: 1000
+      context: .
+      dockerfile: ./Dockerfile
+    networks:
+      - rede
+    working_dir: /var/www
+    volumes:
+      - ./applications:/var/www
+      - ./docker/nginx/sites:/etc/nginx/sites-available
+    ports:
+      - "80:8000" #http
+      - "443:443" #https
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+      - "8083:8083"
+      - "8084:8084"
+      - "8085:8085"
+      - "8086:8086"
+      - "8087:8087"
+      - "8088:8088"
+      - "8089:8089"
+    depends_on:
+      - postgres
+
+  # aplicação Postgres
+  postgres:
+    container_name: postgres
+    image: postgres:14.3-alpine
+    restart: always
+    networks:
+      - rede
+    volumes:
+      - POSTGRES_VOLUME:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: post123
+      POSTGRES_DB: db
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 20000:5432
+
+networks:
+  rede:
+    driver: bridge
+
+volumes:
+  POSTGRES_VOLUME:
