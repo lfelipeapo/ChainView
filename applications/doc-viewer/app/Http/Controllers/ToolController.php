@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DocumentController extends Controller
+class ToolController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return DB::table('documents')->get();
+        return DB::table('tools')->get();
     }
 
     /**
@@ -20,8 +20,8 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        $id = DB::table('documents')->insertGetId($request->all());
-        return DB::table('documents')->find($id);
+        $id = DB::table('tools')->insertGetId($request->all());
+        return DB::table('tools')->find($id);
     }
 
     /**
@@ -29,7 +29,7 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        return DB::table('documents')->find($id);
+        return DB::table('tools')->find($id);
     }
 
     /**
@@ -37,8 +37,8 @@ class DocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('documents')->where('id', $id)->update($request->all());
-        return DB::table('documents')->find($id);
+        DB::table('tools')->where('id', $id)->update($request->all());
+        return DB::table('tools')->find($id);
     }
 
     /**
@@ -46,7 +46,7 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('documents')->where('id', $id)->delete();
+        DB::table('tools')->where('id', $id)->delete();
         return response()->noContent();
     }
 }
