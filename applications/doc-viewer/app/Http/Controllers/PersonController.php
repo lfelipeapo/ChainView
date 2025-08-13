@@ -2,51 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Person;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return DB::table('people')->get();
+        return Person::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $id = DB::table('people')->insertGetId($request->all());
-        return DB::table('people')->find($id);
+        return Person::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        return DB::table('people')->find($id);
+        return Person::findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        DB::table('people')->where('id', $id)->update($request->all());
-        return DB::table('people')->find($id);
+        $person = Person::findOrFail($id);
+        $person->update($request->all());
+        return $person;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        DB::table('people')->where('id', $id)->delete();
+        Person::destroy($id);
         return response()->noContent();
     }
 }

@@ -24,6 +24,9 @@
     <!-- Desktop menu items -->
     <div class="hidden lg:flex items-center justify-center space-x-4">
         <a href="{{ route('dashboard') }}" class="text-base text-white hover:bg-red-700 px-3 py-2 rounded-md font-medium">Categorias</a>
+        <a href="#" class="text-base text-white hover:bg-red-700 px-3 py-2 rounded-md font-medium">Pessoas</a>
+        <a href="#" class="text-base text-white hover:bg-red-700 px-3 py-2 rounded-md font-medium">Ferramentas</a>
+        <a href="#" class="text-base text-white hover:bg-red-700 px-3 py-2 rounded-md font-medium">Documentos</a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="text-base text-white hover:bg-red-700 px-3 py-2 rounded-md font-medium">Sair</button>
@@ -34,6 +37,9 @@
     <div class="fixed left-0 top-0 w-1/4 h-full bg-white z-50 transform transition-all duration-300 ease-in-out" :class="{ 'translate-x-0': isOpen, '-translate-x-full': !isOpen }">
         <div class="flex flex-col h-full justify-start space-y-6 p-5">
             <a href="{{ route('dashboard') }}" class="text-base text-black hover:bg-gray-100 hover:text-red-700 px-3 py-2 rounded-md font-medium">Categorias</a>
+            <a href="#" class="text-base text-black hover:bg-gray-100 hover:text-red-700 px-3 py-2 rounded-md font-medium">Pessoas</a>
+            <a href="#" class="text-base text-black hover:bg-gray-100 hover:text-red-700 px-3 py-2 rounded-md font-medium">Ferramentas</a>
+            <a href="#" class="text-base text-black hover:bg-gray-100 hover:text-red-700 px-3 py-2 rounded-md font-medium">Documentos</a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="text-base text-black hover:bg-gray-100 hover:text-red-700 px-3 py-2 rounded-md font-medium">Sair</button>

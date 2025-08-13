@@ -4,35 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Person;
+use App\Models\Tool;
+use App\Models\Document;
 
 class Process extends Model
 {
     use HasFactory;
 
-    protected $table = 'public.processes';
-
     protected $fillable = [
-        'area_id',
-        'parent_id',
         'name',
-        'description',
-        'type',
-        'criticality',
-        'status',
     ];
 
-    public function area()
+    public function people()
     {
-        return $this->belongsTo(Area::class);
+        return $this->belongsToMany(Person::class, 'process_person');
     }
 
-    public function parent()
+    public function tools()
     {
-        return $this->belongsTo(Process::class, 'parent_id');
+        return $this->belongsToMany(Tool::class, 'process_tool');
     }
 
-    public function children()
+    public function documents()
     {
-        return $this->hasMany(Process::class, 'parent_id')->with('children');
+        return $this->hasMany(Document::class);
     }
 }

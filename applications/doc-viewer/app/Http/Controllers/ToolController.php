@@ -2,51 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tool;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ToolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return DB::table('tools')->get();
+        return Tool::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $id = DB::table('tools')->insertGetId($request->all());
-        return DB::table('tools')->find($id);
+        return Tool::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        return DB::table('tools')->find($id);
+        return Tool::findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        DB::table('tools')->where('id', $id)->update($request->all());
-        return DB::table('tools')->find($id);
+        $tool = Tool::findOrFail($id);
+        $tool->update($request->all());
+        return $tool;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        DB::table('tools')->where('id', $id)->delete();
+        Tool::destroy($id);
         return response()->noContent();
     }
 }

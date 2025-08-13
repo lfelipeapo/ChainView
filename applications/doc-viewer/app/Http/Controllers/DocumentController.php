@@ -2,51 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return DB::table('documents')->get();
+        return Document::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $id = DB::table('documents')->insertGetId($request->all());
-        return DB::table('documents')->find($id);
+        return Document::create($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        return DB::table('documents')->find($id);
+        return Document::findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        DB::table('documents')->where('id', $id)->update($request->all());
-        return DB::table('documents')->find($id);
+        $document = Document::findOrFail($id);
+        $document->update($request->all());
+        return $document;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        DB::table('documents')->where('id', $id)->delete();
+        Document::destroy($id);
         return response()->noContent();
     }
 }
