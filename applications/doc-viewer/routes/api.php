@@ -23,6 +23,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// API root route
+Route::get('/', function () {
+    return response()->json([
+        'name' => 'ChainView API',
+        'description' => 'API para gestão de processos e documentos',
+        'version' => '1.0.0',
+        'endpoints' => [
+            'health' => '/api/health',
+            'areas' => '/api/areas',
+            'processes' => '/api/processes',
+            'people' => '/api/people',
+            'tools' => '/api/tools',
+            'documents' => '/api/documents',
+            'process_tree' => '/api/processes/{id}/tree',
+            'area_processes_tree' => '/api/areas/{id}/processes/tree'
+        ],
+        'documentation' => 'Consulte a documentação para mais detalhes sobre cada endpoint'
+    ]);
+});
+
 // Health check route
 Route::get('/health', function () {
     $health = [
@@ -30,6 +50,19 @@ Route::get('/health', function () {
         'message' => 'API is running',
         'timestamp' => now()->toISOString(),
         'version' => '1.0.0',
+        'identification' => [
+            'name' => 'ChainView API',
+            'description' => 'API para gestão de processos e documentos',
+            'environment' => config('app.env', 'production'),
+            'framework' => 'Laravel ' . app()->version(),
+            'php_version' => PHP_VERSION,
+            'server' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'hostname' => gethostname(),
+            'uptime' => [
+                'started_at' => now()->subSeconds(time() - $_SERVER['REQUEST_TIME'])->toISOString(),
+                'duration' => time() - $_SERVER['REQUEST_TIME'] . ' seconds'
+            ]
+        ],
         'services' => []
     ];
 
