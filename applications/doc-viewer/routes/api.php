@@ -23,6 +23,56 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Health check route
+Route::get('/health', function () {
+    $health = [
+        'status' => 'ok',
+        'message' => 'API is running',
+        'timestamp' => now()->toISOString(),
+        'version' => '1.0.0',
+        'services' => []
+    ];
+
+    // Check database connection
+    try {
+        \Illuminate\Support\Facades\DB::select('SELECT 1');
+        $health['services']['database'] = [
+            'status' => 'ok',
+            'message' => 'Database connection successful'
+        ];
+    } catch (\Exception $e) {
+        $health['services']['database'] = [
+            'status' => 'error',
+            'message' => 'Database connection failed: ' . $e->getMessage()
+        ];
+        $health['status'] = 'error';
+    }
+
+    // Check if we can query some basic data
+    try {
+        $areasCount = \Illuminate\Support\Facades\DB::table('areas')->count();
+        $processesCount = \Illuminate\Support\Facades\DB::table('processes')->count();
+        
+        $health['services']['data'] = [
+            'status' => 'ok',
+            'message' => 'Data queries successful',
+            'counts' => [
+                'areas' => $areasCount,
+                'processes' => $processesCount
+            ]
+        ];
+    } catch (\Exception $e) {
+        $health['services']['data'] = [
+            'status' => 'error',
+            'message' => 'Data queries failed: ' . $e->getMessage()
+        ];
+        $health['status'] = 'error';
+    }
+
+    $statusCode = $health['status'] === 'ok' ? 200 : 503;
+    return response()->json($health, $statusCode);
+});
+
 Route::apiResource('areas', AreaController::class);
 Route::apiResource('processes', ProcessController::class);
 Route::apiResource('people', PersonController::class);
