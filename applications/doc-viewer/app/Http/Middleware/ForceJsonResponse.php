@@ -16,7 +16,10 @@ class ForceJsonResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        $request->headers->set('Accept', 'application/json');
+        // Only set Accept header for GET requests
+        if ($request->isMethod('GET')) {
+            $request->headers->set('Accept', 'application/json');
+        }
         
         $response = $next($request);
         

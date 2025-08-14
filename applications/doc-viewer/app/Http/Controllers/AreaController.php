@@ -51,6 +51,15 @@ class AreaController extends Controller
     }
 
     /**
+     * Return the areas tree.
+     */
+    public function tree()
+    {
+        $areas = DB::table('areas')->get();
+        return response()->json($areas, 200, ['Content-Type' => 'application/json; charset=utf-8']);
+    }
+
+    /**
      * Return the process tree for the given area.
      */
     public function processesTree($id)

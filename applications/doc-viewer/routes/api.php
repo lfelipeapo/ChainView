@@ -106,6 +106,7 @@ Route::get('/health', function () {
     return response()->json($health, $statusCode, ['Content-Type' => 'application/json; charset=utf-8']);
 });
 
+Route::get('areas/tree', [AreaController::class, 'tree']);
 Route::apiResource('areas', AreaController::class);
 Route::apiResource('processes', ProcessController::class);
 Route::apiResource('people', PersonController::class);

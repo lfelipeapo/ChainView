@@ -14,5 +14,10 @@ async function fetchAreaTree(): Promise<AreaNode[]> {
 }
 
 export function useAreaTree() {
-  return useQuery({ queryKey: ['areaTree'], queryFn: fetchAreaTree })
+  return useQuery({ 
+    queryKey: ['areaTree'], 
+    queryFn: fetchAreaTree,
+    retry: 1,
+    refetchOnWindowFocus: false
+  })
 }
