@@ -243,6 +243,129 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Remover área",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "d8261e1575a2a594723f0f7b6e971997",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da área",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Área removida com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Área removida com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "404": {
+                        "description": "Área não encontrada"
+                    },
+                    "422": {
+                        "description": "Não é possível remover área com processos associados"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/areas/tree": {
+            "get": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Listar áreas em formato de árvore",
+                "description": "Get areas in tree format.",
+                "operationId": "8f6e641fff5c2fad1d137d8819feaa49",
+                "responses": {
+                    "200": {
+                        "description": "Lista de áreas em formato de árvore",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/areas/{id}/processes/tree": {
+            "get": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Listar processos de uma área em formato de árvore",
+                "description": "Get processes tree for a specific area.",
+                "operationId": "fdb2f6be35a26d007de1b4881dd2d2e1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da área",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Processos da área em formato de árvore",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "area": {
+                                            "type": "object"
+                                        },
+                                        "processes": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Área não encontrada"
+                    }
+                }
             }
         },
         "/auth/login": {

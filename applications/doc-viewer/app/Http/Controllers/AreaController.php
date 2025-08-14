@@ -257,6 +257,20 @@ class AreaController extends Controller
 
     /**
      * Get areas in tree format.
+     * 
+     * @OA\Get(
+     *     path="/areas/tree",
+     *     summary="Listar áreas em formato de árvore",
+     *     tags={"Áreas"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de áreas em formato de árvore",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(type="object")
+     *         )
+     *     )
+     * )
      */
     public function tree(): JsonResponse
     {
@@ -269,6 +283,31 @@ class AreaController extends Controller
 
     /**
      * Get processes tree for a specific area.
+     * 
+     * @OA\Get(
+     *     path="/areas/{id}/processes/tree",
+     *     summary="Listar processos de uma área em formato de árvore",
+     *     tags={"Áreas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID da área",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Processos da área em formato de árvore",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="area", type="object"),
+     *             @OA\Property(property="processes", type="array", @OA\Items(type="object"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Área não encontrada"
+     *     )
+     * )
      */
     public function processesTree(Area $area): JsonResponse
     {
