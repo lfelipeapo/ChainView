@@ -30,6 +30,34 @@ body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+/* Estilos para o header */
+.app-header {
+  background: #001529;
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1890ff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Container principal da aplicação */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container do conteúdo */
+.app-content {
+  flex: 1;
+  overflow: auto;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

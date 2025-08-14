@@ -30,17 +30,9 @@ export default function App() {
   }
 
   return (
-    <div>
+    <div className="app-container">
       {/* Header com informações do usuário */}
-      <div style={{
-        background: '#001529',
-        color: 'white',
-        padding: '12px 24px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottom: '1px solid #1890ff'
-      }}>
+      <div className="app-header">
         <div style={{ fontSize: '18px', fontWeight: 'bold' }}>
           ChainView - Sistema de Gestão de Processos
         </div>
@@ -62,10 +54,12 @@ export default function App() {
         </div>
       </div>
 
-      <Routes>
-        <Route path="/" element={<AreaTree />} />
-        <Route path="/areas" element={<AreaTable data={data} />} />
-      </Routes>
+      <div className="app-content">
+        <Routes>
+          <Route path="/" element={<AreaTree />} />
+          <Route path="/areas" element={<AreaTable data={data} />} />
+        </Routes>
+      </div>
     </div>
   )
 }

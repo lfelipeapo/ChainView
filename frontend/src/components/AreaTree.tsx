@@ -665,8 +665,8 @@ export default function AreaTree() {
         `}
       </style>
       <div style={{
-        minHeight: '100vh',
-        width: '100vw',
+        minHeight: 'calc(100vh - 60px)',
+        width: '100%',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         display: 'flex',
         flexDirection: 'column',
@@ -677,13 +677,13 @@ export default function AreaTree() {
         <div style={{
           width: '100%',
           maxWidth: 1000,
-          maxHeight: 'calc(100vh - 80px)',
+          maxHeight: 'calc(100vh - 140px)',
           overflowY: 'auto',
           background: '#fff',
           borderRadius: 16,
           boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
           padding: window.innerWidth <= 768 ? '20px' : '32px',
-          margin: '20px auto',
+          margin: '0 auto',
           boxSizing: 'border-box'
         }}
           className="custom-scrollbar">
