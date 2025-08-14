@@ -205,6 +205,39 @@ class AreaController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * @OA\Delete(
+     *     path="/areas/{id}",
+     *     summary="Remover área",
+     *     tags={"Áreas"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID da área",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Área removida com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Área removida com sucesso!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Área não encontrada"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Não é possível remover área com processos associados"
+     *     )
+     * )
      */
     public function destroy(Area $area): JsonResponse
     {

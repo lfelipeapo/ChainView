@@ -70,6 +70,179 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Criar área",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "e3b3bd99f2014fd763018a030be4fd38",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nome da Área"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Área criada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Área criada com sucesso!"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/areas/{id}": {
+            "get": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Obter área específica",
+                "description": "Display the specified resource.",
+                "operationId": "89b34cddfab1b7c50aba560bfbe01069",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da área",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados da área",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Área não encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Áreas"
+                ],
+                "summary": "Atualizar área",
+                "description": "Update the specified resource in storage.",
+                "operationId": "2a84eb6438724f670b6c0e3cce2544e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da área",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nome da Área"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Área atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Área atualizada com sucesso!"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "404": {
+                        "description": "Área não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/auth/login": {
@@ -250,6 +423,543 @@
                     }
                 ]
             }
+        },
+        "/processes": {
+            "get": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Listar processos",
+                "description": "Display a listing of the resource.",
+                "operationId": "014b44c37d00ed39f0b2b8009eb0084c",
+                "parameters": [
+                    {
+                        "name": "area_id",
+                        "in": "query",
+                        "description": "ID da área",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Status do processo",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "active",
+                                "inactive"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "criticality",
+                        "in": "query",
+                        "description": "Criticidade do processo",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Termo de busca",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "root_only",
+                        "in": "query",
+                        "description": "Apenas processos raiz",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "subprocesses_only",
+                        "in": "query",
+                        "description": "Apenas subprocessos",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de processos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Criar processo",
+                "description": "Store a newly created resource in storage.",
+                "operationId": "9ec02bb1d645b177be4ca7a7f5ad6ac9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "area_id",
+                                    "type",
+                                    "criticality",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nome do Processo"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descrição do processo"
+                                    },
+                                    "area_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "internal",
+                                            "external"
+                                        ],
+                                        "example": "internal"
+                                    },
+                                    "criticality": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high"
+                                        ],
+                                        "example": "medium"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ],
+                                        "example": "active"
+                                    },
+                                    "tools": {
+                                        "type": "string",
+                                        "example": "Ferramentas utilizadas",
+                                        "nullable": true
+                                    },
+                                    "responsible": {
+                                        "type": "string",
+                                        "example": "Responsável",
+                                        "nullable": true
+                                    },
+                                    "documentation": {
+                                        "type": "string",
+                                        "example": "Link da documentação",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Processo criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Processo criado com sucesso!"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/processes/{id}": {
+            "get": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Obter processo específico",
+                "description": "Display the specified resource.",
+                "operationId": "9df68114fbc11c0a5964034b2081656f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do processo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do processo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Processo não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Atualizar processo",
+                "description": "Update the specified resource in storage.",
+                "operationId": "65acbc698435b87f69e22b1ee077c045",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do processo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "area_id",
+                                    "type",
+                                    "criticality",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Nome do Processo"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Descrição do processo"
+                                    },
+                                    "area_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "parent_id": {
+                                        "type": "integer",
+                                        "example": null,
+                                        "nullable": true
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "internal",
+                                            "external"
+                                        ],
+                                        "example": "internal"
+                                    },
+                                    "criticality": {
+                                        "type": "string",
+                                        "enum": [
+                                            "low",
+                                            "medium",
+                                            "high"
+                                        ],
+                                        "example": "medium"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ],
+                                        "example": "active"
+                                    },
+                                    "tools": {
+                                        "type": "string",
+                                        "example": "Ferramentas utilizadas",
+                                        "nullable": true
+                                    },
+                                    "responsible": {
+                                        "type": "string",
+                                        "example": "Responsável",
+                                        "nullable": true
+                                    },
+                                    "documentation": {
+                                        "type": "string",
+                                        "example": "Link da documentação",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Processo atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Processo atualizado com sucesso!"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "404": {
+                        "description": "Processo não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Remover processo",
+                "description": "Remove the specified resource from storage.",
+                "operationId": "4f3ed55cbed755f03e664bf4f5f34736",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do processo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Processo removido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Processo removido com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Não é possível remover processo com subprocessos"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    },
+                    "404": {
+                        "description": "Processo não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/processes/{id}/tree": {
+            "get": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Obter árvore de um processo",
+                "description": "Get process tree for a specific process.",
+                "operationId": "5b031a284e2cec6dd2acfcbe5ab29a28",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do processo",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Árvore do processo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Processo não encontrado"
+                    }
+                }
+            }
+        },
+        "/processes/stats": {
+            "get": {
+                "tags": [
+                    "Processos"
+                ],
+                "summary": "Obter estatísticas dos processos",
+                "description": "Get statistics for processes.",
+                "operationId": "59e075f5c937e5d9adc0c7addbebb0e7",
+                "responses": {
+                    "200": {
+                        "description": "Estatísticas dos processos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 25
+                                                },
+                                                "active": {
+                                                    "type": "integer",
+                                                    "example": 20
+                                                },
+                                                "inactive": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "high_criticality": {
+                                                    "type": "integer",
+                                                    "example": 8
+                                                },
+                                                "medium_criticality": {
+                                                    "type": "integer",
+                                                    "example": 12
+                                                },
+                                                "low_criticality": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "root_processes": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "subprocesses": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -265,6 +975,10 @@
         {
             "name": "Áreas",
             "description": "Endpoints para gerenciamento de áreas"
+        },
+        {
+            "name": "Processos",
+            "description": "Endpoints para gerenciamento de processos"
         },
         {
             "name": "Autenticação",
