@@ -1,7 +1,30 @@
-import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined } from '@ant-design/icons'
+import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import api from '../api'
+
+// Função para detectar URLs
+const isUrl = (text: string): boolean => {
+  try {
+    new URL(text)
+    return true
+  } catch {
+    return false
+  }
+}
+
+// Função para detectar se é uma imagem
+const isImageUrl = (url: string): boolean => {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg']
+  const lowerUrl = url.toLowerCase()
+  return imageExtensions.some(ext => lowerUrl.includes(ext))
+}
+
+// Função para extrair URLs do texto
+const extractUrls = (text: string): string[] => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  return text.match(urlRegex) || []
+}
 
 interface AreaNode {
   id: number
@@ -25,6 +48,110 @@ interface ProcessNode {
   tools?: string
   responsible?: string
   documentation?: string
+}
+
+// Componente para renderizar preview de links e descrições
+const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | 'documentation' }) => {
+  const [showPreview, setShowPreview] = useState(false)
+  const urls = extractUrls(text)
+  const hasUrls = urls.length > 0
+  const isImage = hasUrls && isImageUrl(urls[0])
+
+  if (!text) return null
+
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div style={{ 
+        fontSize: '12px', 
+        color: '#666', 
+        lineHeight: '1.4',
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+        maxWidth: '100%'
+      }}>
+        {text}
+      </div>
+      
+      {hasUrls && (
+        <div style={{ marginTop: 8 }}>
+          <Button 
+            type="link" 
+            size="small" 
+            icon={<EyeOutlined />}
+            onClick={() => setShowPreview(!showPreview)}
+            style={{ padding: 0, height: 'auto', fontSize: '11px' }}
+          >
+            {showPreview ? 'Ocultar Preview' : 'Ver Preview'}
+          </Button>
+          
+          {showPreview && (
+            <div style={{ marginTop: 8, maxWidth: '100%', overflow: 'hidden' }}>
+              {urls.map((url, index) => (
+                <div key={index} style={{ marginBottom: 8, maxWidth: '100%' }}>
+                  <a 
+                    href={url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    style={{ 
+                      color: '#1890ff', 
+                      textDecoration: 'none',
+                      fontSize: '11px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      wordBreak: 'break-all',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                  >
+                    <LinkOutlined style={{ flexShrink: 0 }} />
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {url}
+                    </span>
+                  </a>
+                  
+                  {isImageUrl(url) && (
+                    <div style={{ marginTop: 4, maxWidth: '100%' }}>
+                      <Image
+                        src={url}
+                        alt="Preview"
+                        width={200}
+                        height={150}
+                        style={{ 
+                          objectFit: 'cover',
+                          borderRadius: 4,
+                          border: '1px solid #d9d9d9',
+                          maxWidth: '100%'
+                        }}
+                        fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBobtQPdLciLEVJYzMPBHMDBsayhILEqEO4DxG0txmrERhM29nYGBddr//5/DGRjYNRkY/l7////39v///y4Dmn+LgeHANwDrkl1AuO+pmgAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAwqADAAQAAAABAAAAwwAAAAD9b/HnAAAHlklEQVR4Ae3dP3Ik1RnG4W+FgYxN"
+                      />
+                    </div>
+                  )}
+                  
+                  {!isImageUrl(url) && (
+                    <div style={{ 
+                      marginTop: 4, 
+                      padding: 8, 
+                      background: '#f5f5f5', 
+                      borderRadius: 4,
+                      fontSize: '11px',
+                      color: '#666',
+                      maxWidth: '100%',
+                      wordBreak: 'break-word'
+                    }}>
+                      <LinkOutlined style={{ marginRight: 4 }} />
+                      Link externo - Clique para abrir
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function AreaTree() {
@@ -263,6 +390,22 @@ export default function AreaTree() {
             )}
           </span>
           <Space size="small">
+            {process.description && (
+              <Tooltip 
+                title={
+                  <div style={{ maxWidth: 280, wordBreak: 'break-word' }}>
+                    <strong>Descrição:</strong>
+                    <PreviewRenderer text={process.description} type="description" />
+                  </div>
+                }
+                placement="topLeft"
+                overlayStyle={{ maxWidth: 300 }}
+              >
+                <Tag icon={<FileTextOutlined />} color="orange" style={{ fontSize: '10px' }}>
+                  Desc
+                </Tag>
+              </Tooltip>
+            )}
             {process.tools && (
               <Tooltip title="Ferramentas">
                 <Tag icon={<ToolOutlined />} color="blue" style={{ fontSize: '10px' }}>
@@ -278,7 +421,16 @@ export default function AreaTree() {
               </Tooltip>
             )}
             {process.documentation && (
-              <Tooltip title="Documentação">
+              <Tooltip 
+                title={
+                  <div style={{ maxWidth: 280, wordBreak: 'break-word' }}>
+                    <strong>Documentação:</strong>
+                    <PreviewRenderer text={process.documentation} type="documentation" />
+                  </div>
+                }
+                placement="topLeft"
+                overlayStyle={{ maxWidth: 300 }}
+              >
                 <Tag icon={<FileTextOutlined />} color="purple" style={{ fontSize: '10px' }}>
                   Doc
                 </Tag>
@@ -701,7 +853,7 @@ export default function AreaTree() {
                 rules={[{ required: true, message: 'Por favor, insira a descrição do processo' }]}
               >
                 <Input.TextArea 
-                  placeholder="Descrição detalhada do processo" 
+                  placeholder="Descrição detalhada do processo (suporta links e imagens)" 
                   rows={3}
                 />
               </Form.Item>
@@ -753,7 +905,7 @@ export default function AreaTree() {
                 label="Documentação"
               >
                 <Input.TextArea 
-                  placeholder="Link ou descrição da documentação" 
+                  placeholder="Link ou descrição da documentação (suporta links e imagens)" 
                   rows={2}
                 />
               </Form.Item>
