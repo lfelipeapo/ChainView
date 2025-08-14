@@ -76,9 +76,9 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
 
   return (
     <div style={{ marginTop: 8 }}>
-      <div style={{ 
-        fontSize: '12px', 
-        color: '#666', 
+      <div style={{
+        fontSize: '12px',
+        color: '#666',
         lineHeight: '1.4',
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
@@ -86,29 +86,29 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
       }}>
         {text}
       </div>
-      
+
       {hasUrls && (
         <div style={{ marginTop: 8 }}>
-          <Button 
-            type="link" 
-            size="small" 
+          <Button
+            type="link"
+            size="small"
             icon={<EyeOutlined />}
             onClick={() => setShowPreview(!showPreview)}
             style={{ padding: 0, height: 'auto', fontSize: '11px' }}
           >
             {showPreview ? 'Ocultar Preview' : 'Ver Preview'}
           </Button>
-          
+
           {showPreview && (
             <div style={{ marginTop: 8, maxWidth: '100%', overflow: 'hidden' }}>
               {urls.map((url, index) => (
                 <div key={index} style={{ marginBottom: 8, maxWidth: '100%' }}>
-                  <a 
-                    href={url} 
-                    target="_blank" 
+                  <a
+                    href={url}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    style={{ 
-                      color: '#1890ff', 
+                    style={{
+                      color: '#1890ff',
                       textDecoration: 'none',
                       fontSize: '11px',
                       display: 'flex',
@@ -125,7 +125,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
                       {url}
                     </span>
                   </a>
-                  
+
                   {isImageUrl(url) && (
                     <div style={{ marginTop: 4, maxWidth: '100%' }}>
                       <Image
@@ -133,7 +133,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
                         alt="Preview"
                         width={200}
                         height={150}
-                        style={{ 
+                        style={{
                           objectFit: 'cover',
                           borderRadius: 4,
                           border: '1px solid #d9d9d9',
@@ -143,12 +143,12 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
                       />
                     </div>
                   )}
-                  
+
                   {!isImageUrl(url) && (
-                    <div style={{ 
-                      marginTop: 4, 
-                      padding: 8, 
-                      background: '#f5f5f5', 
+                    <div style={{
+                      marginTop: 4,
+                      padding: 8,
+                      background: '#f5f5f5',
                       borderRadius: 4,
                       fontSize: '11px',
                       color: '#666',
@@ -251,13 +251,13 @@ export default function AreaTree() {
   const onFinish = async (values: AreaFormValues | ProcessFormValues) => {
     try {
       setSubmitting(true)
-      
+
       if (editMode && editingItem) {
         // Editando um processo existente
         const processValues = values as ProcessFormValues
         const response = await api.put<ApiMessageResponse>(`/processes/${editingItem.id}`, processValues)
-        setProcesses(prevProcesses => 
-          prevProcesses.map(process => 
+        setProcesses(prevProcesses =>
+          prevProcesses.map(process =>
             process.id === editingItem.id ? response.data.data : process
           )
         )
@@ -272,7 +272,7 @@ export default function AreaTree() {
         // Verificar se parentId é uma área ou um processo
         const isArea = areas.some(area => area.id === parentId)
         const processValues = values as ProcessFormValues
-        
+
         if (isArea) {
           // Criando um novo processo na área
           const processData = {
@@ -309,9 +309,9 @@ export default function AreaTree() {
           message.success('Subprocesso criado com sucesso!')
         }
       }
-      
-    setOpen(false)
-      
+
+      setOpen(false)
+
     } catch (err) {
       message.error('Erro ao salvar: ' + (err instanceof Error ? err.message : 'Erro desconhecido'))
     } finally {
@@ -354,28 +354,28 @@ export default function AreaTree() {
     return processes.map(process => ({
       key: process.id,
       title: (
-        <span style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <span style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           width: '100%',
           padding: '4px 0'
         }}>
           <span style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-            <FileOutlined style={{ 
-              marginRight: 8, 
+            <FileOutlined style={{
+              marginRight: 8,
               color: process.parent_id ? '#52c41a' : '#1890ff',
               fontSize: '14px'
             }} />
-            <span style={{ 
+            <span style={{
               fontSize: '14px',
               fontWeight: process.parent_id ? 'normal' : '500'
             }}>
               {process.name}
             </span>
-            <span style={{ 
-              marginLeft: 8, 
-              fontSize: '11px', 
+            <span style={{
+              marginLeft: 8,
+              fontSize: '11px',
               color: '#fff',
               background: getCriticalityColor(process.criticality),
               padding: '1px 6px',
@@ -383,7 +383,7 @@ export default function AreaTree() {
               textTransform: 'uppercase',
               fontWeight: 'bold'
             }}>
-              {process.criticality}
+              {process.criticality === 'high' ? 'Alta' : process.criticality === 'medium' ? 'Média' : 'Baixa'}
             </span>
             <Tag color={getStatusColor(process.status)} style={{ marginLeft: 8, fontSize: '10px' }}>
               {process.status === 'active' ? 'Ativo' : 'Inativo'}
@@ -391,7 +391,7 @@ export default function AreaTree() {
           </span>
           <Space size="small">
             {process.description && (
-              <Tooltip 
+              <Tooltip
                 title={
                   <div style={{ maxWidth: 280, wordBreak: 'break-word' }}>
                     <strong>Descrição:</strong>
@@ -421,7 +421,7 @@ export default function AreaTree() {
               </Tooltip>
             )}
             {process.documentation && (
-              <Tooltip 
+              <Tooltip
                 title={
                   <div style={{ maxWidth: 280, wordBreak: 'break-word' }}>
                     <strong>Documentação:</strong>
@@ -436,15 +436,15 @@ export default function AreaTree() {
                 </Tag>
               </Tooltip>
             )}
-            <Button 
-              type="link" 
-              size="small" 
-              icon={<PlusOutlined />} 
+            <Button
+              type="link"
+              size="small"
+              icon={<PlusOutlined />}
               onClick={(e) => {
                 e.stopPropagation()
                 onAdd(process.id)
               }}
-              style={{ 
+              style={{
                 padding: '2px 6px',
                 borderRadius: 4,
                 border: '1px solid #d9d9d9',
@@ -454,17 +454,17 @@ export default function AreaTree() {
                 marginLeft: 8
               }}
             >
-              Add Sub
+              Adicionar Subprocesso
             </Button>
-            <Button 
-              type="link" 
-              size="small" 
-              icon={<EditOutlined />} 
+            <Button
+              type="link"
+              size="small"
+              icon={<EditOutlined />}
               onClick={(e) => {
                 e.stopPropagation()
                 onEdit(process)
               }}
-              style={{ 
+              style={{
                 padding: '2px 6px',
                 borderRadius: 4,
                 border: '1px solid #d9d9d9',
@@ -483,11 +483,11 @@ export default function AreaTree() {
               okText="Sim"
               cancelText="Não"
             >
-              <Button 
-                type="link" 
-                size="small" 
-                icon={<DeleteOutlined />} 
-                style={{ 
+              <Button
+                type="link"
+                size="small"
+                icon={<DeleteOutlined />}
+                style={{
                   padding: '2px 6px',
                   borderRadius: 4,
                   border: '1px solid #d9d9d9',
@@ -557,7 +557,7 @@ export default function AreaTree() {
           }
         `}
       </style>
-      <div style={{ 
+      <div style={{
         minHeight: '100vh',
         width: '100vw',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -567,7 +567,7 @@ export default function AreaTree() {
         padding: '20px',
         boxSizing: 'border-box'
       }}>
-        <div style={{ 
+        <div style={{
           width: '100%',
           maxWidth: 1000,
           maxHeight: 'calc(100vh - 80px)',
@@ -579,9 +579,9 @@ export default function AreaTree() {
           margin: '20px auto',
           boxSizing: 'border-box'
         }}
-        className="custom-scrollbar">
-          <h1 style={{ 
-            marginBottom: 24, 
+          className="custom-scrollbar">
+          <h1 style={{
+            marginBottom: 24,
             color: '#1890ff',
             textAlign: 'center',
             fontSize: window.innerWidth <= 768 ? '1.5rem' : '2rem',
@@ -589,48 +589,48 @@ export default function AreaTree() {
           }}>
             ChainView - Áreas e Processos
           </h1>
-          
+
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />} 
-              onClick={() => onAdd(null)} 
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => onAdd(null)}
               size="large"
-              style={{ 
+              style={{
                 borderRadius: 8,
                 height: window.innerWidth <= 768 ? '40px' : '48px',
                 padding: window.innerWidth <= 768 ? '0 16px' : '0 24px',
                 fontSize: window.innerWidth <= 768 ? '14px' : '16px'
               }}
             >
-        Add Root Area
-      </Button>
+              Adicionar Área
+            </Button>
           </div>
-          
+
           <div style={{ marginBottom: 16 }}>
             <p style={{ textAlign: 'center', margin: 0 }}>
               Status: {loading ? 'Carregando...' : areaError ? 'Erro' : 'Pronto'}
             </p>
             {areaError && <p style={{ color: 'red', textAlign: 'center', margin: '8px 0 0 0' }}>Erro: {areaError.message}</p>}
           </div>
-          
+
           {loading && (
             <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
               Carregando áreas...
             </div>
           )}
-          
+
           {areaError && (
             <div style={{ textAlign: 'center', padding: '40px', color: '#ff4d4f' }}>
               Erro ao carregar áreas: {areaError.message}
             </div>
           )}
-          
+
           {!loading && !areaError && (
             <>
-              <p style={{ 
-                marginBottom: 24, 
-                fontSize: '14px', 
+              <p style={{
+                marginBottom: 24,
+                fontSize: '14px',
                 color: '#666',
                 textAlign: 'center',
                 padding: '12px',
@@ -639,10 +639,10 @@ export default function AreaTree() {
               }}>
                 Total de áreas: {areas.length} | Total de processos: {processes.length}
               </p>
-              <div style={{ 
-                marginBottom: 24, 
-                display: 'flex', 
-                justifyContent: 'center', 
+              <div style={{
+                marginBottom: 24,
+                display: 'flex',
+                justifyContent: 'center',
                 gap: '16px',
                 flexWrap: 'wrap'
               }}>
@@ -663,70 +663,70 @@ export default function AreaTree() {
                 </Tag>
               </div>
               {areas.length > 0 ? (
-                <Collapse 
-                  style={{ 
-                    background: '#fff', 
-                    borderRadius: 12, 
+                <Collapse
+                  style={{
+                    background: '#fff',
+                    borderRadius: 12,
                     border: '1px solid #e8e8e8'
                   }}
                   expandIconPosition="end"
                 >
                   {processesByArea.map(({ area, processes }) => (
-                    <Collapse.Panel 
-                      key={area.id} 
+                    <Collapse.Panel
+                      key={area.id}
                       header={
-                        <span style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between', 
+                        <span style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                           width: '100%',
                           padding: '8px 0',
                           flexWrap: 'wrap',
                           gap: '8px'
                         }}>
-                          <span style={{ 
-                            display: 'flex', 
+                          <span style={{
+                            display: 'flex',
                             alignItems: 'center',
                             flexWrap: 'wrap',
                             gap: '8px'
                           }}>
-                            <FolderOutlined style={{ 
-                              color: '#1890ff', 
+                            <FolderOutlined style={{
+                              color: '#1890ff',
                               fontSize: window.innerWidth <= 768 ? '16px' : '18px'
                             }} />
-                            <span style={{ 
-                              fontSize: window.innerWidth <= 768 ? '14px' : '16px', 
+                            <span style={{
+                              fontSize: window.innerWidth <= 768 ? '14px' : '16px',
                               fontWeight: '500'
                             }}>
                               {area.name}
                             </span>
-                            <span style={{ 
-                              fontSize: '12px', 
-                              color: '#666', 
-                              background: '#f0f0f0', 
-                              padding: '2px 8px', 
-                              borderRadius: 12 
+                            <span style={{
+                              fontSize: '12px',
+                              color: '#666',
+                              background: '#f0f0f0',
+                              padding: '2px 8px',
+                              borderRadius: 12
                             }}>
                               {processes.length} processos
                             </span>
-            </span>
+                          </span>
                           <Space size="small">
-                            <Button 
-                              type="link" 
-                              size="small" 
-                              icon={<PlusOutlined />} 
+                            <Button
+                              type="link"
+                              size="small"
+                              icon={<PlusOutlined />}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 onAdd(area.id)
                               }}
-                              style={{ 
+                              style={{
                                 padding: '4px 8px',
                                 borderRadius: 6,
                                 border: '1px solid #d9d9d9',
                                 whiteSpace: 'nowrap'
                               }}
                             >
-                              Add Process
+                              Adicionar Processo
                             </Button>
                             <Popconfirm
                               title="Remover Área"
@@ -738,11 +738,11 @@ export default function AreaTree() {
                               okText="Sim"
                               cancelText="Não"
                             >
-                              <Button 
-                                type="link" 
-                                size="small" 
-                                icon={<DeleteOutlined />} 
-                                style={{ 
+                              <Button
+                                type="link"
+                                size="small"
+                                icon={<DeleteOutlined />}
+                                style={{
                                   padding: '4px 8px',
                                   borderRadius: 6,
                                   border: '1px solid #d9d9d9',
@@ -764,7 +764,7 @@ export default function AreaTree() {
                               treeData={convertToTreeData(processes)}
                               showLine
                               defaultExpandAll
-                              style={{ 
+                              style={{
                                 background: 'transparent',
                                 fontSize: '14px'
                               }}
@@ -773,9 +773,9 @@ export default function AreaTree() {
                           </div>
                         </div>
                       ) : (
-                        <div style={{ 
-                          padding: '24px', 
-                          textAlign: 'center', 
+                        <div style={{
+                          padding: '24px',
+                          textAlign: 'center',
                           color: '#666',
                           background: '#fafafa',
                           borderRadius: 8,
@@ -788,28 +788,28 @@ export default function AreaTree() {
                   ))}
                 </Collapse>
               ) : (
-                <div style={{ 
-                  textAlign: 'center', 
-                  padding: '60px 20px', 
+                <div style={{
+                  textAlign: 'center',
+                  padding: '60px 20px',
                   color: '#666',
                   background: '#fafafa',
                   borderRadius: 12,
                   border: '1px dashed #d9d9d9'
                 }}>
-                  <FolderOutlined style={{ 
-                    fontSize: window.innerWidth <= 768 ? '36px' : '48px', 
-                    color: '#d9d9d9', 
+                  <FolderOutlined style={{
+                    fontSize: window.innerWidth <= 768 ? '36px' : '48px',
+                    color: '#d9d9d9',
                     marginBottom: '16px'
                   }} />
-                  <p style={{ 
-                    fontSize: window.innerWidth <= 768 ? '14px' : '16px', 
+                  <p style={{
+                    fontSize: window.innerWidth <= 768 ? '14px' : '16px',
                     margin: 0
                   }}>
                     Nenhuma área encontrada
                   </p>
-                  <p style={{ 
-                    fontSize: window.innerWidth <= 768 ? '12px' : '14px', 
-                    margin: '8px 0 0 0', 
+                  <p style={{
+                    fontSize: window.innerWidth <= 768 ? '12px' : '14px',
+                    margin: '8px 0 0 0',
                     color: '#999'
                   }}>
                     Clique em "Add Root Area" para começar
@@ -821,15 +821,15 @@ export default function AreaTree() {
         </div>
       </div>
 
-      <Modal 
-        open={open} 
-        onCancel={() => setOpen(false)} 
-        onOk={handleModalOk} 
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        onOk={handleModalOk}
         title={
-          editMode 
-            ? "Editar Processo" 
-            : parentId === null 
-              ? "Nova Área" 
+          editMode
+            ? "Editar Processo"
+            : parentId === null
+              ? "Nova Área"
               : "Novo Processo"
         }
         confirmLoading={submitting}
@@ -838,27 +838,27 @@ export default function AreaTree() {
         width={600}
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
-          <Form.Item 
-            name="name" 
+          <Form.Item
+            name="name"
             label={parentId === null && !editMode ? "Nome da Área" : "Nome do Processo"}
             rules={[{ required: true, message: parentId === null && !editMode ? 'Por favor, insira o nome da área' : 'Por favor, insira o nome do processo' }]}
-          > 
+          >
             <Input placeholder={parentId === null && !editMode ? "Digite o nome da área" : "Digite o nome do processo"} />
           </Form.Item>
           {(parentId !== null || editMode) && (
             <>
-              <Form.Item 
-                name="description" 
+              <Form.Item
+                name="description"
                 label="Descrição"
                 rules={[{ required: true, message: 'Por favor, insira a descrição do processo' }]}
               >
-                <Input.TextArea 
-                  placeholder="Descrição detalhada do processo (suporta links e imagens)" 
+                <Input.TextArea
+                  placeholder="Descrição detalhada do processo (suporta links e imagens)"
                   rows={3}
                 />
               </Form.Item>
-              <Form.Item 
-                name="type" 
+              <Form.Item
+                name="type"
                 label="Tipo"
                 rules={[{ required: true, message: 'Por favor, selecione o tipo do processo' }]}
               >
@@ -867,8 +867,8 @@ export default function AreaTree() {
                   <Select.Option value="external">Externo</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item 
-                name="criticality" 
+              <Form.Item
+                name="criticality"
                 label="Criticidade"
                 rules={[{ required: true, message: 'Por favor, selecione a criticidade do processo' }]}
               >
@@ -878,8 +878,8 @@ export default function AreaTree() {
                   <Select.Option value="high">Alta</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item 
-                name="status" 
+              <Form.Item
+                name="status"
                 label="Status"
                 rules={[{ required: true, message: 'Por favor, selecione o status do processo' }]}
               >
@@ -888,24 +888,24 @@ export default function AreaTree() {
                   <Select.Option value="inactive">Inativo</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item 
-                name="tools" 
+              <Form.Item
+                name="tools"
                 label="Ferramentas"
               >
                 <Input placeholder="Ferramentas utilizadas" />
               </Form.Item>
-              <Form.Item 
-                name="responsible" 
+              <Form.Item
+                name="responsible"
                 label="Responsável"
               >
                 <Input placeholder="Nome do responsável" />
               </Form.Item>
-              <Form.Item 
-                name="documentation" 
+              <Form.Item
+                name="documentation"
                 label="Documentação"
               >
-                <Input.TextArea 
-                  placeholder="Link ou descrição da documentação (suporta links e imagens)" 
+                <Input.TextArea
+                  placeholder="Link ou descrição da documentação (suporta links e imagens)"
                   rows={2}
                 />
               </Form.Item>
