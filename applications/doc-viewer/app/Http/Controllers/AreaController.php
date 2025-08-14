@@ -2,91 +2,125 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
+use App\Http\Resources\AreaResource;
+use App\Http\Requests\Area\StoreAreaRequest;
+use App\Http\Requests\Area\UpdateAreaRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 class AreaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return DB::table('areas')->get();
+        $query = Area::query()
+            ->withCount('processes')
+            ->orderByName();
+
+        // Filtros
+        if ($request->has('search')) {
+            $query->search($request->search);
+        }
+
+        // Paginação
+        $perPage = $request->get('per_page', 15);
+        $areas = $query->paginate($perPage);
+
+        return AreaResource::collection($areas);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAreaRequest $request): JsonResponse
     {
-        $id = DB::table('areas')->insertGetId($request->all());
-        return DB::table('areas')->find($id);
+        $area = Area::create($request->validated());
+
+        return response()->json([
+            'message' => 'Área criada com sucesso!',
+            'data' => new AreaResource($area)
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Area $area): JsonResponse
     {
-        return DB::table('areas')->find($id);
+        $area->load(['processes' => function ($query) {
+            $query->orderByName();
+        }]);
+
+        return response()->json([
+            'data' => new AreaResource($area)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAreaRequest $request, Area $area): JsonResponse
     {
-        DB::table('areas')->where('id', $id)->update($request->all());
-        return DB::table('areas')->find($id);
+        $area->update($request->validated());
+
+        return response()->json([
+            'message' => 'Área atualizada com sucesso!',
+            'data' => new AreaResource($area)
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Area $area): JsonResponse
     {
-        DB::table('areas')->where('id', $id)->delete();
-        return response()->noContent();
+        // Verificar se há processos associados
+        if ($area->processes()->count() > 0) {
+            return response()->json([
+                'message' => 'Não é possível remover uma área que possui processos associados.'
+            ], 422);
+        }
+
+        $area->delete();
+
+        return response()->json([
+            'message' => 'Área removida com sucesso!'
+        ]);
     }
 
     /**
-     * Return the areas tree.
+     * Get areas in tree format.
      */
-    public function tree()
+    public function tree(): JsonResponse
     {
-        $areas = DB::table('areas')->get();
-        return response()->json($areas, 200, ['Content-Type' => 'application/json; charset=utf-8']);
+        $areas = Area::withCount('processes')
+            ->orderByName()
+            ->get();
+
+        return response()->json(AreaResource::collection($areas));
     }
 
     /**
-     * Return the process tree for the given area.
+     * Get processes tree for a specific area.
      */
-    public function processesTree($id)
+    public function processesTree(Area $area): JsonResponse
     {
-        $area = DB::table('areas')->find($id);
-        if (! $area) {
-            return null;
-        }
+        $processes = $area->rootProcesses()
+            ->with(['children' => function ($query) {
+                $query->orderByName();
+            }])
+            ->orderByName()
+            ->get();
 
-        $area->processes = $this->areaProcesses($id);
-        return $area;
-    }
-
-    protected function areaProcesses($areaId, $parentId = null)
-    {
-        $query = DB::table('processes')->where('area_id', $areaId);
-        if ($parentId === null) {
-            $query->whereNull('parent_id');
-        } else {
-            $query->where('parent_id', $parentId);
-        }
-
-        $processes = $query->get();
-        foreach ($processes as $process) {
-            $process->children = $this->areaProcesses($areaId, $process->id);
-        }
-
-        return $processes;
+        return response()->json([
+            'area' => new AreaResource($area),
+            'processes' => $processes->map(function ($process) {
+                return $process->buildTree();
+            })
+        ]);
     }
 }
