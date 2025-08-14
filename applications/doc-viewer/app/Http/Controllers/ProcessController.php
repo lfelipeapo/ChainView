@@ -55,10 +55,11 @@ class ProcessController extends Controller
      */
     public function tree($id)
     {
-        return $this->buildTree($id);
+        $tree = $this->buildTreeArray($id);
+        return response()->json($tree);
     }
 
-    protected function buildTree($id)
+    protected function buildTreeArray($id)
     {
         $process = DB::table('processes')->find($id);
         if (! $process) {
@@ -66,11 +67,24 @@ class ProcessController extends Controller
         }
 
         $children = DB::table('processes')->where('parent_id', $id)->get();
+        $processArray = [
+            'id' => $process->id,
+            'area_id' => $process->area_id,
+            'parent_id' => $process->parent_id,
+            'name' => $process->name,
+            'description' => $process->description,
+            'type' => $process->type,
+            'criticality' => $process->criticality,
+            'status' => $process->status,
+            'created_at' => $process->created_at,
+            'updated_at' => $process->updated_at,
+            'children' => []
+        ];
+        
         foreach ($children as $child) {
-            $child->children = $this->buildTree($child->id);
+            $processArray['children'][] = $this->buildTreeArray($child->id);
         }
-        $process->children = $children;
 
-        return $process;
+        return $processArray;
     }
 }
