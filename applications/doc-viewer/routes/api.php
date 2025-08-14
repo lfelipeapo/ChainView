@@ -40,7 +40,7 @@ Route::get('/', function () {
             'area_processes_tree' => '/api/areas/{id}/processes/tree'
         ],
         'documentation' => 'Consulte a documentação para mais detalhes sobre cada endpoint'
-    ]);
+    ], 200, ['Content-Type' => 'application/json; charset=utf-8']);
 });
 
 // Health check route
@@ -103,7 +103,7 @@ Route::get('/health', function () {
     }
 
     $statusCode = $health['status'] === 'ok' ? 200 : 503;
-    return response()->json($health, $statusCode);
+    return response()->json($health, $statusCode, ['Content-Type' => 'application/json; charset=utf-8']);
 });
 
 Route::apiResource('areas', AreaController::class);

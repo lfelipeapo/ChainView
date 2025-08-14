@@ -72,10 +72,14 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
             'schema' => 'public',
             'sslmode' => 'prefer',
+            'options' => [
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            ],
         ],
 
         'sqlsrv' => [

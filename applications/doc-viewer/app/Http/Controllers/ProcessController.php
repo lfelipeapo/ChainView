@@ -56,7 +56,7 @@ class ProcessController extends Controller
     public function tree($id)
     {
         $tree = $this->buildTreeArray($id);
-        return response()->json($tree);
+        return response()->json($tree, 200, ['Content-Type' => 'application/json; charset=utf-8']);
     }
 
     protected function buildTreeArray($id)
