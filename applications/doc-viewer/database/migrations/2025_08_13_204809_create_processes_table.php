@@ -16,7 +16,7 @@ class CreateProcessesTable extends Migration
             $table->text('description')->nullable();
             $table->enum('type', ['internal', 'external']);
             $table->enum('criticality', ['low', 'medium', 'high']);
-            $table->enum('status', ['draft', 'active', 'archived']);
+            $table->enum('status', ['active', 'inactive']);
             $table->timestamps();
         });
     }

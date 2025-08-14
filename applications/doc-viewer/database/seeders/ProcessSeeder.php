@@ -182,5 +182,125 @@ class ProcessSeeder extends Seeder
             'criticality' => 'high',
             'status' => 'active'
         ]);
+
+        // Processos com status inativo para teste
+        $process5 = DB::table('processes')->insertGetId([
+            'area_id' => 3, 
+            'name' => 'Processo Inativo',
+            'description' => 'Processo para testar filtros de status inativo',
+            'type' => 'external',
+            'criticality' => 'low',
+            'status' => 'inactive'
+        ]);
+
+        $subprocess5_1 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process5,
+            'name' => 'Subprocesso Inativo',
+            'description' => 'Subprocesso inativo para teste',
+            'type' => 'external',
+            'criticality' => 'low',
+            'status' => 'inactive'
+        ]);
+
+        // Mais processos para área 3
+        $process6 = DB::table('processes')->insertGetId([
+            'area_id' => 3, 
+            'name' => 'Gestão de Projetos',
+            'description' => 'Processo de gestão e acompanhamento de projetos',
+            'type' => 'internal',
+            'criticality' => 'high',
+            'status' => 'active'
+        ]);
+
+        $subprocess6_1 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process6,
+            'name' => 'Planejamento',
+            'description' => 'Subprocesso de planejamento de projetos',
+            'type' => 'internal',
+            'criticality' => 'high',
+            'status' => 'active'
+        ]);
+
+        $subprocess6_2 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process6,
+            'name' => 'Execução',
+            'description' => 'Subprocesso de execução de projetos',
+            'type' => 'internal',
+            'criticality' => 'high',
+            'status' => 'active'
+        ]);
+
+        $subprocess6_3 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process6,
+            'name' => 'Monitoramento',
+            'description' => 'Subprocesso de monitoramento de projetos',
+            'type' => 'internal',
+            'criticality' => 'medium',
+            'status' => 'active'
+        ]);
+
+        // Processos para área 3 (Financeiro)
+        $process7 = DB::table('processes')->insertGetId([
+            'area_id' => 3, 
+            'name' => 'Contabilidade',
+            'description' => 'Processo de contabilidade e relatórios',
+            'type' => 'internal',
+            'criticality' => 'high',
+            'status' => 'active'
+        ]);
+
+        $subprocess7_1 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process7,
+            'name' => 'Lançamentos',
+            'description' => 'Subprocesso de lançamentos contábeis',
+            'type' => 'internal',
+            'criticality' => 'high',
+            'status' => 'active'
+        ]);
+
+        $subprocess7_2 = DB::table('processes')->insertGetId([
+            'area_id' => 3,
+            'parent_id' => $process7,
+            'name' => 'Relatórios',
+            'description' => 'Subprocesso de geração de relatórios',
+            'type' => 'internal',
+            'criticality' => 'medium',
+            'status' => 'active'
+        ]);
+
+        // Mais processos para área 1 (RH)
+        $process8 = DB::table('processes')->insertGetId([
+            'area_id' => 1, 
+            'name' => 'Treinamento',
+            'description' => 'Processo de treinamento e desenvolvimento',
+            'type' => 'internal',
+            'criticality' => 'medium',
+            'status' => 'active'
+        ]);
+
+        $subprocess8_1 = DB::table('processes')->insertGetId([
+            'area_id' => 1,
+            'parent_id' => $process8,
+            'name' => 'Planejamento',
+            'description' => 'Subprocesso de planejamento de treinamentos',
+            'type' => 'internal',
+            'criticality' => 'medium',
+            'status' => 'active'
+        ]);
+
+        $subprocess8_2 = DB::table('processes')->insertGetId([
+            'area_id' => 1,
+            'parent_id' => $process8,
+            'name' => 'Execução',
+            'description' => 'Subprocesso de execução de treinamentos',
+            'type' => 'internal',
+            'criticality' => 'medium',
+            'status' => 'active'
+        ]);
     }
 }

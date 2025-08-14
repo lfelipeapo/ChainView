@@ -1,5 +1,5 @@
-import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Button, Modal, Form, Input, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import api from '../api'
@@ -378,6 +378,7 @@ export default function AreaTree() {
           }
           const response = await api.post<ApiMessageResponse>('/processes', processData)
           setProcesses(prevProcesses => [...prevProcesses, response.data.data])
+          queryClient.invalidateQueries({ queryKey: ['areaTree'] })
           message.success('Processo criado com sucesso!')
         } else {
           // Criando um subprocesso
@@ -395,6 +396,7 @@ export default function AreaTree() {
           }
           const response = await api.post<ApiMessageResponse>('/processes', processData)
           setProcesses(prevProcesses => [...prevProcesses, response.data.data])
+          queryClient.invalidateQueries({ queryKey: ['areaTree'] })
           message.success('Subprocesso criado com sucesso!')
         }
       }
@@ -875,142 +877,344 @@ export default function AreaTree() {
               )}
               
               {typedAreas.length > 0 ? (
-                <Collapse
-                  style={{
-                    background: '#fff',
-                    borderRadius: 12,
-                    border: '1px solid #e8e8e8'
-                  }}
-                  expandIconPosition="end"
-                  expandIcon={({ isActive }) => (
-                    <div style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      height: '100%',
-                      width: '100%'
-                    }}>
-                      {isActive ? <UpOutlined /> : <DownOutlined />}
-                    </div>
-                  )}
-                  className="custom-collapse"
-                >
-                  {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
-                    <Collapse.Panel
-                      key={area.id}
-                      header={
-                        <span style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          width: '100%',
-                          padding: '8px 0',
-                          flexWrap: 'wrap',
-                          gap: '8px'
-                        }}>
+                window.innerWidth <= 768 ? (
+                  // Layout Mobile - Cards empilhados
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
+                      <Card
+                        key={area.id}
+                        style={{
+                          borderRadius: 12,
+                          border: '1px solid #e8e8e8',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                        }}
+                        title={
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%'
+                          }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              flexWrap: 'wrap'
+                            }}>
+                              <FolderOutlined style={{ color: '#1890ff', fontSize: '18px' }} />
+                              <span style={{ fontSize: '16px', fontWeight: '500' }}>
+                                {area.name}
+                              </span>
+                              <Tag color="blue" style={{ fontSize: '11px' }}>
+                                {processes.length} processos
+                              </Tag>
+                            </div>
+                            <Button
+                              type="primary"
+                              size="small"
+                              icon={<PlusOutlined />}
+                              onClick={() => onAdd(area.id)}
+                              style={{ borderRadius: 6 }}
+                            >
+                              Adicionar
+                            </Button>
+                          </div>
+                        }
+                      >
+                        {processes.length > 0 ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {processes.map((process) => (
+                              <div
+                                key={process.id}
+                                style={{
+                                  border: '1px solid #f0f0f0',
+                                  borderRadius: 8,
+                                  padding: '12px',
+                                  background: '#fafafa'
+                                }}
+                              >
+                                <div style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  marginBottom: '8px'
+                                }}>
+                                  <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                    flexWrap: 'wrap'
+                                  }}>
+                                    <FileOutlined style={{ color: '#52c41a', fontSize: '14px' }} />
+                                    <span style={{ fontSize: '14px', fontWeight: '500' }}>
+                                      {process.name}
+                                    </span>
+                                    <Tag 
+                                      color={process.criticality === 'high' ? 'red' : process.criticality === 'medium' ? 'orange' : 'green'}
+                                      style={{ fontSize: '10px' }}
+                                    >
+                                      {process.criticality === 'high' ? 'Alta' : process.criticality === 'medium' ? 'Média' : 'Baixa'}
+                                    </Tag>
+                                  </div>
+                                  <Space size="small">
+                                    <Button
+                                      type="link"
+                                      size="small"
+                                      icon={<EditOutlined />}
+                                      onClick={() => onEdit(process)}
+                                      style={{ padding: '2px 4px' }}
+                                    />
+                                    <Button
+                                      type="link"
+                                      size="small"
+                                      danger
+                                      icon={<DeleteOutlined />}
+                                      onClick={() => onDelete(process.id, 'process')}
+                                      style={{ padding: '2px 4px' }}
+                                    />
+                                  </Space>
+                                </div>
+                                
+                                {process.description && (
+                                  <div style={{
+                                    fontSize: '12px',
+                                    color: '#666',
+                                    marginBottom: '8px',
+                                    lineHeight: '1.4'
+                                  }}>
+                                    {process.description}
+                                  </div>
+                                )}
+                                
+                                {process.children && process.children.length > 0 && (
+                                  <div style={{ marginTop: '8px' }}>
+                                    <div style={{
+                                      fontSize: '11px',
+                                      color: '#999',
+                                      marginBottom: '4px',
+                                      fontWeight: '500'
+                                    }}>
+                                      Subprocessos ({process.children.length}):
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginLeft: '12px' }}>
+                                      {process.children.map((child) => (
+                                        <div
+                                          key={child.id}
+                                          style={{
+                                            border: '1px solid #e8e8e8',
+                                            borderRadius: 6,
+                                            padding: '8px',
+                                            background: '#fff',
+                                            fontSize: '12px'
+                                          }}
+                                        >
+                                          <div style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between'
+                                          }}>
+                                            <div style={{
+                                              display: 'flex',
+                                              alignItems: 'center',
+                                              gap: '6px'
+                                            }}>
+                                              <FileOutlined style={{ color: '#1890ff', fontSize: '12px' }} />
+                                              <span>{child.name}</span>
+                                              <Tag 
+                                                color={child.criticality === 'high' ? 'red' : child.criticality === 'medium' ? 'orange' : 'green'}
+                                                style={{ fontSize: '9px' }}
+                                              >
+                                                {child.criticality === 'high' ? 'Alta' : child.criticality === 'medium' ? 'Média' : 'Baixa'}
+                                              </Tag>
+                                            </div>
+                                            <Space size="small">
+                                              <Button
+                                                type="link"
+                                                size="small"
+                                                icon={<EditOutlined />}
+                                                onClick={() => onEdit(child)}
+                                                style={{ padding: '1px 2px', fontSize: '10px' }}
+                                              />
+                                              <Button
+                                                type="link"
+                                                size="small"
+                                                danger
+                                                icon={<DeleteOutlined />}
+                                                onClick={() => onDelete(child.id, 'process')}
+                                                style={{ padding: '1px 2px', fontSize: '10px' }}
+                                              />
+                                            </Space>
+                                          </div>
+                                          {child.description && (
+                                            <div style={{
+                                              fontSize: '11px',
+                                              color: '#666',
+                                              marginTop: '4px',
+                                              lineHeight: '1.3'
+                                            }}>
+                                              {child.description}
+                                            </div>
+                                          )}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div style={{
+                            textAlign: 'center',
+                            padding: '20px',
+                            color: '#999',
+                            fontSize: '14px'
+                          }}>
+                            Nenhum processo encontrado nesta área
+                          </div>
+                        )}
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  // Layout Desktop - Collapse original
+                  <Collapse
+                    style={{
+                      background: '#fff',
+                      borderRadius: 12,
+                      border: '1px solid #e8e8e8'
+                    }}
+                    expandIconPosition="end"
+                    expandIcon={({ isActive }) => (
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        height: '100%',
+                        width: '100%'
+                      }}>
+                        {isActive ? <UpOutlined /> : <DownOutlined />}
+                      </div>
+                    )}
+                    className="custom-collapse"
+                  >
+                    {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
+                      <Collapse.Panel
+                        key={area.id}
+                        header={
                           <span style={{
                             display: 'flex',
                             alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            padding: '8px 0',
                             flexWrap: 'wrap',
                             gap: '8px'
                           }}>
-                            <FolderOutlined style={{
-                              color: '#1890ff',
-                              fontSize: window.innerWidth <= 768 ? '16px' : '18px'
-                            }} />
                             <span style={{
-                              fontSize: window.innerWidth <= 768 ? '14px' : '16px',
-                              fontWeight: '500'
+                              display: 'flex',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              gap: '8px'
                             }}>
-                              {area.name}
+                              <FolderOutlined style={{
+                                color: '#1890ff',
+                                fontSize: '18px'
+                              }} />
+                              <span style={{
+                                fontSize: '16px',
+                                fontWeight: '500'
+                              }}>
+                                {area.name}
+                              </span>
+                              <span style={{
+                                fontSize: '12px',
+                                color: '#666',
+                                background: '#f0f0f0',
+                                padding: '2px 8px',
+                                borderRadius: 12
+                              }}>
+                                {processes.length} processos
+                              </span>
                             </span>
-                            <span style={{
-                              fontSize: '12px',
-                              color: '#666',
-                              background: '#f0f0f0',
-                              padding: '2px 8px',
-                              borderRadius: 12
-                            }}>
-                              {processes.length} processos
-                            </span>
-                          </span>
-                          <Space size="small">
-                            <Button
-                              type="link"
-                              size="small"
-                              icon={<PlusOutlined />}
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                onAdd(area.id)
-                              }}
-                              style={{
-                                padding: '4px 8px',
-                                borderRadius: 6,
-                                border: '1px solid #d9d9d9',
-                                whiteSpace: 'nowrap'
-                              }}
-                            >
-                              Adicionar Processo
-                            </Button>
-                            <Popconfirm
-                              title="Remover Área"
-                              description="Tem certeza que deseja remover esta área? Todos os processos serão removidos também."
-                              onConfirm={(e) => {
-                                e?.stopPropagation()
-                                onDelete(area.id, 'area')
-                              }}
-                              okText="Sim"
-                              cancelText="Não"
-                            >
+                            <Space size="small">
                               <Button
                                 type="link"
                                 size="small"
-                                icon={<DeleteOutlined />}
+                                icon={<PlusOutlined />}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onAdd(area.id)
+                                }}
                                 style={{
                                   padding: '4px 8px',
                                   borderRadius: 6,
                                   border: '1px solid #d9d9d9',
                                   whiteSpace: 'nowrap'
                                 }}
+                              >
+                                Adicionar Processo
+                              </Button>
+                              <Popconfirm
+                                title="Remover Área"
+                                description="Tem certeza que deseja remover esta área? Todos os processos serão removidos também."
+                                onConfirm={(e) => {
+                                  e?.stopPropagation()
+                                  onDelete(area.id, 'area')
+                                }}
+                                okText="Sim"
+                                cancelText="Não"
+                              >
+                                <Button
+                                  type="link"
+                                  size="small"
+                                  icon={<DeleteOutlined />}
+                                  style={{
+                                    padding: '4px 8px',
+                                    borderRadius: 6,
+                                    border: '1px solid #d9d9d9',
+                                    whiteSpace: 'nowrap'
+                                  }}
+                                />
+                              </Popconfirm>
+                            </Space>
+                          </span>
+                        }
+                      >
+                        {processes.length > 0 ? (
+                          <div style={{ padding: '16px 0' }}>
+                            <div style={{
+                              '--tree-indent': '24px',
+                              '--tree-line-color': '#e8e8e8'
+                            } as any}>
+                              <Tree
+                                treeData={convertToTreeData(processes)}
+                                showLine
+                                defaultExpandAll
+                                style={{
+                                  background: 'transparent',
+                                  fontSize: '14px'
+                                }}
+                                className="process-tree"
                               />
-                            </Popconfirm>
-                          </Space>
-                        </span>
-                      }
-                    >
-                      {processes.length > 0 ? (
-                        <div style={{ padding: '16px 0' }}>
-                          <div style={{
-                            '--tree-indent': '24px',
-                            '--tree-line-color': '#e8e8e8'
-                          } as any}>
-                            <Tree
-                              treeData={convertToTreeData(processes)}
-                              showLine
-                              defaultExpandAll
-                              style={{
-                                background: 'transparent',
-                                fontSize: '14px'
-                              }}
-                              className="process-tree"
-                            />
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div style={{
-                          padding: '24px',
-                          textAlign: 'center',
-                          color: '#666',
-                          background: '#fafafa',
-                          borderRadius: 8,
-                          border: '1px dashed #d9d9d9'
-                        }}>
-                          Nenhum processo nesta área
-                        </div>
-                      )}
-                    </Collapse.Panel>
-                  ))}
-                </Collapse>
+                        ) : (
+                          <div style={{
+                            padding: '24px',
+                            textAlign: 'center',
+                            color: '#666',
+                            background: '#fafafa',
+                            borderRadius: 8,
+                            border: '1px dashed #d9d9d9'
+                          }}>
+                            Nenhum processo nesta área
+                          </div>
+                        )}
+                      </Collapse.Panel>
+                    ))}
+                  </Collapse>
+                )
               ) : (
                 <div style={{
                   textAlign: 'center',

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../api'
 
 interface User {
@@ -33,8 +33,18 @@ export function useAuth() {
   // Verificar se há token no localStorage
   useEffect(() => {
     const token = localStorage.getItem('token')
-    console.log('Token no localStorage:', token ? 'existe' : 'não existe')
     setIsAuthenticated(!!token)
+  }, [])
+
+  // Escutar mudanças no localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('token')
+      setIsAuthenticated(!!token)
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   // Buscar dados do usuário quando autenticado
@@ -67,10 +77,11 @@ export function useAuth() {
       return response.data
     },
     onSuccess: (data) => {
-      console.log('Login bem-sucedido, salvando token...')
       localStorage.setItem('token', data.token)
       setUser(data.user)
       setIsAuthenticated(true)
+      // Forçar re-render do componente
+      window.dispatchEvent(new Event('storage'))
     },
     onError: (error) => {
       console.error('Erro na mutation de login:', error)
