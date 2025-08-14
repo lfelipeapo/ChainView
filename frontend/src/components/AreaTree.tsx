@@ -1,5 +1,5 @@
 import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined } from '@ant-design/icons'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import api from '../api'
@@ -555,6 +555,18 @@ export default function AreaTree() {
             scrollbar-width: thin;
             scrollbar-color: #c1c1c1 #f1f1f1;
           }
+          
+          .custom-collapse .ant-collapse-header {
+            display: flex !important;
+            align-items: center !important;
+          }
+          
+          .custom-collapse .ant-collapse-expand-icon {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 100% !important;
+          }
         `}
       </style>
       <div style={{
@@ -670,6 +682,18 @@ export default function AreaTree() {
                     border: '1px solid #e8e8e8'
                   }}
                   expandIconPosition="end"
+                  expandIcon={({ isActive }) => (
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      height: '100%',
+                      width: '100%'
+                    }}>
+                      {isActive ? <UpOutlined /> : <DownOutlined />}
+                    </div>
+                  )}
+                  className="custom-collapse"
                 >
                   {processesByArea.map(({ area, processes }) => (
                     <Collapse.Panel
