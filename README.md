@@ -39,6 +39,8 @@ Senha: password
 make up          # Subir containers
 make seed        # Popular banco com dados de exemplo
 make swagger     # Gerar documentação da API
+make diagrams    # Gerar diagramas da arquitetura (requer: npm install -g @mermaid-js/mermaid-cli)
+make docs        # Gerar toda documentação (swagger + diagramas)
 ```
 
 ### **Testes**
@@ -103,6 +105,55 @@ make security          # Verificar vulnerabilidades
 - **Web Server**: Nginx
 - **CI/CD**: GitHub Actions
 - **Linting**: PHP CS Fixer + ESLint
+
+### 📊 **Diagramas da Arquitetura**
+
+Para uma visão detalhada da arquitetura, consulte:
+- **[Documentação Completa da Arquitetura](docs/architecture.md)** - Diagramas Mermaid detalhados
+- **Fluxo de Autenticação** - Sequência de login e autorização
+- **Fluxo da Árvore de Processos** - Como os dados são carregados e exibidos
+- **Estrutura de Containers Docker** - Organização dos serviços
+- **Pipeline CI/CD** - Processo de integração e deploy
+
+#### 🎨 **Diagramas Disponíveis:**
+1. **Arquitetura Geral** - Visão completa do sistema
+2. **Fluxo de Autenticação** - Processo de login/logout
+3. **Fluxo da Árvore** - Carregamento de dados hierárquicos
+4. **Containers Docker** - Estrutura de serviços
+5. **Pipeline CI/CD** - Integração contínua
+
+> 💡 **Para gerar imagens PNG:** `npm install -g @mermaid-js/mermaid-cli && make diagrams`
+
+### 🎯 **Visão Geral da Arquitetura**
+
+```mermaid
+graph TB
+    subgraph "Frontend (React + TypeScript)"
+        A[React App] --> B[Ant Design UI]
+        A --> C[React Query]
+        A --> D[Axios HTTP Client]
+    end
+    
+    subgraph "Backend (Laravel + PHP)"
+        F[Laravel API] --> G[Sanctum Auth]
+        F --> H[Controllers]
+        F --> I[Models]
+    end
+    
+    subgraph "Database Layer"
+        M[PostgreSQL Database]
+        N[Redis Cache]
+    end
+    
+    A --> F
+    F --> M
+    F --> N
+    
+    style A fill:#61dafb
+    style F fill:#ff2d20
+    style M fill:#336791
+    style N fill:#dc382d
+```
 
 ## 📚 **API Endpoints**
 

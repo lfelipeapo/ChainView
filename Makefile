@@ -50,6 +50,12 @@ lint-fix:
 security:
 	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && composer audit"
 
+# Documentação
+diagrams:
+	./scripts/generate-diagrams.sh
+
+docs: diagrams swagger
+
 build:
 	docker build -t php-nginx-web ./docker/
 login:
