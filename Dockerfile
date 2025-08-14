@@ -12,6 +12,9 @@ RUN apt-get update && \
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql session xml zip iconv simplexml pcntl gd fileinfo
 
+# Instalar Xdebug para cobertura de testes
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
 # Cria system user para rodar Composer e Artisan Commands

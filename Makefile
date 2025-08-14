@@ -26,6 +26,30 @@ seed:
 swagger:
 	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan l5-swagger:generate"
 
+# Testes
+test:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan test"
+
+test-coverage:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage --coverage-text"
+
+test-feature:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan test --testsuite=Feature"
+
+test-unit:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan test --testsuite=Unit"
+
+lint:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && ./vendor/bin/php-cs-fixer fix --dry-run --diff"
+	cd frontend && npm run lint
+
+lint-fix:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && ./vendor/bin/php-cs-fixer fix"
+	cd frontend && npm run lint:fix
+
+security:
+	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && composer audit"
+
 build:
 	docker build -t php-nginx-web ./docker/
 login:

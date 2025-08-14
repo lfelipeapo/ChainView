@@ -1,0 +1,1683 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="AreaController.php" path="/Http/Controllers">
+    <totals>
+      <lines total="329" comments="226" code="103" executable="48" executed="46" percent="95.83"/>
+      <methods count="7" tested="6" percent="85.71"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="0" percent="0.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="App\Http\Controllers\AreaController" start="19" executable="48" executed="46" crap="9">
+      <namespace name="App\Http\Controllers"/>
+      <method name="index" signature="index(Illuminate\Http\Request $request): Illuminate\Http\Resources\Json\AnonymousResourceCollection" start="53" end="69" crap="2" executable="8" executed="8" coverage="100"/>
+      <method name="store" signature="store(App\Http\Requests\Area\StoreAreaRequest $request): Illuminate\Http\JsonResponse" start="104" end="112" crap="1" executable="5" executed="5" coverage="100"/>
+      <method name="show" signature="show(App\Models\Area $area): Illuminate\Http\JsonResponse" start="141" end="150" crap="1" executable="6" executed="6" coverage="100"/>
+      <method name="update" signature="update(App\Http\Requests\Area\UpdateAreaRequest $request, App\Models\Area $area): Illuminate\Http\JsonResponse" start="196" end="204" crap="1" executable="5" executed="5" coverage="100"/>
+      <method name="destroy" signature="destroy(App\Models\Area $area): Illuminate\Http\JsonResponse" start="242" end="256" crap="2" executable="8" executed="8" coverage="100"/>
+      <method name="tree" signature="tree(): Illuminate\Http\JsonResponse" start="275" end="282" crap="1" executable="4" executed="4" coverage="100"/>
+      <method name="processesTree" signature="processesTree(App\Models\Area $area): Illuminate\Http\JsonResponse" start="312" end="327" crap="1.00" executable="12" executed="10" coverage="83.333333333333"/>
+    </class>
+    <coverage>
+      <line nr="55">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="56">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="57">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="60">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="61">
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+      </line>
+      <line nr="65">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="66">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="68">
+        <covered by="Tests\Feature\AreaTest::can_list_areas"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_search"/>
+        <covered by="Tests\Feature\AreaTest::can_list_areas_with_pagination"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_protected_routes_with_valid_token"/>
+        <covered by="Tests\Feature\Auth\ApiAuthTest::user_can_access_public_routes_without_token"/>
+      </line>
+      <line nr="106">
+        <covered by="Tests\Feature\AreaTest::can_create_area_when_authenticated"/>
+      </line>
+      <line nr="108">
+        <covered by="Tests\Feature\AreaTest::can_create_area_when_authenticated"/>
+      </line>
+      <line nr="109">
+        <covered by="Tests\Feature\AreaTest::can_create_area_when_authenticated"/>
+      </line>
+      <line nr="110">
+        <covered by="Tests\Feature\AreaTest::can_create_area_when_authenticated"/>
+      </line>
+      <line nr="111">
+        <covered by="Tests\Feature\AreaTest::can_create_area_when_authenticated"/>
+      </line>
+      <line nr="143">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="144">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="145">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="147">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="148">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="198">
+        <covered by="Tests\Feature\AreaTest::can_update_area_when_authenticated"/>
+      </line>
+      <line nr="200">
+        <covered by="Tests\Feature\AreaTest::can_update_area_when_authenticated"/>
+      </line>
+      <line nr="201">
+        <covered by="Tests\Feature\AreaTest::can_update_area_when_authenticated"/>
+      </line>
+      <line nr="202">
+        <covered by="Tests\Feature\AreaTest::can_update_area_when_authenticated"/>
+      </line>
+      <line nr="245">
+        <covered by="Tests\Feature\AreaTest::can_delete_area_when_authenticated"/>
+        <covered by="Tests\Feature\AreaTest::cannot_delete_area_with_associated_processes"/>
+      </line>
+      <line nr="246">
+        <covered by="Tests\Feature\AreaTest::cannot_delete_area_with_associated_processes"/>
+      </line>
+      <line nr="247">
+        <covered by="Tests\Feature\AreaTest::cannot_delete_area_with_associated_processes"/>
+      </line>
+      <line nr="248">
+        <covered by="Tests\Feature\AreaTest::cannot_delete_area_with_associated_processes"/>
+      </line>
+      <line nr="251">
+        <covered by="Tests\Feature\AreaTest::can_delete_area_when_authenticated"/>
+      </line>
+      <line nr="253">
+        <covered by="Tests\Feature\AreaTest::can_delete_area_when_authenticated"/>
+      </line>
+      <line nr="254">
+        <covered by="Tests\Feature\AreaTest::can_delete_area_when_authenticated"/>
+      </line>
+      <line nr="277">
+        <covered by="Tests\Feature\AreaTest::can_get_areas_tree"/>
+      </line>
+      <line nr="278">
+        <covered by="Tests\Feature\AreaTest::can_get_areas_tree"/>
+      </line>
+      <line nr="279">
+        <covered by="Tests\Feature\AreaTest::can_get_areas_tree"/>
+      </line>
+      <line nr="281">
+        <covered by="Tests\Feature\AreaTest::can_get_areas_tree"/>
+      </line>
+      <line nr="314">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="315">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="317">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="318">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="319">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="321">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="322">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="323">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="325">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+      <line nr="149">
+        <covered by="Tests\Feature\AreaTest::can_get_specific_area"/>
+      </line>
+      <line nr="203">
+        <covered by="Tests\Feature\AreaTest::can_update_area_when_authenticated"/>
+      </line>
+      <line nr="255">
+        <covered by="Tests\Feature\AreaTest::can_delete_area_when_authenticated"/>
+      </line>
+      <line nr="326">
+        <covered by="Tests\Feature\AreaTest::can_get_processes_tree_for_area"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2"/>
+      <line no="3">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Http\Controllers</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="4"/>
+      <line no="5">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Models\Area</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="6">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Http\Resources\AreaResource</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Http\Requests\Area\StoreAreaRequest</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Http\Requests\Area\UpdateAreaRequest</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="9">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Illuminate\Http\Request</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="10">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Illuminate\Http\Resources\Json\AnonymousResourceCollection</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="11">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Illuminate\Http\JsonResponse</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="12"/>
+      <line no="13">
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="14">
+        <token name="T_DOC_COMMENT"> * @OA\Tag(</token>
+      </line>
+      <line no="15">
+        <token name="T_DOC_COMMENT"> *     name="&#xC1;reas",</token>
+      </line>
+      <line no="16">
+        <token name="T_DOC_COMMENT"> *     description="Endpoints para gerenciamento de &#xE1;reas"</token>
+      </line>
+      <line no="17">
+        <token name="T_DOC_COMMENT"> * )</token>
+      </line>
+      <line no="18">
+        <token name="T_DOC_COMMENT"> */</token>
+      </line>
+      <line no="19">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaController</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EXTENDS">extends</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Controller</token>
+      </line>
+      <line no="20">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="21">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="22">
+        <token name="T_DOC_COMMENT">     * Display a listing of the resource.</token>
+      </line>
+      <line no="23">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="24">
+        <token name="T_DOC_COMMENT">     * @OA\Get(</token>
+      </line>
+      <line no="25">
+        <token name="T_DOC_COMMENT">     *     path="/areas",</token>
+      </line>
+      <line no="26">
+        <token name="T_DOC_COMMENT">     *     summary="Listar &#xE1;reas",</token>
+      </line>
+      <line no="27">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="28">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="29">
+        <token name="T_DOC_COMMENT">     *         name="search",</token>
+      </line>
+      <line no="30">
+        <token name="T_DOC_COMMENT">     *         in="query",</token>
+      </line>
+      <line no="31">
+        <token name="T_DOC_COMMENT">     *         description="Termo de busca",</token>
+      </line>
+      <line no="32">
+        <token name="T_DOC_COMMENT">     *         required=false,</token>
+      </line>
+      <line no="33">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="string")</token>
+      </line>
+      <line no="34">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="35">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="36">
+        <token name="T_DOC_COMMENT">     *         name="per_page",</token>
+      </line>
+      <line no="37">
+        <token name="T_DOC_COMMENT">     *         in="query",</token>
+      </line>
+      <line no="38">
+        <token name="T_DOC_COMMENT">     *         description="Itens por p&#xE1;gina",</token>
+      </line>
+      <line no="39">
+        <token name="T_DOC_COMMENT">     *         required=false,</token>
+      </line>
+      <line no="40">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="integer", default=15)</token>
+      </line>
+      <line no="41">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="42">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="43">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="44">
+        <token name="T_DOC_COMMENT">     *         description="Lista de &#xE1;reas",</token>
+      </line>
+      <line no="45">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="46">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="data", type="array", @OA\Items(type="object")),</token>
+      </line>
+      <line no="47">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="links", type="object"),</token>
+      </line>
+      <line no="48">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="meta", type="object")</token>
+      </line>
+      <line no="49">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="50">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="51">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="52">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="53">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">index</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Request</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AnonymousResourceCollection</token>
+      </line>
+      <line no="54">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="55">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Area</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">query</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="56">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">withCount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'processes'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="57">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderByName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="58"/>
+      <line no="59">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// Filtros</token>
+      </line>
+      <line no="60">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">has</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'search'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="61">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">search</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">search</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="62">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="63"/>
+      <line no="64">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// Pagina&#xE7;&#xE3;o</token>
+      </line>
+      <line no="65">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$perPage</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'per_page'</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">15</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="66">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$areas</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">paginate</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$perPage</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="67"/>
+      <line no="68">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">collection</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$areas</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="69">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="70"/>
+      <line no="71">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="72">
+        <token name="T_DOC_COMMENT">     * Store a newly created resource in storage.</token>
+      </line>
+      <line no="73">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="74">
+        <token name="T_DOC_COMMENT">     * @OA\Post(</token>
+      </line>
+      <line no="75">
+        <token name="T_DOC_COMMENT">     *     path="/areas",</token>
+      </line>
+      <line no="76">
+        <token name="T_DOC_COMMENT">     *     summary="Criar &#xE1;rea",</token>
+      </line>
+      <line no="77">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="78">
+        <token name="T_DOC_COMMENT">     *     security={{"bearerAuth":{}}},</token>
+      </line>
+      <line no="79">
+        <token name="T_DOC_COMMENT">     *     @OA\RequestBody(</token>
+      </line>
+      <line no="80">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="81">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="82">
+        <token name="T_DOC_COMMENT">     *             required={"name"},</token>
+      </line>
+      <line no="83">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="name", type="string", example="Nome da &#xC1;rea")</token>
+      </line>
+      <line no="84">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="85">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="86">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="87">
+        <token name="T_DOC_COMMENT">     *         response=201,</token>
+      </line>
+      <line no="88">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea criada com sucesso",</token>
+      </line>
+      <line no="89">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="90">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="message", type="string", example="&#xC1;rea criada com sucesso!"),</token>
+      </line>
+      <line no="91">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="data", type="object")</token>
+      </line>
+      <line no="92">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="93">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="94">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="95">
+        <token name="T_DOC_COMMENT">     *         response=422,</token>
+      </line>
+      <line no="96">
+        <token name="T_DOC_COMMENT">     *         description="Erro de valida&#xE7;&#xE3;o"</token>
+      </line>
+      <line no="97">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="98">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="99">
+        <token name="T_DOC_COMMENT">     *         response=401,</token>
+      </line>
+      <line no="100">
+        <token name="T_DOC_COMMENT">     *         description="N&#xE3;o autorizado"</token>
+      </line>
+      <line no="101">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="102">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="103">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="104">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">store</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">StoreAreaRequest</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="105">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="106">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Area</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">create</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">validated</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="107"/>
+      <line no="108">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="109">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'message'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'&#xC1;rea criada com sucesso!'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="110">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'data'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="111">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">201</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="112">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="113"/>
+      <line no="114">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="115">
+        <token name="T_DOC_COMMENT">     * Display the specified resource.</token>
+      </line>
+      <line no="116">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="117">
+        <token name="T_DOC_COMMENT">     * @OA\Get(</token>
+      </line>
+      <line no="118">
+        <token name="T_DOC_COMMENT">     *     path="/areas/{id}",</token>
+      </line>
+      <line no="119">
+        <token name="T_DOC_COMMENT">     *     summary="Obter &#xE1;rea espec&#xED;fica",</token>
+      </line>
+      <line no="120">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="121">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="122">
+        <token name="T_DOC_COMMENT">     *         name="id",</token>
+      </line>
+      <line no="123">
+        <token name="T_DOC_COMMENT">     *         in="path",</token>
+      </line>
+      <line no="124">
+        <token name="T_DOC_COMMENT">     *         description="ID da &#xE1;rea",</token>
+      </line>
+      <line no="125">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="126">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="integer")</token>
+      </line>
+      <line no="127">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="128">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="129">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="130">
+        <token name="T_DOC_COMMENT">     *         description="Dados da &#xE1;rea",</token>
+      </line>
+      <line no="131">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="132">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="data", type="object")</token>
+      </line>
+      <line no="133">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="134">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="135">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="136">
+        <token name="T_DOC_COMMENT">     *         response=404,</token>
+      </line>
+      <line no="137">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea n&#xE3;o encontrada"</token>
+      </line>
+      <line no="138">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="139">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="140">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="141">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">show</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Area</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="142">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="143">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">load</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'processes'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="144">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderByName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="145">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="146"/>
+      <line no="147">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="148">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'data'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="149">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="150">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="151"/>
+      <line no="152">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="153">
+        <token name="T_DOC_COMMENT">     * Update the specified resource in storage.</token>
+      </line>
+      <line no="154">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="155">
+        <token name="T_DOC_COMMENT">     * @OA\Put(</token>
+      </line>
+      <line no="156">
+        <token name="T_DOC_COMMENT">     *     path="/areas/{id}",</token>
+      </line>
+      <line no="157">
+        <token name="T_DOC_COMMENT">     *     summary="Atualizar &#xE1;rea",</token>
+      </line>
+      <line no="158">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="159">
+        <token name="T_DOC_COMMENT">     *     security={{"bearerAuth":{}}},</token>
+      </line>
+      <line no="160">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="161">
+        <token name="T_DOC_COMMENT">     *         name="id",</token>
+      </line>
+      <line no="162">
+        <token name="T_DOC_COMMENT">     *         in="path",</token>
+      </line>
+      <line no="163">
+        <token name="T_DOC_COMMENT">     *         description="ID da &#xE1;rea",</token>
+      </line>
+      <line no="164">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="165">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="integer")</token>
+      </line>
+      <line no="166">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="167">
+        <token name="T_DOC_COMMENT">     *     @OA\RequestBody(</token>
+      </line>
+      <line no="168">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="169">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="170">
+        <token name="T_DOC_COMMENT">     *             required={"name"},</token>
+      </line>
+      <line no="171">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="name", type="string", example="Nome da &#xC1;rea")</token>
+      </line>
+      <line no="172">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="173">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="174">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="175">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="176">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea atualizada com sucesso",</token>
+      </line>
+      <line no="177">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="178">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="message", type="string", example="&#xC1;rea atualizada com sucesso!"),</token>
+      </line>
+      <line no="179">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="data", type="object")</token>
+      </line>
+      <line no="180">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="181">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="182">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="183">
+        <token name="T_DOC_COMMENT">     *         response=422,</token>
+      </line>
+      <line no="184">
+        <token name="T_DOC_COMMENT">     *         description="Erro de valida&#xE7;&#xE3;o"</token>
+      </line>
+      <line no="185">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="186">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="187">
+        <token name="T_DOC_COMMENT">     *         response=401,</token>
+      </line>
+      <line no="188">
+        <token name="T_DOC_COMMENT">     *         description="N&#xE3;o autorizado"</token>
+      </line>
+      <line no="189">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="190">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="191">
+        <token name="T_DOC_COMMENT">     *         response=404,</token>
+      </line>
+      <line no="192">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea n&#xE3;o encontrada"</token>
+      </line>
+      <line no="193">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="194">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="195">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="196">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">update</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">UpdateAreaRequest</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Area</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="197">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="198">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">update</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">validated</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="199"/>
+      <line no="200">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="201">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'message'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'&#xC1;rea atualizada com sucesso!'</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="202">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'data'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="203">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="204">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="205"/>
+      <line no="206">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="207">
+        <token name="T_DOC_COMMENT">     * Remove the specified resource from storage.</token>
+      </line>
+      <line no="208">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="209">
+        <token name="T_DOC_COMMENT">     * @OA\Delete(</token>
+      </line>
+      <line no="210">
+        <token name="T_DOC_COMMENT">     *     path="/areas/{id}",</token>
+      </line>
+      <line no="211">
+        <token name="T_DOC_COMMENT">     *     summary="Remover &#xE1;rea",</token>
+      </line>
+      <line no="212">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="213">
+        <token name="T_DOC_COMMENT">     *     security={{"bearerAuth":{}}},</token>
+      </line>
+      <line no="214">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="215">
+        <token name="T_DOC_COMMENT">     *         name="id",</token>
+      </line>
+      <line no="216">
+        <token name="T_DOC_COMMENT">     *         in="path",</token>
+      </line>
+      <line no="217">
+        <token name="T_DOC_COMMENT">     *         description="ID da &#xE1;rea",</token>
+      </line>
+      <line no="218">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="219">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="integer")</token>
+      </line>
+      <line no="220">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="221">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="222">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="223">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea removida com sucesso",</token>
+      </line>
+      <line no="224">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="225">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="message", type="string", example="&#xC1;rea removida com sucesso!")</token>
+      </line>
+      <line no="226">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="227">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="228">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="229">
+        <token name="T_DOC_COMMENT">     *         response=401,</token>
+      </line>
+      <line no="230">
+        <token name="T_DOC_COMMENT">     *         description="N&#xE3;o autorizado"</token>
+      </line>
+      <line no="231">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="232">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="233">
+        <token name="T_DOC_COMMENT">     *         response=404,</token>
+      </line>
+      <line no="234">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea n&#xE3;o encontrada"</token>
+      </line>
+      <line no="235">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="236">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="237">
+        <token name="T_DOC_COMMENT">     *         response=422,</token>
+      </line>
+      <line no="238">
+        <token name="T_DOC_COMMENT">     *         description="N&#xE3;o &#xE9; poss&#xED;vel remover &#xE1;rea com processos associados"</token>
+      </line>
+      <line no="239">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="240">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="241">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="242">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">destroy</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Area</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="243">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="244">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_COMMENT">// Verificar se h&#xE1; processos associados</token>
+      </line>
+      <line no="245">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">processes</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">count</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_GT">&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">0</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="246">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="247">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'message'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'N&#xE3;o &#xE9; poss&#xED;vel remover uma &#xE1;rea que possui processos associados.'</token>
+      </line>
+      <line no="248">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_LNUMBER">422</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="249">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="250"/>
+      <line no="251">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">delete</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="252"/>
+      <line no="253">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="254">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'message'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'&#xC1;rea removida com sucesso!'</token>
+      </line>
+      <line no="255">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="256">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="257"/>
+      <line no="258">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="259">
+        <token name="T_DOC_COMMENT">     * Get areas in tree format.</token>
+      </line>
+      <line no="260">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="261">
+        <token name="T_DOC_COMMENT">     * @OA\Get(</token>
+      </line>
+      <line no="262">
+        <token name="T_DOC_COMMENT">     *     path="/areas/tree",</token>
+      </line>
+      <line no="263">
+        <token name="T_DOC_COMMENT">     *     summary="Listar &#xE1;reas em formato de &#xE1;rvore",</token>
+      </line>
+      <line no="264">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="265">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="266">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="267">
+        <token name="T_DOC_COMMENT">     *         description="Lista de &#xE1;reas em formato de &#xE1;rvore",</token>
+      </line>
+      <line no="268">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="269">
+        <token name="T_DOC_COMMENT">     *             type="array",</token>
+      </line>
+      <line no="270">
+        <token name="T_DOC_COMMENT">     *             @OA\Items(type="object")</token>
+      </line>
+      <line no="271">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="272">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="273">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="274">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="275">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">tree</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="276">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="277">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$areas</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Area</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">withCount</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'processes'</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="278">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderByName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="279">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="280"/>
+      <line no="281">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_DOUBLE_COLON">::</token>
+        <token name="T_STRING">collection</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$areas</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="282">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="283"/>
+      <line no="284">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="285">
+        <token name="T_DOC_COMMENT">     * Get processes tree for a specific area.</token>
+      </line>
+      <line no="286">
+        <token name="T_DOC_COMMENT">     * </token>
+      </line>
+      <line no="287">
+        <token name="T_DOC_COMMENT">     * @OA\Get(</token>
+      </line>
+      <line no="288">
+        <token name="T_DOC_COMMENT">     *     path="/areas/{id}/processes/tree",</token>
+      </line>
+      <line no="289">
+        <token name="T_DOC_COMMENT">     *     summary="Listar processos de uma &#xE1;rea em formato de &#xE1;rvore",</token>
+      </line>
+      <line no="290">
+        <token name="T_DOC_COMMENT">     *     tags={"&#xC1;reas"},</token>
+      </line>
+      <line no="291">
+        <token name="T_DOC_COMMENT">     *     @OA\Parameter(</token>
+      </line>
+      <line no="292">
+        <token name="T_DOC_COMMENT">     *         name="id",</token>
+      </line>
+      <line no="293">
+        <token name="T_DOC_COMMENT">     *         in="path",</token>
+      </line>
+      <line no="294">
+        <token name="T_DOC_COMMENT">     *         description="ID da &#xE1;rea",</token>
+      </line>
+      <line no="295">
+        <token name="T_DOC_COMMENT">     *         required=true,</token>
+      </line>
+      <line no="296">
+        <token name="T_DOC_COMMENT">     *         @OA\Schema(type="integer")</token>
+      </line>
+      <line no="297">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="298">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="299">
+        <token name="T_DOC_COMMENT">     *         response=200,</token>
+      </line>
+      <line no="300">
+        <token name="T_DOC_COMMENT">     *         description="Processos da &#xE1;rea em formato de &#xE1;rvore",</token>
+      </line>
+      <line no="301">
+        <token name="T_DOC_COMMENT">     *         @OA\JsonContent(</token>
+      </line>
+      <line no="302">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="area", type="object"),</token>
+      </line>
+      <line no="303">
+        <token name="T_DOC_COMMENT">     *             @OA\Property(property="processes", type="array", @OA\Items(type="object"))</token>
+      </line>
+      <line no="304">
+        <token name="T_DOC_COMMENT">     *         )</token>
+      </line>
+      <line no="305">
+        <token name="T_DOC_COMMENT">     *     ),</token>
+      </line>
+      <line no="306">
+        <token name="T_DOC_COMMENT">     *     @OA\Response(</token>
+      </line>
+      <line no="307">
+        <token name="T_DOC_COMMENT">     *         response=404,</token>
+      </line>
+      <line no="308">
+        <token name="T_DOC_COMMENT">     *         description="&#xC1;rea n&#xE3;o encontrada"</token>
+      </line>
+      <line no="309">
+        <token name="T_DOC_COMMENT">     *     )</token>
+      </line>
+      <line no="310">
+        <token name="T_DOC_COMMENT">     * )</token>
+      </line>
+      <line no="311">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="312">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">processesTree</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Area</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">JsonResponse</token>
+      </line>
+      <line no="313">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="314">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_VARIABLE">$processes</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_EQUAL">=</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">rootProcesses</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="315">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">with</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'children'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="316">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_VARIABLE">$query</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderByName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="317">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="318">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">orderByName</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="319">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">get</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="320"/>
+      <line no="321">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">response</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">json</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="322">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'area'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">AreaResource</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$area</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="323">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'processes'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$processes</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">map</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$process</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="324">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$process</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">buildTree</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="325">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_CURLY">}</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+      </line>
+      <line no="326">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="327">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="328">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="329"/>
+    </source>
+  </file>
+</phpunit>
