@@ -1,16 +1,9 @@
 import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined } from '@ant-design/icons'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import api from '../api'
-import { useAreaTree } from '../hooks/useAreaTree'
-
-interface AreaNode {
-  id: number
-  name: string
-  children?: AreaNode[]
-  key?: number | string
-}
+import { useAreaTree, type AreaNode } from '../hooks/useAreaTree'
 
 interface ProcessNode {
   id: number
@@ -172,6 +165,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
 export default function AreaTree() {
   const queryClient = useQueryClient()
   const { data: areas = [], isLoading: loading, error: areaError } = useAreaTree()
+  const typedAreas: AreaNode[] = areas
   const [processes, setProcesses] = useState<ProcessNode[]>([])
   const [open, setOpen] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -179,6 +173,16 @@ export default function AreaTree() {
   const [parentId, setParentId] = useState<number | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
+  
+  // Estados para filtros e pesquisa
+  const [searchTerm, setSearchTerm] = useState('')
+  const [activeFilters, setActiveFilters] = useState<{
+    criticality: string[]
+    status: string[]
+  }>({
+    criticality: [],
+    status: []
+  })
 
   const fetchProcesses = async () => {
     try {
@@ -188,6 +192,91 @@ export default function AreaTree() {
       console.error('Erro ao carregar processos:', err)
     }
   }
+
+  // Função para verificar se um processo ou seus filhos contêm o termo de pesquisa
+  const processContainsSearchTerm = (process: ProcessNode, term: string): boolean => {
+    if (!term) return true
+    
+    const searchLower = term.toLowerCase()
+    const processMatches = 
+      process.name.toLowerCase().includes(searchLower) ||
+      process.description.toLowerCase().includes(searchLower) ||
+      (process.tools && process.tools.toLowerCase().includes(searchLower)) ||
+      (process.responsible && process.responsible.toLowerCase().includes(searchLower)) ||
+      (process.documentation && process.documentation.toLowerCase().includes(searchLower))
+    
+    if (processMatches) return true
+    
+    // Verificar filhos recursivamente
+    if (process.children) {
+      return process.children.some(child => processContainsSearchTerm(child, term))
+    }
+    
+    return false
+  }
+
+  // Função para verificar se um processo passa pelos filtros ativos
+  const processPassesFilters = (process: ProcessNode): boolean => {
+    // Filtro por criticidade
+    if (activeFilters.criticality.length > 0 && !activeFilters.criticality.includes(process.criticality)) {
+      return false
+    }
+    
+    // Filtro por status
+    if (activeFilters.status.length > 0 && !activeFilters.status.includes(process.status)) {
+      return false
+    }
+    
+    return true
+  }
+
+  // Função para filtrar processos recursivamente
+  const filterProcessesRecursively = (processList: ProcessNode[]): ProcessNode[] => {
+    // Se não há filtros ativos, retorna todos os processos
+    if (!hasActiveFilters) {
+      return processList
+    }
+    
+    return processList
+      .filter(process => {
+        const passesFilters = processPassesFilters(process)
+        const containsSearch = processContainsSearchTerm(process, searchTerm)
+        
+        // Se o processo atual não passa pelos filtros, verificar se algum filho passa
+        if (!passesFilters && process.children && process.children.length > 0) {
+          const filteredChildren = filterProcessesRecursively(process.children)
+          return filteredChildren.length > 0
+        }
+        
+        return passesFilters && containsSearch
+      })
+      .map(process => ({
+        ...process,
+        children: process.children && process.children.length > 0 ? filterProcessesRecursively(process.children) : undefined
+      }))
+  }
+
+  // Função para alternar filtros
+  const toggleFilter = (type: 'criticality' | 'status', value: string) => {
+    setActiveFilters(prev => ({
+      ...prev,
+      [type]: prev[type].includes(value)
+        ? prev[type].filter(v => v !== value)
+        : [...prev[type], value]
+    }))
+  }
+
+  // Função para resetar todos os filtros
+  const resetFilters = () => {
+    setSearchTerm('')
+    setActiveFilters({
+      criticality: [],
+      status: []
+    })
+  }
+
+  // Verificar se há filtros ativos
+  const hasActiveFilters = searchTerm || activeFilters.criticality.length > 0 || activeFilters.status.length > 0
 
   useEffect(() => {
     fetchProcesses()
@@ -270,7 +359,7 @@ export default function AreaTree() {
         message.success('Área criada com sucesso!')
       } else {
         // Verificar se parentId é uma área ou um processo
-        const isArea = areas.some(area => area.id === parentId)
+        const isArea = typedAreas.some(area => area.id === parentId)
         const processValues = values as ProcessFormValues
 
         if (isArea) {
@@ -504,13 +593,19 @@ export default function AreaTree() {
     }))
   }
 
-  // Agrupa processos por área
-  const processesByArea = areas.map(area => {
+  // Agrupa processos por área com filtros aplicados
+  const processesByArea = typedAreas.map(area => {
     const areaProcesses = processes.filter(p => p.area_id === area.id)
     const treeData = buildProcessTree(areaProcesses)
+    const filteredTreeData = filterProcessesRecursively(treeData)
+    
+    // Verificar se a área contém o termo de pesquisa
+    const areaContainsSearch = searchTerm ? area.name.toLowerCase().includes(searchTerm.toLowerCase()) : false
+    
     return {
       area,
-      processes: treeData
+      processes: filteredTreeData,
+      showArea: hasActiveFilters ? (filteredTreeData.length > 0 || areaContainsSearch) : true
     }
   })
 
@@ -649,8 +744,46 @@ export default function AreaTree() {
                 background: '#f5f5f5',
                 borderRadius: 8
               }}>
-                Total de áreas: {areas.length} | Total de processos: {processes.length}
+                Total de áreas: {typedAreas.length} | Total de processos: {processes.length}
               </p>
+              
+              {/* Campo de pesquisa */}
+              <div style={{
+                marginBottom: 16,
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '12px',
+                flexWrap: 'wrap',
+                alignItems: 'center'
+              }}>
+                <Input
+                  placeholder="Pesquisar por nome, descrição, ferramentas, responsável..."
+                  prefix={<SearchOutlined />}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{
+                    width: window.innerWidth <= 768 ? '100%' : '400px',
+                    borderRadius: '8px'
+                  }}
+                  allowClear
+                />
+                {hasActiveFilters && (
+                  <Button
+                    icon={<ReloadOutlined />}
+                    onClick={resetFilters}
+                    style={{
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    Limpar Filtros
+                  </Button>
+                )}
+              </div>
+
+              {/* Tags de filtros */}
               <div style={{
                 marginBottom: 24,
                 display: 'flex',
@@ -658,23 +791,90 @@ export default function AreaTree() {
                 gap: '16px',
                 flexWrap: 'wrap'
               }}>
-                <Tag color="red" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                <Tag 
+                  color={activeFilters.criticality.includes('high') ? 'red' : undefined}
+                  style={{ 
+                    fontSize: '12px', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    border: activeFilters.criticality.includes('high') ? '2px solid #ff4d4f' : undefined
+                  }}
+                  onClick={() => toggleFilter('criticality', 'high')}
+                >
                   Alta: {processes.filter(p => p.criticality === 'high').length}
                 </Tag>
-                <Tag color="orange" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                <Tag 
+                  color={activeFilters.criticality.includes('medium') ? 'orange' : undefined}
+                  style={{ 
+                    fontSize: '12px', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    border: activeFilters.criticality.includes('medium') ? '2px solid #faad14' : undefined
+                  }}
+                  onClick={() => toggleFilter('criticality', 'medium')}
+                >
                   Média: {processes.filter(p => p.criticality === 'medium').length}
                 </Tag>
-                <Tag color="green" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                <Tag 
+                  color={activeFilters.criticality.includes('low') ? 'green' : undefined}
+                  style={{ 
+                    fontSize: '12px', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    border: activeFilters.criticality.includes('low') ? '2px solid #52c41a' : undefined
+                  }}
+                  onClick={() => toggleFilter('criticality', 'low')}
+                >
                   Baixa: {processes.filter(p => p.criticality === 'low').length}
                 </Tag>
-                <Tag color="blue" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                <Tag 
+                  color={activeFilters.status.includes('active') ? 'blue' : undefined}
+                  style={{ 
+                    fontSize: '12px', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    border: activeFilters.status.includes('active') ? '2px solid #1890ff' : undefined
+                  }}
+                  onClick={() => toggleFilter('status', 'active')}
+                >
                   Ativos: {processes.filter(p => p.status === 'active').length}
                 </Tag>
-                <Tag color="red" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                <Tag 
+                  color={activeFilters.status.includes('inactive') ? 'red' : undefined}
+                  style={{ 
+                    fontSize: '12px', 
+                    padding: '4px 8px',
+                    cursor: 'pointer',
+                    border: activeFilters.status.includes('inactive') ? '2px solid #ff4d4f' : undefined
+                  }}
+                  onClick={() => toggleFilter('status', 'inactive')}
+                >
                   Inativos: {processes.filter(p => p.status === 'inactive').length}
                 </Tag>
               </div>
-              {areas.length > 0 ? (
+              
+              {/* Mensagem de filtros ativos */}
+              {hasActiveFilters && (
+                <div style={{
+                  marginBottom: 16,
+                  padding: '8px 16px',
+                  background: '#e6f7ff',
+                  border: '1px solid #91d5ff',
+                  borderRadius: '8px',
+                  textAlign: 'center',
+                  fontSize: '14px',
+                  color: '#1890ff'
+                }}>
+                  <SearchOutlined style={{ marginRight: 8 }} />
+                  Filtros ativos: 
+                  {searchTerm && ` Pesquisa: "${searchTerm}"`}
+                  {activeFilters.criticality.length > 0 && ` Criticidade: ${activeFilters.criticality.join(', ')}`}
+                  {activeFilters.status.length > 0 && ` Status: ${activeFilters.status.join(', ')}`}
+                  {processesByArea.filter(({ showArea }) => showArea).length === 0 && ' - Nenhum resultado encontrado'}
+                </div>
+              )}
+              
+              {typedAreas.length > 0 ? (
                 <Collapse
                   style={{
                     background: '#fff',
@@ -695,7 +895,7 @@ export default function AreaTree() {
                   )}
                   className="custom-collapse"
                 >
-                  {processesByArea.map(({ area, processes }) => (
+                  {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
                     <Collapse.Panel
                       key={area.id}
                       header={
