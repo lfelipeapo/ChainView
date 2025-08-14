@@ -396,6 +396,23 @@ export default function AreaTree() {
           }
           const response = await api.post<ApiMessageResponse>('/processes', processData)
           setProcesses(prevProcesses => [...prevProcesses, response.data.data])
+          // Expandir o processo pai para mostrar o novo subprocesso
+          const parentProcessId = response.data.data.parent_id?.toString()
+          if (parentProcessId) {
+            // Forçar re-render da árvore expandindo o processo pai
+            setTimeout(() => {
+              const treeElement = document.querySelector('.process-tree')
+              if (treeElement) {
+                const parentNode = treeElement.querySelector(`[data-key="${parentProcessId}"]`)
+                if (parentNode) {
+                  const expandButton = parentNode.querySelector('.ant-tree-switcher')
+                  if (expandButton && !expandButton.classList.contains('ant-tree-switcher_open')) {
+                    (expandButton as HTMLElement).click()
+                  }
+                }
+              }
+            }, 100)
+          }
           queryClient.invalidateQueries({ queryKey: ['areaTree'] })
           message.success('Subprocesso criado com sucesso!')
         }
