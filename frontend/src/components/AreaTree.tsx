@@ -1,5 +1,5 @@
-import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined } from '@ant-design/icons'
+import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space } from 'antd'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import api from '../api'
 
@@ -22,6 +22,9 @@ interface ProcessNode {
   created_at: string | null
   updated_at: string | null
   children?: ProcessNode[]
+  tools?: string
+  responsible?: string
+  documentation?: string
 }
 
 export default function AreaTree() {
@@ -30,6 +33,8 @@ export default function AreaTree() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [editingItem, setEditingItem] = useState<ProcessNode | null>(null)
   const [parentId, setParentId] = useState<number | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
@@ -61,8 +66,42 @@ export default function AreaTree() {
 
   const onAdd = (id: number | null) => {
     setParentId(id)
+    setEditMode(false)
+    setEditingItem(null)
     form.resetFields()
     setOpen(true)
+  }
+
+  const onEdit = (process: ProcessNode) => {
+    setEditingItem(process)
+    setEditMode(true)
+    form.setFieldsValue({
+      name: process.name,
+      description: process.description,
+      type: process.type,
+      criticality: process.criticality,
+      status: process.status,
+      tools: process.tools,
+      responsible: process.responsible,
+      documentation: process.documentation
+    })
+    setOpen(true)
+  }
+
+  const onDelete = async (id: number, type: 'area' | 'process') => {
+    try {
+      if (type === 'area') {
+        await api.delete(`/areas/${id}`)
+        setAreas(prevAreas => prevAreas.filter(area => area.id !== id))
+        message.success('Área removida com sucesso!')
+      } else {
+        await api.delete(`/processes/${id}`)
+        setProcesses(prevProcesses => prevProcesses.filter(process => process.id !== id))
+        message.success('Processo removido com sucesso!')
+      }
+    } catch (err) {
+      message.error('Erro ao remover: ' + (err instanceof Error ? err.message : 'Erro desconhecido'))
+    }
   }
 
   interface AreaFormValues {
@@ -75,14 +114,26 @@ export default function AreaTree() {
     type: string
     criticality: string
     status: string
+    tools?: string
+    responsible?: string
+    documentation?: string
   }
 
   const onFinish = async (values: AreaFormValues | ProcessFormValues) => {
-    console.log('onFinish chamada com valores:', values)
     try {
       setSubmitting(true)
       
-      if (parentId === null) {
+      if (editMode && editingItem) {
+        // Editando um processo existente
+        const processValues = values as ProcessFormValues
+        const response = await api.put<ProcessNode>(`/processes/${editingItem.id}`, processValues)
+        setProcesses(prevProcesses => 
+          prevProcesses.map(process => 
+            process.id === editingItem.id ? response.data : process
+          )
+        )
+        message.success('Processo atualizado com sucesso!')
+      } else if (parentId === null) {
         // Criando uma nova área
         const areaValues = values as AreaFormValues
         const response = await api.post<AreaNode>('/areas', areaValues)
@@ -102,7 +153,10 @@ export default function AreaTree() {
             parent_id: null,
             type: processValues.type,
             criticality: processValues.criticality,
-            status: processValues.status
+            status: processValues.status,
+            tools: processValues.tools,
+            responsible: processValues.responsible,
+            documentation: processValues.documentation
           }
           const response = await api.post<ProcessNode>('/processes', processData)
           setProcesses(prevProcesses => [...prevProcesses, response.data])
@@ -116,7 +170,10 @@ export default function AreaTree() {
             parent_id: parentId,
             type: processValues.type,
             criticality: processValues.criticality,
-            status: processValues.status
+            status: processValues.status,
+            tools: processValues.tools,
+            responsible: processValues.responsible,
+            documentation: processValues.documentation
           }
           const response = await api.post<ProcessNode>('/processes', processData)
           setProcesses(prevProcesses => [...prevProcesses, response.data])
@@ -127,7 +184,7 @@ export default function AreaTree() {
       setOpen(false)
       
     } catch (err) {
-      message.error('Erro ao criar: ' + (err instanceof Error ? err.message : 'Erro desconhecido'))
+      message.error('Erro ao salvar: ' + (err instanceof Error ? err.message : 'Erro desconhecido'))
     } finally {
       setSubmitting(false)
     }
@@ -190,35 +247,105 @@ export default function AreaTree() {
             <span style={{ 
               marginLeft: 8, 
               fontSize: '11px', 
-              color: '#666',
-              background: '#f0f0f0',
+              color: '#fff',
+              background: getCriticalityColor(process.criticality),
               padding: '1px 6px',
               borderRadius: 8,
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              fontWeight: 'bold'
             }}>
               {process.criticality}
             </span>
+            {process.status === 'inactive' && (
+              <Tag color="red" style={{ marginLeft: 8, fontSize: '10px' }}>
+                Inativo
+              </Tag>
+            )}
           </span>
-          <Button 
-            type="link" 
-            size="small" 
-            icon={<PlusOutlined />} 
-            onClick={(e) => {
-              e.stopPropagation()
-              onAdd(process.id)
-            }}
-            style={{ 
-              padding: '2px 6px',
-              borderRadius: 4,
-              border: '1px solid #d9d9d9',
-              whiteSpace: 'nowrap',
-              fontSize: '11px',
-              height: '24px',
-              marginLeft: 8
-            }}
-          >
-            Add Sub
-          </Button>
+          <Space size="small">
+            {process.tools && (
+              <Tooltip title="Ferramentas">
+                <Tag icon={<ToolOutlined />} color="blue" style={{ fontSize: '10px' }}>
+                  {process.tools.length > 20 ? process.tools.substring(0, 20) + '...' : process.tools}
+                </Tag>
+              </Tooltip>
+            )}
+            {process.responsible && (
+              <Tooltip title="Responsável">
+                <Tag icon={<UserOutlined />} color="green" style={{ fontSize: '10px' }}>
+                  {process.responsible}
+                </Tag>
+              </Tooltip>
+            )}
+            {process.documentation && (
+              <Tooltip title="Documentação">
+                <Tag icon={<FileTextOutlined />} color="purple" style={{ fontSize: '10px' }}>
+                  Doc
+                </Tag>
+              </Tooltip>
+            )}
+            <Button 
+              type="link" 
+              size="small" 
+              icon={<PlusOutlined />} 
+              onClick={(e) => {
+                e.stopPropagation()
+                onAdd(process.id)
+              }}
+              style={{ 
+                padding: '2px 6px',
+                borderRadius: 4,
+                border: '1px solid #d9d9d9',
+                whiteSpace: 'nowrap',
+                fontSize: '11px',
+                height: '24px',
+                marginLeft: 8
+              }}
+            >
+              Add Sub
+            </Button>
+            <Button 
+              type="link" 
+              size="small" 
+              icon={<EditOutlined />} 
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit(process)
+              }}
+              style={{ 
+                padding: '2px 6px',
+                borderRadius: 4,
+                border: '1px solid #d9d9d9',
+                whiteSpace: 'nowrap',
+                fontSize: '11px',
+                height: '24px'
+              }}
+            />
+            <Popconfirm
+              title="Remover Processo"
+              description="Tem certeza que deseja remover este processo?"
+              onConfirm={(e) => {
+                e?.stopPropagation()
+                onDelete(process.id, 'process')
+              }}
+              okText="Sim"
+              cancelText="Não"
+            >
+              <Button 
+                type="link" 
+                size="small" 
+                icon={<DeleteOutlined />} 
+                style={{ 
+                  padding: '2px 6px',
+                  borderRadius: 4,
+                  border: '1px solid #d9d9d9',
+                  whiteSpace: 'nowrap',
+                  fontSize: '11px',
+                  height: '24px'
+                }}
+              />
+            </Popconfirm>
+          </Space>
         </span>
       ),
       children: process.children ? convertToTreeData(process.children) : undefined
@@ -234,6 +361,25 @@ export default function AreaTree() {
       processes: treeData
     }
   })
+
+  // Função para obter a cor baseada na criticidade
+  const getCriticalityColor = (criticality: string) => {
+    switch (criticality) {
+      case 'high': return '#ff4d4f'
+      case 'medium': return '#faad14'
+      case 'low': return '#52c41a'
+      default: return '#666'
+    }
+  }
+
+  // Função para obter a cor baseada no status
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return '#52c41a'
+      case 'inactive': return '#ff4d4f'
+      default: return '#666'
+    }
+  }
 
   return (
     <>
@@ -341,6 +487,29 @@ export default function AreaTree() {
               }}>
                 Total de áreas: {areas.length} | Total de processos: {processes.length}
               </p>
+              <div style={{ 
+                marginBottom: 24, 
+                display: 'flex', 
+                justifyContent: 'center', 
+                gap: '16px',
+                flexWrap: 'wrap'
+              }}>
+                <Tag color="red" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                  Alta: {processes.filter(p => p.criticality === 'high').length}
+                </Tag>
+                <Tag color="orange" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                  Média: {processes.filter(p => p.criticality === 'medium').length}
+                </Tag>
+                <Tag color="green" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                  Baixa: {processes.filter(p => p.criticality === 'low').length}
+                </Tag>
+                <Tag color="blue" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                  Ativos: {processes.filter(p => p.status === 'active').length}
+                </Tag>
+                <Tag color="red" style={{ fontSize: '12px', padding: '4px 8px' }}>
+                  Inativos: {processes.filter(p => p.status === 'inactive').length}
+                </Tag>
+              </div>
               {areas.length > 0 ? (
                 <Collapse 
                   style={{ 
@@ -389,23 +558,47 @@ export default function AreaTree() {
                               {processes.length} processos
                             </span>
                           </span>
-                          <Button 
-                            type="link" 
-                            size="small" 
-                            icon={<PlusOutlined />} 
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onAdd(area.id)
-                            }}
-                            style={{ 
-                              padding: '4px 8px',
-                              borderRadius: 6,
-                              border: '1px solid #d9d9d9',
-                              whiteSpace: 'nowrap'
-                            }}
-                          >
-                            Add Process
-                          </Button>
+                          <Space size="small">
+                            <Button 
+                              type="link" 
+                              size="small" 
+                              icon={<PlusOutlined />} 
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onAdd(area.id)
+                              }}
+                              style={{ 
+                                padding: '4px 8px',
+                                borderRadius: 6,
+                                border: '1px solid #d9d9d9',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              Add Process
+                            </Button>
+                            <Popconfirm
+                              title="Remover Área"
+                              description="Tem certeza que deseja remover esta área? Todos os processos serão removidos também."
+                              onConfirm={(e) => {
+                                e?.stopPropagation()
+                                onDelete(area.id, 'area')
+                              }}
+                              okText="Sim"
+                              cancelText="Não"
+                            >
+                              <Button 
+                                type="link" 
+                                size="small" 
+                                icon={<DeleteOutlined />} 
+                                style={{ 
+                                  padding: '4px 8px',
+                                  borderRadius: 6,
+                                  border: '1px solid #d9d9d9',
+                                  whiteSpace: 'nowrap'
+                                }}
+                              />
+                            </Popconfirm>
+                          </Space>
                         </span>
                       }
                     >
@@ -480,21 +673,27 @@ export default function AreaTree() {
         open={open} 
         onCancel={() => setOpen(false)} 
         onOk={handleModalOk} 
-        title={parentId === null ? "Nova Área" : "Novo Processo"}
+        title={
+          editMode 
+            ? "Editar Processo" 
+            : parentId === null 
+              ? "Nova Área" 
+              : "Novo Processo"
+        }
         confirmLoading={submitting}
-        okText="Criar"
+        okText={editMode ? "Atualizar" : "Criar"}
         cancelText="Cancelar"
         width={600}
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item 
             name="name" 
-            label={parentId === null ? "Nome da Área" : "Nome do Processo"}
-            rules={[{ required: true, message: parentId === null ? 'Por favor, insira o nome da área' : 'Por favor, insira o nome do processo' }]}
+            label={parentId === null && !editMode ? "Nome da Área" : "Nome do Processo"}
+            rules={[{ required: true, message: parentId === null && !editMode ? 'Por favor, insira o nome da área' : 'Por favor, insira o nome do processo' }]}
           > 
-            <Input placeholder={parentId === null ? "Digite o nome da área" : "Digite o nome do processo"} />
+            <Input placeholder={parentId === null && !editMode ? "Digite o nome da área" : "Digite o nome do processo"} />
           </Form.Item>
-          {parentId !== null && (
+          {(parentId !== null || editMode) && (
             <>
               <Form.Item 
                 name="description" 
@@ -536,6 +735,27 @@ export default function AreaTree() {
                   <Select.Option value="active">Ativo</Select.Option>
                   <Select.Option value="inactive">Inativo</Select.Option>
                 </Select>
+              </Form.Item>
+              <Form.Item 
+                name="tools" 
+                label="Ferramentas"
+              >
+                <Input placeholder="Ferramentas utilizadas" />
+              </Form.Item>
+              <Form.Item 
+                name="responsible" 
+                label="Responsável"
+              >
+                <Input placeholder="Nome do responsável" />
+              </Form.Item>
+              <Form.Item 
+                name="documentation" 
+                label="Documentação"
+              >
+                <Input.TextArea 
+                  placeholder="Link ou descrição da documentação" 
+                  rows={2}
+                />
               </Form.Item>
             </>
           )}
