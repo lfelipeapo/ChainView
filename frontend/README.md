@@ -1,69 +1,161 @@
-# React + TypeScript + Vite
+# ChainView Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📋 Descrição
 
-Currently, two official plugins are available:
+Frontend do sistema ChainView desenvolvido em React + TypeScript com Ant Design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias
 
-## Expanding the ESLint configuration
+- **React 18**: Biblioteca JavaScript moderna
+- **TypeScript**: Tipagem estática
+- **Ant Design**: UI Library profissional
+- **Vite**: Build tool rápido
+- **Axios**: Cliente HTTP
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🏗️ Estrutura
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+frontend/
+├── src/
+│   ├── components/          # Componentes React
+│   │   └── AreaTree.tsx    # Componente principal
+│   ├── hooks/              # Custom Hooks
+│   │   └── useAreaTree.ts  # Hook para dados da árvore
+│   ├── api.ts              # Configuração da API
+│   ├── App.tsx             # Componente raiz
+│   └── main.tsx            # Entry point
+├── vite.config.ts          # Configuração do Vite
+└── package.json            # Dependências
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Como Executar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Instalar dependências
+npm install
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Executar em desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+
+# Preview do build
+npm run preview
 ```
+
+## 🎨 Funcionalidades
+
+- **Hierarquia Ilimitada**: Subprocessos em níveis ilimitados
+- **Preview de Links**: Detecção e preview de URLs e imagens
+- **CRUD Completo**: Criação, edição e remoção de processos
+- **Interface Responsiva**: Design adaptável a diferentes telas
+- **Validação**: Formulários com validação completa
+
+## 🔧 Configuração
+
+### Variáveis de Ambiente
+```env
+VITE_API_URL=http://localhost:8082/api
+```
+
+### Porta Padrão
+- **Desenvolvimento**: http://localhost:3000
+- **API Backend**: http://localhost:8082/api
+
+## 📱 Componentes Principais
+
+### AreaTree.tsx
+Componente principal que gerencia:
+- Visualização hierárquica de áreas e processos
+- Formulários de criação/edição
+- Preview de links e imagens
+- CRUD completo
+
+### PreviewRenderer
+Componente para renderizar:
+- Preview de links
+- Preview de imagens
+- Tooltips interativos
+
+## 🎯 Casos de Uso
+
+1. **Criar Área**: Clique em "Add Root Area"
+2. **Criar Processo**: Clique em "Add Process" em uma área
+3. **Criar Subprocesso**: Clique em "Add Sub" em um processo
+4. **Editar**: Clique no ícone de edição
+5. **Remover**: Clique no ícone de lixeira
+6. **Ver Preview**: Passe o mouse sobre tags "Desc" ou "Doc"
+
+## 🔗 Integração com Backend
+
+O frontend se comunica com o backend Laravel através de:
+- **Axios**: Cliente HTTP configurado
+- **API REST**: Endpoints padronizados
+- **JSON**: Formato de dados
+
+## 🧪 Testes
+
+```bash
+# Executar testes
+npm test
+
+# Testes em modo watch
+npm run test:watch
+```
+
+## 📦 Build
+
+```bash
+# Build para produção
+npm run build
+
+# Análise do bundle
+npm run build -- --analyze
+```
+
+## 🚀 Deploy
+
+O frontend pode ser deployado em:
+- **Vercel**: Deploy automático
+- **Netlify**: Deploy automático
+- **GitHub Pages**: Deploy estático
+- **Docker**: Containerização
+
+## 🔧 Desenvolvimento
+
+### Scripts Disponíveis
+- `npm run dev`: Servidor de desenvolvimento
+- `npm run build`: Build para produção
+- `npm run preview`: Preview do build
+- `npm run lint`: Linting do código
+- `npm run type-check`: Verificação de tipos
+
+### Estrutura de Dados
+
+```typescript
+interface AreaNode {
+  id: number
+  name: string
+  children?: AreaNode[]
+}
+
+interface ProcessNode {
+  id: number
+  area_id: number
+  parent_id: number | null
+  name: string
+  description: string
+  type: string
+  criticality: string
+  status: string
+  tools?: string
+  responsible?: string
+  documentation?: string
+  children?: ProcessNode[]
+}
+```
+
+---
+
+**ChainView Frontend** - Interface moderna e intuitiva para gestão de processos. 🎨
