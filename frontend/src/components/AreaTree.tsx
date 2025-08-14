@@ -172,6 +172,7 @@ export default function AreaTree() {
   const [editingItem, setEditingItem] = useState<ProcessNode | null>(null)
   const [parentId, setParentId] = useState<number | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [form] = Form.useForm()
   
   // Estados para filtros e pesquisa
@@ -280,6 +281,18 @@ export default function AreaTree() {
 
   useEffect(() => {
     fetchProcesses()
+  }, [])
+
+  // Detecção responsiva de mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
   const onAdd = (id: number | null) => {
@@ -701,7 +714,7 @@ export default function AreaTree() {
           background: '#fff',
           borderRadius: 16,
           boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-          padding: window.innerWidth <= 768 ? '20px' : '32px',
+                      padding: isMobile ? '24px' : '32px',
           margin: '0 auto',
           boxSizing: 'border-box'
         }}
@@ -710,7 +723,7 @@ export default function AreaTree() {
             marginBottom: 24,
             color: '#1890ff',
             textAlign: 'center',
-            fontSize: window.innerWidth <= 768 ? '1.5rem' : '2rem',
+            fontSize: isMobile ? '1.8rem' : '2rem',
             fontWeight: 'bold'
           }}>
             ChainView - Áreas e Processos
@@ -724,17 +737,17 @@ export default function AreaTree() {
               size="large"
               style={{
                 borderRadius: 8,
-                height: window.innerWidth <= 768 ? '40px' : '48px',
-                padding: window.innerWidth <= 768 ? '0 16px' : '0 24px',
-                fontSize: window.innerWidth <= 768 ? '14px' : '16px'
+                            height: isMobile ? '48px' : '48px',
+            padding: isMobile ? '0 20px' : '0 24px',
+            fontSize: isMobile ? '16px' : '16px'
               }}
             >
               Adicionar Área
             </Button>
           </div>
 
-          <div style={{ marginBottom: 16 }}>
-            <p style={{ textAlign: 'center', margin: 0 }}>
+          <div style={{ marginBottom: 8 }}>
+            <p style={{ textAlign: 'center', margin: 0, color: '#1890ff', fontSize: '14px' }}>
               Status: {loading ? 'Carregando...' : areaError ? 'Erro' : 'Pronto'}
             </p>
             {areaError && <p style={{ color: 'red', textAlign: 'center', margin: '8px 0 0 0' }}>Erro: {areaError.message}</p>}
@@ -756,7 +769,7 @@ export default function AreaTree() {
             <>
               <p style={{
                 marginBottom: 24,
-                fontSize: '14px',
+                fontSize: isMobile ? '12px' : '14px',
                 color: '#666',
                 textAlign: 'center',
                 padding: '12px',
@@ -781,7 +794,7 @@ export default function AreaTree() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   style={{
-                    width: window.innerWidth <= 768 ? '100%' : '400px',
+                    width: isMobile ? '100%' : '400px',
                     borderRadius: '8px'
                   }}
                   allowClear
@@ -894,35 +907,37 @@ export default function AreaTree() {
               )}
               
               {typedAreas.length > 0 ? (
-                window.innerWidth <= 768 ? (
+                isMobile ? (
                   // Layout Mobile - Cards empilhados
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
                       <Card
                         key={area.id}
                         style={{
                           borderRadius: 12,
                           border: '1px solid #e8e8e8',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                         }}
                         title={
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            width: '100%'
+                            width: '100%',
+                            padding: '16px 0'
                           }}>
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
+                              justifyContent: 'center',
                               gap: '8px',
                               flexWrap: 'wrap'
                             }}>
-                              <FolderOutlined style={{ color: '#1890ff', fontSize: '18px' }} />
-                              <span style={{ fontSize: '16px', fontWeight: '500' }}>
+                              <FolderOutlined style={{ color: '#1890ff', fontSize: '22px' }} />
+                              <span style={{ fontSize: '18px', fontWeight: '500' }}>
                                 {area.name}
                               </span>
-                              <Tag color="blue" style={{ fontSize: '11px' }}>
+                              <Tag color="blue" style={{ fontSize: '13px' }}>
                                 {processes.length} processos
                               </Tag>
                             </div>
@@ -931,7 +946,12 @@ export default function AreaTree() {
                               size="small"
                               icon={<PlusOutlined />}
                               onClick={() => onAdd(area.id)}
-                              style={{ borderRadius: 6 }}
+                              style={{ 
+                                borderRadius: 6,
+                                fontSize: '14px',
+                                height: '36px',
+                                padding: '0 16px'
+                              }}
                             >
                               Adicionar
                             </Button>
@@ -939,14 +959,14 @@ export default function AreaTree() {
                         }
                       >
                         {processes.length > 0 ? (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                             {processes.map((process) => (
                               <div
                                 key={process.id}
                                 style={{
                                   border: '1px solid #f0f0f0',
                                   borderRadius: 8,
-                                  padding: '12px',
+                                  padding: '16px',
                                   background: '#fafafa'
                                 }}
                               >
@@ -962,13 +982,13 @@ export default function AreaTree() {
                                     gap: '8px',
                                     flexWrap: 'wrap'
                                   }}>
-                                    <FileOutlined style={{ color: '#52c41a', fontSize: '14px' }} />
-                                    <span style={{ fontSize: '14px', fontWeight: '500' }}>
+                                    <FileOutlined style={{ color: '#52c41a', fontSize: '18px' }} />
+                                    <span style={{ fontSize: '16px', fontWeight: '500' }}>
                                       {process.name}
                                     </span>
                                     <Tag 
                                       color={process.criticality === 'high' ? 'red' : process.criticality === 'medium' ? 'orange' : 'green'}
-                                      style={{ fontSize: '10px' }}
+                                      style={{ fontSize: '12px' }}
                                     >
                                       {process.criticality === 'high' ? 'Alta' : process.criticality === 'medium' ? 'Média' : 'Baixa'}
                                     </Tag>
@@ -979,7 +999,10 @@ export default function AreaTree() {
                                       size="small"
                                       icon={<EditOutlined />}
                                       onClick={() => onEdit(process)}
-                                      style={{ padding: '2px 4px' }}
+                                      style={{ 
+                                        padding: '4px 8px',
+                                        fontSize: '16px'
+                                      }}
                                     />
                                     <Button
                                       type="link"
@@ -987,14 +1010,17 @@ export default function AreaTree() {
                                       danger
                                       icon={<DeleteOutlined />}
                                       onClick={() => onDelete(process.id, 'process')}
-                                      style={{ padding: '2px 4px' }}
+                                      style={{ 
+                                        padding: '4px 8px',
+                                        fontSize: '16px'
+                                      }}
                                     />
                                   </Space>
                                 </div>
                                 
                                 {process.description && (
                                   <div style={{
-                                    fontSize: '12px',
+                                    fontSize: '13px',
                                     color: '#666',
                                     marginBottom: '8px',
                                     lineHeight: '1.4'
@@ -1006,7 +1032,7 @@ export default function AreaTree() {
                                 {process.children && process.children.length > 0 && (
                                   <div style={{ marginTop: '8px' }}>
                                     <div style={{
-                                      fontSize: '11px',
+                                      fontSize: '12px',
                                       color: '#999',
                                       marginBottom: '4px',
                                       fontWeight: '500'
@@ -1022,7 +1048,7 @@ export default function AreaTree() {
                                             borderRadius: 6,
                                             padding: '8px',
                                             background: '#fff',
-                                            fontSize: '12px'
+                                            fontSize: '13px'
                                           }}
                                         >
                                           <div style={{
@@ -1035,11 +1061,11 @@ export default function AreaTree() {
                                               alignItems: 'center',
                                               gap: '6px'
                                             }}>
-                                              <FileOutlined style={{ color: '#1890ff', fontSize: '12px' }} />
+                                              <FileOutlined style={{ color: '#1890ff', fontSize: '13px' }} />
                                               <span>{child.name}</span>
                                               <Tag 
                                                 color={child.criticality === 'high' ? 'red' : child.criticality === 'medium' ? 'orange' : 'green'}
-                                                style={{ fontSize: '9px' }}
+                                                style={{ fontSize: '10px' }}
                                               >
                                                 {child.criticality === 'high' ? 'Alta' : child.criticality === 'medium' ? 'Média' : 'Baixa'}
                                               </Tag>
@@ -1050,7 +1076,7 @@ export default function AreaTree() {
                                                 size="small"
                                                 icon={<EditOutlined />}
                                                 onClick={() => onEdit(child)}
-                                                style={{ padding: '1px 2px', fontSize: '10px' }}
+                                                style={{ padding: '1px 2px', fontSize: '12px' }}
                                               />
                                               <Button
                                                 type="link"
@@ -1058,13 +1084,13 @@ export default function AreaTree() {
                                                 danger
                                                 icon={<DeleteOutlined />}
                                                 onClick={() => onDelete(child.id, 'process')}
-                                                style={{ padding: '1px 2px', fontSize: '10px' }}
+                                                style={{ padding: '1px 2px', fontSize: '12px' }}
                                               />
                                             </Space>
                                           </div>
                                           {child.description && (
                                             <div style={{
-                                              fontSize: '11px',
+                                              fontSize: '12px',
                                               color: '#666',
                                               marginTop: '4px',
                                               lineHeight: '1.3'
@@ -1242,18 +1268,18 @@ export default function AreaTree() {
                   border: '1px dashed #d9d9d9'
                 }}>
                   <FolderOutlined style={{
-                    fontSize: window.innerWidth <= 768 ? '36px' : '48px',
+                    fontSize: isMobile ? '42px' : '48px',
                     color: '#d9d9d9',
                     marginBottom: '16px'
                   }} />
                   <p style={{
-                    fontSize: window.innerWidth <= 768 ? '14px' : '16px',
+                    fontSize: isMobile ? '16px' : '16px',
                     margin: 0
                   }}>
                     Nenhuma área encontrada
                   </p>
                   <p style={{
-                    fontSize: window.innerWidth <= 768 ? '12px' : '14px',
+                    fontSize: isMobile ? '14px' : '14px',
                     margin: '8px 0 0 0',
                     color: '#999'
                   }}>
