@@ -15,7 +15,7 @@ class ProcessController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request)
     {
         $query = Process::query()
             ->with(['area', 'parent'])
@@ -66,6 +66,12 @@ class ProcessController extends Controller
                     $query->orderBy('created_at', $direction);
                     break;
             }
+        }
+
+        // Se não há per_page, retornar todos sem paginação
+        if (!$request->has('per_page')) {
+            $processes = $query->get();
+            return response()->json($processes);
         }
 
         // Paginação

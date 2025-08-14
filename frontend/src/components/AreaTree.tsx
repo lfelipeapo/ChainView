@@ -1,30 +1,9 @@
 import { Button, Modal, Form, Input, List, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
 import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, SettingOutlined, LinkOutlined, EyeOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import api from '../api'
-
-// Função para detectar URLs
-const isUrl = (text: string): boolean => {
-  try {
-    new URL(text)
-    return true
-  } catch {
-    return false
-  }
-}
-
-// Função para detectar se é uma imagem
-const isImageUrl = (url: string): boolean => {
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg']
-  const lowerUrl = url.toLowerCase()
-  return imageExtensions.some(ext => lowerUrl.includes(ext))
-}
-
-// Função para extrair URLs do texto
-const extractUrls = (text: string): string[] => {
-  const urlRegex = /(https?:\/\/[^\s]+)/g
-  return text.match(urlRegex) || []
-}
+import { useAreaTree } from '../hooks/useAreaTree'
 
 interface AreaNode {
   id: number
@@ -48,6 +27,42 @@ interface ProcessNode {
   tools?: string
   responsible?: string
   documentation?: string
+}
+
+interface ApiResponse<T> {
+  success: boolean
+  data: T
+  timestamp?: string
+}
+
+interface ApiMessageResponse {
+  success: boolean
+  message: string
+  data?: any
+  timestamp?: string
+}
+
+// Função para detectar URLs
+const isUrl = (text: string): boolean => {
+  try {
+    new URL(text)
+    return true
+  } catch {
+    return false
+  }
+}
+
+// Função para detectar se é uma imagem
+const isImageUrl = (url: string): boolean => {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg']
+  const lowerUrl = url.toLowerCase()
+  return imageExtensions.some(ext => lowerUrl.includes(ext))
+}
+
+// Função para extrair URLs do texto
+const extractUrls = (text: string): string[] => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  return text.match(urlRegex) || []
 }
 
 // Componente para renderizar preview de links e descrições
@@ -155,10 +170,9 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
 }
 
 export default function AreaTree() {
-  const [areas, setAreas] = useState<AreaNode[]>([])
+  const queryClient = useQueryClient()
+  const { data: areas = [], isLoading: loading, error: areaError } = useAreaTree()
   const [processes, setProcesses] = useState<ProcessNode[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [editingItem, setEditingItem] = useState<ProcessNode | null>(null)
@@ -166,28 +180,16 @@ export default function AreaTree() {
   const [submitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
 
-  const fetchAreas = async () => {
-    try {
-      const response = await api.get<AreaNode[]>('/areas/tree')
-      setAreas(response.data)
-      setLoading(false)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido')
-      setLoading(false)
-    }
-  }
-
   const fetchProcesses = async () => {
     try {
-      const response = await api.get<ProcessNode[]>('/processes')
-      setProcesses(response.data)
+      const response = await api.get<ApiResponse<ProcessNode[]>>('/processes')
+      setProcesses(response.data.data)
     } catch (err) {
       console.error('Erro ao carregar processos:', err)
     }
   }
 
   useEffect(() => {
-    fetchAreas()
     fetchProcesses()
   }, [])
 
@@ -219,7 +221,7 @@ export default function AreaTree() {
     try {
       if (type === 'area') {
         await api.delete(`/areas/${id}`)
-        setAreas(prevAreas => prevAreas.filter(area => area.id !== id))
+        queryClient.invalidateQueries({ queryKey: ['areaTree'] })
         message.success('Área removida com sucesso!')
       } else {
         await api.delete(`/processes/${id}`)
@@ -253,18 +255,18 @@ export default function AreaTree() {
       if (editMode && editingItem) {
         // Editando um processo existente
         const processValues = values as ProcessFormValues
-        const response = await api.put<ProcessNode>(`/processes/${editingItem.id}`, processValues)
+        const response = await api.put<ApiMessageResponse>(`/processes/${editingItem.id}`, processValues)
         setProcesses(prevProcesses => 
           prevProcesses.map(process => 
-            process.id === editingItem.id ? response.data : process
+            process.id === editingItem.id ? response.data.data : process
           )
         )
         message.success('Processo atualizado com sucesso!')
       } else if (parentId === null) {
         // Criando uma nova área
         const areaValues = values as AreaFormValues
-        const response = await api.post<AreaNode>('/areas', areaValues)
-        setAreas(prevAreas => [...prevAreas, response.data])
+        await api.post<ApiMessageResponse>('/areas', areaValues)
+        queryClient.invalidateQueries({ queryKey: ['areaTree'] })
         message.success('Área criada com sucesso!')
       } else {
         // Verificar se parentId é uma área ou um processo
@@ -285,8 +287,8 @@ export default function AreaTree() {
             responsible: processValues.responsible,
             documentation: processValues.documentation
           }
-          const response = await api.post<ProcessNode>('/processes', processData)
-          setProcesses(prevProcesses => [...prevProcesses, response.data])
+          const response = await api.post<ApiMessageResponse>('/processes', processData)
+          setProcesses(prevProcesses => [...prevProcesses, response.data.data])
           message.success('Processo criado com sucesso!')
         } else {
           // Criando um subprocesso
@@ -302,13 +304,13 @@ export default function AreaTree() {
             responsible: processValues.responsible,
             documentation: processValues.documentation
           }
-          const response = await api.post<ProcessNode>('/processes', processData)
-          setProcesses(prevProcesses => [...prevProcesses, response.data])
+          const response = await api.post<ApiMessageResponse>('/processes', processData)
+          setProcesses(prevProcesses => [...prevProcesses, response.data.data])
           message.success('Subprocesso criado com sucesso!')
         }
       }
       
-      setOpen(false)
+    setOpen(false)
       
     } catch (err) {
       message.error('Erro ao salvar: ' + (err instanceof Error ? err.message : 'Erro desconhecido'))
@@ -383,11 +385,9 @@ export default function AreaTree() {
             }}>
               {process.criticality}
             </span>
-            {process.status === 'inactive' && (
-              <Tag color="red" style={{ marginLeft: 8, fontSize: '10px' }}>
-                Inativo
-              </Tag>
-            )}
+            <Tag color={getStatusColor(process.status)} style={{ marginLeft: 8, fontSize: '10px' }}>
+              {process.status === 'active' ? 'Ativo' : 'Inativo'}
+            </Tag>
           </span>
           <Space size="small">
             {process.description && (
@@ -603,15 +603,15 @@ export default function AreaTree() {
                 fontSize: window.innerWidth <= 768 ? '14px' : '16px'
               }}
             >
-              Add Root Area
-            </Button>
+        Add Root Area
+      </Button>
           </div>
           
           <div style={{ marginBottom: 16 }}>
             <p style={{ textAlign: 'center', margin: 0 }}>
-              Status: {loading ? 'Carregando...' : error ? 'Erro' : 'Pronto'}
+              Status: {loading ? 'Carregando...' : areaError ? 'Erro' : 'Pronto'}
             </p>
-            {error && <p style={{ color: 'red', textAlign: 'center', margin: '8px 0 0 0' }}>Erro: {error}</p>}
+            {areaError && <p style={{ color: 'red', textAlign: 'center', margin: '8px 0 0 0' }}>Erro: {areaError.message}</p>}
           </div>
           
           {loading && (
@@ -620,13 +620,13 @@ export default function AreaTree() {
             </div>
           )}
           
-          {error && (
+          {areaError && (
             <div style={{ textAlign: 'center', padding: '40px', color: '#ff4d4f' }}>
-              Erro ao carregar áreas: {error}
+              Erro ao carregar áreas: {areaError.message}
             </div>
           )}
           
-          {!loading && !error && (
+          {!loading && !areaError && (
             <>
               <p style={{ 
                 marginBottom: 24, 
@@ -709,7 +709,7 @@ export default function AreaTree() {
                             }}>
                               {processes.length} processos
                             </span>
-                          </span>
+            </span>
                           <Space size="small">
                             <Button 
                               type="link" 

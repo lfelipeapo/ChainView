@@ -8,9 +8,15 @@ export interface AreaNode {
   key?: number | string
 }
 
+interface ApiResponse<T> {
+  success: boolean
+  data: T
+  timestamp?: string
+}
+
 async function fetchAreaTree(): Promise<AreaNode[]> {
-  const { data } = await api.get<AreaNode[]>('/areas/tree')
-  return data
+  const response = await api.get<ApiResponse<AreaNode[]>>('/areas/tree')
+  return response.data.data
 }
 
 export function useAreaTree() {
