@@ -1147,142 +1147,142 @@ export default function AreaTree() {
                   </div>
                 ) : (
                   // Layout Desktop - Collapse original
-                  <Collapse
-                    style={{
-                      background: '#fff',
-                      borderRadius: 12,
-                      border: '1px solid #e8e8e8'
-                    }}
-                    expandIconPosition="end"
-                    expandIcon={({ isActive }) => (
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        height: '100%',
-                        width: '100%'
-                      }}>
-                        {isActive ? <UpOutlined /> : <DownOutlined />}
-                      </div>
-                    )}
-                    className="custom-collapse"
-                  >
+                <Collapse
+                  style={{
+                    background: '#fff',
+                    borderRadius: 12,
+                    border: '1px solid #e8e8e8'
+                  }}
+                  expandIconPosition="end"
+                  expandIcon={({ isActive }) => (
+                    <div style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      height: '100%',
+                      width: '100%'
+                    }}>
+                      {isActive ? <UpOutlined /> : <DownOutlined />}
+                    </div>
+                  )}
+                  className="custom-collapse"
+                >
                     {processesByArea.filter(({ showArea }) => showArea).map(({ area, processes }) => (
-                      <Collapse.Panel
-                        key={area.id}
-                        header={
+                    <Collapse.Panel
+                      key={area.id}
+                      header={
+                        <span style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          width: '100%',
+                          padding: '8px 0',
+                          flexWrap: 'wrap',
+                          gap: '8px'
+                        }}>
                           <span style={{
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'space-between',
-                            width: '100%',
-                            padding: '8px 0',
                             flexWrap: 'wrap',
                             gap: '8px'
                           }}>
-                            <span style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              flexWrap: 'wrap',
-                              gap: '8px'
-                            }}>
-                              <FolderOutlined style={{
-                                color: '#1890ff',
+                            <FolderOutlined style={{
+                              color: '#1890ff',
                                 fontSize: '18px'
-                              }} />
-                              <span style={{
+                            }} />
+                            <span style={{
                                 fontSize: '16px',
-                                fontWeight: '500'
-                              }}>
-                                {area.name}
-                              </span>
-                              <span style={{
-                                fontSize: '12px',
-                                color: '#666',
-                                background: '#f0f0f0',
-                                padding: '2px 8px',
-                                borderRadius: 12
-                              }}>
-                                {processes.length} processos
-                              </span>
+                              fontWeight: '500'
+                            }}>
+                              {area.name}
                             </span>
-                            <Space size="small">
+                            <span style={{
+                              fontSize: '12px',
+                              color: '#666',
+                              background: '#f0f0f0',
+                              padding: '2px 8px',
+                              borderRadius: 12
+                            }}>
+                              {processes.length} processos
+                            </span>
+                          </span>
+                          <Space size="small">
+                            <Button
+                              type="link"
+                              size="small"
+                              icon={<PlusOutlined />}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onAdd(area.id)
+                              }}
+                              style={{
+                                padding: '4px 8px',
+                                borderRadius: 6,
+                                border: '1px solid #d9d9d9',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              Adicionar Processo
+                            </Button>
+                            <Popconfirm
+                              title="Remover Área"
+                              description="Tem certeza que deseja remover esta área? Todos os processos serão removidos também."
+                              onConfirm={(e) => {
+                                e?.stopPropagation()
+                                onDelete(area.id, 'area')
+                              }}
+                              okText="Sim"
+                              cancelText="Não"
+                            >
                               <Button
                                 type="link"
                                 size="small"
-                                icon={<PlusOutlined />}
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  onAdd(area.id)
-                                }}
+                                icon={<DeleteOutlined />}
                                 style={{
                                   padding: '4px 8px',
                                   borderRadius: 6,
                                   border: '1px solid #d9d9d9',
                                   whiteSpace: 'nowrap'
                                 }}
-                              >
-                                Adicionar Processo
-                              </Button>
-                              <Popconfirm
-                                title="Remover Área"
-                                description="Tem certeza que deseja remover esta área? Todos os processos serão removidos também."
-                                onConfirm={(e) => {
-                                  e?.stopPropagation()
-                                  onDelete(area.id, 'area')
-                                }}
-                                okText="Sim"
-                                cancelText="Não"
-                              >
-                                <Button
-                                  type="link"
-                                  size="small"
-                                  icon={<DeleteOutlined />}
-                                  style={{
-                                    padding: '4px 8px',
-                                    borderRadius: 6,
-                                    border: '1px solid #d9d9d9',
-                                    whiteSpace: 'nowrap'
-                                  }}
-                                />
-                              </Popconfirm>
-                            </Space>
-                          </span>
-                        }
-                      >
-                        {processes.length > 0 ? (
-                          <div style={{ padding: '16px 0' }}>
-                            <div style={{
-                              '--tree-indent': '24px',
-                              '--tree-line-color': '#e8e8e8'
-                            } as any}>
-                              <Tree
-                                treeData={convertToTreeData(processes)}
-                                showLine
-                                defaultExpandAll
-                                style={{
-                                  background: 'transparent',
-                                  fontSize: '14px'
-                                }}
-                                className="process-tree"
                               />
-                            </div>
-                          </div>
-                        ) : (
+                            </Popconfirm>
+                          </Space>
+                        </span>
+                      }
+                    >
+                      {processes.length > 0 ? (
+                        <div style={{ padding: '16px 0' }}>
                           <div style={{
-                            padding: '24px',
-                            textAlign: 'center',
-                            color: '#666',
-                            background: '#fafafa',
-                            borderRadius: 8,
-                            border: '1px dashed #d9d9d9'
-                          }}>
-                            Nenhum processo nesta área
+                            '--tree-indent': '24px',
+                            '--tree-line-color': '#e8e8e8'
+                          } as any}>
+                            <Tree
+                              treeData={convertToTreeData(processes)}
+                              showLine
+                              defaultExpandAll
+                              style={{
+                                background: 'transparent',
+                                fontSize: '14px'
+                              }}
+                              className="process-tree"
+                            />
                           </div>
-                        )}
-                      </Collapse.Panel>
-                    ))}
-                  </Collapse>
+                        </div>
+                      ) : (
+                        <div style={{
+                          padding: '24px',
+                          textAlign: 'center',
+                          color: '#666',
+                          background: '#fafafa',
+                          borderRadius: 8,
+                          border: '1px dashed #d9d9d9'
+                        }}>
+                          Nenhum processo nesta área
+                        </div>
+                      )}
+                    </Collapse.Panel>
+                  ))}
+                </Collapse>
                 )
               ) : (
                 <div style={{
