@@ -7,6 +7,7 @@ use App\Http\Controllers\ProcessController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\Auth\ApiAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,18 +70,43 @@ Route::get('/health', function () {
     ]);
 });
 
-// Areas Routes
+// Auth Routes
+Route::post('/auth/login', [ApiAuthController::class, 'login'])->name('auth.login');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/logout', [ApiAuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/auth/user', [ApiAuthController::class, 'user'])->name('auth.user');
+});
+
+// Public Routes (GET only)
 Route::prefix('areas')->group(function () {
     Route::get('/tree', [AreaController::class, 'tree'])->name('areas.tree');
     Route::get('/{area}/processes/tree', [AreaController::class, 'processesTree'])->name('areas.processes.tree');
-    Route::apiResource('/', AreaController::class)->parameters(['' => 'area']);
+    Route::get('/', [AreaController::class, 'index'])->name('areas.index');
+    Route::get('/{area}', [AreaController::class, 'show'])->name('areas.show');
 });
 
-// Processes Routes
 Route::prefix('processes')->group(function () {
     Route::get('/stats', [ProcessController::class, 'stats'])->name('processes.stats');
     Route::get('/{process}/tree', [ProcessController::class, 'tree'])->name('processes.tree');
-    Route::apiResource('/', ProcessController::class)->parameters(['' => 'process']);
+    Route::get('/', [ProcessController::class, 'index'])->name('processes.index');
+    Route::get('/{process}', [ProcessController::class, 'show'])->name('processes.show');
+});
+
+// Protected Routes (require authentication)
+Route::middleware('auth:sanctum')->group(function () {
+    // Areas CRUD (POST, PUT, DELETE)
+    Route::prefix('areas')->group(function () {
+        Route::post('/', [AreaController::class, 'store'])->name('areas.store');
+        Route::put('/{area}', [AreaController::class, 'update'])->name('areas.update');
+        Route::delete('/{area}', [AreaController::class, 'destroy'])->name('areas.destroy');
+    });
+
+    // Processes CRUD (POST, PUT, DELETE)
+    Route::prefix('processes')->group(function () {
+        Route::post('/', [ProcessController::class, 'store'])->name('processes.store');
+        Route::put('/{process}', [ProcessController::class, 'update'])->name('processes.update');
+        Route::delete('/{process}', [ProcessController::class, 'destroy'])->name('processes.destroy');
+    });
 });
 
 // Legacy Routes (for backward compatibility)
