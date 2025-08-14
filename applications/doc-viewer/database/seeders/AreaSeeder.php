@@ -10,9 +10,9 @@ class AreaSeeder extends Seeder
     public function run(): void
     {
         DB::table('areas')->insert([
-            ['id' => 1, 'name' => 'Recursos Humanos'],
-            ['id' => 2, 'name' => 'Recrutamento'],
-            ['id' => 3, 'name' => 'Financeiro'],
+            ['name' => 'Recursos Humanos'],
+            ['name' => 'Recrutamento'],
+            ['name' => 'Financeiro'],
         ]);
     }
 }
