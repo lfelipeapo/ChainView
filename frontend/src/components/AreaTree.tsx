@@ -933,7 +933,7 @@ export default function AreaTree() {
                               gap: '8px',
                               flexWrap: 'wrap'
                             }}>
-                              <FolderOutlined style={{ color: '#1890ff', fontSize: '22px' }} />
+                              <FolderOutlined style={{ color: '#1890ff', fontSize: '24px' }} />
                               <span style={{ fontSize: '18px', fontWeight: '500' }}>
                                 {area.name}
                               </span>
@@ -972,17 +972,19 @@ export default function AreaTree() {
                               >
                                 <div style={{
                                   display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
+                                  flexDirection: 'column',
+                                  gap: '12px',
                                   marginBottom: '8px'
                                 }}>
+                                  {/* Primeira linha: Nome, ícone e prioridade */}
                                   <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '8px',
-                                    flexWrap: 'wrap'
+                                    flexWrap: 'wrap',
+                                    width: '100%'
                                   }}>
-                                    <FileOutlined style={{ color: '#52c41a', fontSize: '18px' }} />
+                                    <FileOutlined style={{ color: '#52c41a', fontSize: '20px' }} />
                                     <span style={{ fontSize: '16px', fontWeight: '500' }}>
                                       {process.name}
                                     </span>
@@ -993,29 +995,37 @@ export default function AreaTree() {
                                       {process.criticality === 'high' ? 'Alta' : process.criticality === 'medium' ? 'Média' : 'Baixa'}
                                     </Tag>
                                   </div>
-                                  <Space size="small">
-                                    <Button
-                                      type="link"
-                                      size="small"
-                                      icon={<EditOutlined />}
-                                      onClick={() => onEdit(process)}
-                                      style={{ 
-                                        padding: '4px 8px',
-                                        fontSize: '16px'
-                                      }}
-                                    />
-                                    <Button
-                                      type="link"
-                                      size="small"
-                                      danger
-                                      icon={<DeleteOutlined />}
-                                      onClick={() => onDelete(process.id, 'process')}
-                                      style={{ 
-                                        padding: '4px 8px',
-                                        fontSize: '16px'
-                                      }}
-                                    />
-                                  </Space>
+                                  
+                                  {/* Segunda linha: Botões de ação */}
+                                  <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                    width: '100%'
+                                  }}>
+                                    <Space size="small">
+                                      <Button
+                                        type="link"
+                                        size="small"
+                                        icon={<EditOutlined />}
+                                        onClick={() => onEdit(process)}
+                                        style={{ 
+                                          padding: '4px 8px',
+                                          fontSize: '18px'
+                                        }}
+                                      />
+                                      <Button
+                                        type="link"
+                                        size="small"
+                                        danger
+                                        icon={<DeleteOutlined />}
+                                        onClick={() => onDelete(process.id, 'process')}
+                                        style={{ 
+                                          padding: '4px 8px',
+                                          fontSize: '18px'
+                                        }}
+                                      />
+                                    </Space>
+                                  </div>
                                 </div>
                                 
                                 {process.description && (
@@ -1039,7 +1049,13 @@ export default function AreaTree() {
                                     }}>
                                       Subprocessos ({process.children.length}):
                                     </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginLeft: '12px' }}>
+                                    <div style={{ 
+                                      display: 'flex', 
+                                      flexDirection: 'column', 
+                                      gap: '8px', 
+                                      width: '100%',
+                                      alignItems: 'center'
+                                    }}>
                                       {process.children.map((child) => (
                                         <div
                                           key={child.id}
@@ -1053,15 +1069,17 @@ export default function AreaTree() {
                                         >
                                           <div style={{
                                             display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between'
+                                            flexDirection: 'column',
+                                            gap: '8px'
                                           }}>
+                                            {/* Primeira linha: Nome, ícone e prioridade */}
                                             <div style={{
                                               display: 'flex',
                                               alignItems: 'center',
-                                              gap: '6px'
+                                              gap: '6px',
+                                              width: '100%'
                                             }}>
-                                              <FileOutlined style={{ color: '#1890ff', fontSize: '13px' }} />
+                                              <FileOutlined style={{ color: '#1890ff', fontSize: '15px' }} />
                                               <span>{child.name}</span>
                                               <Tag 
                                                 color={child.criticality === 'high' ? 'red' : child.criticality === 'medium' ? 'orange' : 'green'}
@@ -1070,23 +1088,31 @@ export default function AreaTree() {
                                                 {child.criticality === 'high' ? 'Alta' : child.criticality === 'medium' ? 'Média' : 'Baixa'}
                                               </Tag>
                                             </div>
-                                            <Space size="small">
-                                              <Button
-                                                type="link"
-                                                size="small"
-                                                icon={<EditOutlined />}
-                                                onClick={() => onEdit(child)}
-                                                style={{ padding: '1px 2px', fontSize: '12px' }}
-                                              />
-                                              <Button
-                                                type="link"
-                                                size="small"
-                                                danger
-                                                icon={<DeleteOutlined />}
-                                                onClick={() => onDelete(child.id, 'process')}
-                                                style={{ padding: '1px 2px', fontSize: '12px' }}
-                                              />
-                                            </Space>
+                                            
+                                            {/* Segunda linha: Botões de ação */}
+                                            <div style={{
+                                              display: 'flex',
+                                              justifyContent: 'flex-start',
+                                              width: '100%'
+                                            }}>
+                                              <Space size="small">
+                                                <Button
+                                                  type="link"
+                                                  size="small"
+                                                  icon={<EditOutlined />}
+                                                  onClick={() => onEdit(child)}
+                                                  style={{ padding: '1px 2px', fontSize: '14px' }}
+                                                />
+                                                <Button
+                                                  type="link"
+                                                  size="small"
+                                                  danger
+                                                  icon={<DeleteOutlined />}
+                                                  onClick={() => onDelete(child.id, 'process')}
+                                                  style={{ padding: '1px 2px', fontSize: '14px' }}
+                                                />
+                                              </Space>
+                                            </div>
                                           </div>
                                           {child.description && (
                                             <div style={{
