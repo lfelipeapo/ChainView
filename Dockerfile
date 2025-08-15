@@ -3,6 +3,14 @@ FROM lfelipeapo/php-nginx-web:1.1.0
 ## Diretório da aplicação
 ARG APP_DIR=/var/www
 
+# Copia o backend para o container (Render não usa volumes)
+COPY ./applications/doc-viewer $APP_DIR/doc-viewer
+
+# Garante permissões
+RUN mkdir -p $APP_DIR/doc-viewer/storage \
+    && mkdir -p $APP_DIR/doc-viewer/bootstrap/cache \
+    && chown -R www-data:www-data $APP_DIR/doc-viewer
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     apt-utils && \
