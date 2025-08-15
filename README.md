@@ -1,5 +1,10 @@
 # 🚀 ChainView - Sistema de Gestão de Processos Hierárquicos
 
+[![GitHub Pages](https://github.com/[lfelipeapo]/ChainView/actions/workflows/deploy-pages.yml/badge.svg)](https://[lfelipeapo].github.io/ChainView)
+[![CI/CD](https://github.com/[lfelipeapo]/ChainView/actions/workflows/ci.yml/badge.svg)](https://github.com/[lfelipeapo]/ChainView/actions)
+[![Tests](https://img.shields.io/badge/tests-55%20passed-brightgreen)](https://github.com/[lfelipeapo]/ChainView/actions)
+[![Coverage](https://img.shields.io/badge/coverage-66.15%25-brightgreen)](https://github.com/[lfelipeapo]/ChainView/actions)
+
 Sistema completo para gerenciamento de áreas e processos com estrutura hierárquica ilimitada, desenvolvido com arquitetura moderna separando frontend e backend.
 
 ## 🎯 **Sobre o Projeto**
@@ -37,6 +42,9 @@ make setup
 - 🌐 **Frontend**: http://localhost:3000
 - 🔧 **Backend API**: http://localhost
 - 📖 **Documentação Swagger**: http://localhost/api/documentation
+- 🌍 **GitHub Pages**: https://lfelipeapo.github.io/ChainView
+- 🔧 **API via Pages**: https://lfelipeapo.github.io/ChainView/api
+- 📖 **Swagger via Pages**: https://lfelipeapo.github.io/ChainView/api/documentation
 
 ### **4. Credenciais de Demo**
 ```
@@ -227,6 +235,28 @@ make test-unit         # Apenas testes unitários
 
 ## 🚀 **CI/CD Pipeline**
 
+### **🌍 GitHub Pages Deployment**
+
+O projeto inclui deploy automático para GitHub Pages:
+
+- **Trigger**: Push na branch `main`
+- **Build**: Frontend React otimizado para produção
+- **Deploy**: Automático para `https://lfelipeapo.github.io/ChainView`
+- **Cache**: Dependências npm para builds mais rápidos
+- **Environment**: Configuração via secrets do GitHub
+
+#### **Configuração Necessária:**
+1. **Habilitar GitHub Pages** nas configurações do repositório
+2. **Configurar source** como "GitHub Actions"
+3. **Adicionar secret** `VITE_API_URL` (opcional) para API personalizada
+
+#### **URLs de Deploy:**
+- **Preview**: Disponível em PRs para teste
+- **Production**: `https://lfelipeapo.github.io/ChainView`
+- **API**: `https://lfelipeapo.github.io/ChainView/api`
+- **Swagger**: `https://lfelipeapo.github.io/ChainView/api/documentation`
+- **Status**: Verificado no badge do README
+
 ### **GitHub Actions Workflow**
 
 ```yaml
@@ -246,6 +276,7 @@ make test-unit         # Apenas testes unitários
 4. **Code Quality**: Análise estática com PHPStan
 5. **Docker**: Build e teste da imagem
 6. **Deploy**: Deploy automático para staging
+7. **GitHub Pages**: Deploy automático do frontend
 
 ## 🛠️ **Comandos de Desenvolvimento**
 
