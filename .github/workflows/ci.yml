@@ -27,6 +27,9 @@ jobs:
       run: |
         cd applications/doc-viewer
         cp .env.example .env
+        # Configure SQLite for testing
+        echo "DB_CONNECTION=sqlite" >> .env
+        echo "DB_DATABASE=database/database.sqlite" >> .env
 
     - name: Install Dependencies
       run: |
@@ -42,11 +45,13 @@ jobs:
       run: |
         cd applications/doc-viewer
         chmod -R 777 storage bootstrap/cache
+        # Create SQLite database file
+        touch database/database.sqlite
 
     - name: Create Database
       run: |
         cd applications/doc-viewer
-        php artisan migrate:fresh --env=testing
+        php artisan migrate:fresh
 
     - name: Execute tests (Unit and Feature)
       run: |
