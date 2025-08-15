@@ -85,6 +85,18 @@ class Process extends Model
     }
 
     /**
+     * Remover processo e todos os descendentes (recursivo)
+     */
+    public function deleteWithDescendants(): void
+    {
+        $this->load('children');
+        foreach ($this->children as $child) {
+            $child->deleteWithDescendants();
+        }
+        $this->delete();
+    }
+
+    /**
      * Verificar se é um processo raiz
      */
     public function isRoot(): bool

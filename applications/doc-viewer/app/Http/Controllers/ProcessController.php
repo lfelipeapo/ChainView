@@ -337,14 +337,8 @@ class ProcessController extends Controller
      */
     public function destroy(Process $process): JsonResponse
     {
-        // Verificar se há subprocessos
-        if ($process->children()->count() > 0) {
-            return response()->json([
-                'message' => 'Não é possível remover um processo que possui subprocessos.'
-            ], 422);
-        }
-
-        $process->delete();
+        // Remover recursivamente o processo e todos os seus descendentes
+        $process->deleteWithDescendants();
 
         return response()->json([
             'message' => 'Processo removido com sucesso!'
