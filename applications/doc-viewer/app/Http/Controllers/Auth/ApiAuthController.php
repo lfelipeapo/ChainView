@@ -21,7 +21,7 @@ use Illuminate\Validation\ValidationException;
  * )
  * 
  * @OA\Server(
- *     url="http://localhost:8082/api",
+ *     url="http://localhost/api",
  *     description="Servidor Local"
  * )
  * 

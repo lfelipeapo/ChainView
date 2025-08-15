@@ -35,8 +35,8 @@ make setup
 
 ### **3. Acesse as Aplicações**
 - 🌐 **Frontend**: http://localhost:3000
-- 🔧 **Backend API**: http://localhost:8082
-- 📖 **Documentação Swagger**: http://localhost:8082/api/documentation
+- 🔧 **Backend API**: http://localhost
+- 📖 **Documentação Swagger**: http://localhost/api/documentation
 
 ### **4. Credenciais de Demo**
 ```
@@ -284,7 +284,7 @@ make security          # Verificar vulnerabilidades
 
 ### **📚 Documentação Técnica**
 - **[Arquitetura Detalhada](docs/architecture.md)** - Diagramas e fluxos
-- **[API Reference](http://localhost:8082/api/documentation)** - Swagger UI
+- **[API Reference](http://localhost/api/documentation)** - Swagger UI
 - **[Guia de Desenvolvimento](docs/README.md)** - Como contribuir
 
 ### **🎨 Diagramas Disponíveis**

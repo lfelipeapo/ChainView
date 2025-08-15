@@ -56,12 +56,12 @@ npm run preview
 
 ### Variáveis de Ambiente
 ```env
-VITE_API_URL=http://localhost:8082/api
+VITE_API_URL=http://localhost/api
 ```
 
 ### Porta Padrão
 - **Desenvolvimento**: http://localhost:3000
-- **API Backend**: http://localhost:8082/api
+- **API Backend**: http://localhost/api
 
 ## 📱 Componentes Principais
 

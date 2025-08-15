@@ -31,6 +31,7 @@ interface ApiResponse<T> {
 interface ApiMessageResponse {
   success: boolean
   message: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any
   timestamp?: string
 }
@@ -64,6 +65,9 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
   const urls = extractUrls(text)
   const hasUrls = urls.length > 0
   const isImage = hasUrls && isImageUrl(urls[0])
+  
+  // Validar se o texto contém URLs válidas
+  const hasValidUrls = isUrl(text) && hasUrls
 
   if (!text) return null
 
@@ -80,7 +84,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
         {text}
       </div>
 
-      {hasUrls && (
+      {hasValidUrls && (
         <div style={{ marginTop: 8 }}>
           <Button
             type="link"
@@ -89,7 +93,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
             onClick={() => setShowPreview(!showPreview)}
             style={{ padding: 0, height: 'auto', fontSize: '11px' }}
           >
-            {showPreview ? 'Ocultar Preview' : 'Ver Preview'}
+            {showPreview ? 'Ocultar Preview' : `Ver Preview (${type})`}
           </Button>
 
           {showPreview && (
@@ -119,7 +123,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
                     </span>
                   </a>
 
-                  {isImageUrl(url) && (
+                  {isImage && (
                     <div style={{ marginTop: 4, maxWidth: '100%' }}>
                       <Image
                         src={url}
@@ -137,7 +141,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
                     </div>
                   )}
 
-                  {!isImageUrl(url) && (
+                  {!isImage && (
                     <div style={{
                       marginTop: 4,
                       padding: 8,
@@ -471,7 +475,14 @@ export default function AreaTree() {
   }
 
   // Função para converter processos em formato de árvore para o componente Tree
-  const convertToTreeData = (processes: ProcessNode[]): any[] => {
+  const convertToTreeData = (processes: ProcessNode[]): Array<{
+    key: number
+    title: React.ReactNode
+    children?: Array<{
+      key: number
+      title: React.ReactNode
+    }>
+  }> => {
     return processes.map(process => ({
       key: process.id,
       title: (
@@ -1255,7 +1266,7 @@ export default function AreaTree() {
                           <div style={{
                             '--tree-indent': '24px',
                             '--tree-line-color': '#e8e8e8'
-                          } as any}>
+                          } as React.CSSProperties}>
                             <Tree
                               treeData={convertToTreeData(processes)}
                               showLine

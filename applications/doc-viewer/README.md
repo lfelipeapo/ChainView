@@ -47,7 +47,7 @@ docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan migrat
 docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan db:seed"
 
 # Verificar status
-curl http://localhost:8082/api/health
+curl http://localhost/api/health
 ```
 
 ### Localmente
@@ -190,7 +190,7 @@ services:
   doc-viewer:
     image: lfelipeapo/php-nginx-web:1.0.0
     ports:
-      - "8082:8082"
+      - "80:8000"
     volumes:
       - ./applications/doc-viewer:/var/www/doc-viewer
     depends_on:
@@ -252,7 +252,7 @@ php artisan test --filter=ProcessControllerTest
 docker build -t chainview-backend .
 
 # Executar container
-docker run -p 8082:8082 chainview-backend
+docker run -p 80:8000 chainview-backend
 ```
 
 ### Produção

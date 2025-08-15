@@ -13,8 +13,8 @@ setup:
 	docker exec -it doc-viewer bash -c "cd /var/www/doc-viewer && php artisan l5-swagger:generate"
 	@echo "✅ Setup completo! Acesse:"
 	@echo "   🌐 Frontend: http://localhost:3000"
-	@echo "   🔧 Backend: http://localhost:8082"
-	@echo "   📖 Swagger: http://localhost:8082/api/documentation"
+	@echo "   🔧 Backend: http://localhost"
+	@echo "   📖 Swagger: http://localhost/api/documentation"
 
 # Comandos individuais
 up:

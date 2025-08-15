@@ -16,7 +16,7 @@ export default function Login() {
     const testAPI = async () => {
       try {
         console.log('Testando conexão com API...')
-        const response = await fetch('http://localhost:8082/api/areas/tree')
+        const response = await fetch('http://localhost/api/areas/tree')
         const data = await response.json()
         console.log('API funcionando:', data)
       } catch (error) {
@@ -35,9 +35,9 @@ export default function Login() {
       })
       console.log('Login bem-sucedido:', result)
       message.success('Login realizado com sucesso!')
-    } catch (error: any) {
+    } catch (error) {
       console.error('Erro no login:', error)
-      const errorMessage = (error as any)?.response?.data?.message || 'Erro ao fazer login'
+      const errorMessage = 'Erro ao fazer login'
       message.error(errorMessage)
     }
   }
@@ -125,7 +125,7 @@ export default function Login() {
               color: '#ff4d4f',
               textAlign: 'center'
             }}>
-              {loginError.response?.data?.message || 'Erro ao fazer login'}
+              Erro ao fazer login
             </div>
           )}
 

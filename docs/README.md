@@ -118,7 +118,7 @@ make docs
 make swagger
 
 # Ver documentação online
-open http://localhost:8082/api/documentation
+open http://localhost/api/documentation
 ```
 
 ## 📋 Checklist de Documentação

@@ -93,7 +93,7 @@ graph LR
     end
     
     subgraph "Host Machine"
-        I[Port 8082:80]
+        I[Port 80:8000]
         J[Port 5432:5432]
         K[Port 6379:6379]
     end
