@@ -2,7 +2,7 @@
     <div class="flex flex-col items-center justify-center min-h-screen bg-red-50">
         <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-10 md:p-20 max-w-md w-full space-y-8">
             <div class="flex justify-center">
-                <img class="h-12 w-auto object-contain" loading="lazy" src="{{ asset('uploads/images/logo-om30-1.png') }}" alt="Logo">
+                <img class="h-12 w-auto object-contain" loading="lazy" src="{{ asset('uploads/images/logo-chainview.png') }}" alt="ChainView Logo">
             </div>
             <h2 class="text-center font-semibold text-2xl text-red-600">Login</h2>
             <form method="POST" action="{{ route('login') }}" class="space-y-6 w-full">
