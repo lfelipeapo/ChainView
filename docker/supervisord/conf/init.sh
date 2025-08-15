@@ -18,5 +18,12 @@ php artisan optimize:clear
 php artisan migrate --force || true
 php artisan db:seed --force || true
 
+# Criar diretórios necessários
+mkdir -p storage/logs
+mkdir -p storage/framework/cache
+mkdir -p storage/framework/sessions
+mkdir -p storage/framework/views
+mkdir -p bootstrap/cache
+
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R ug+rwx storage bootstrap/cache
