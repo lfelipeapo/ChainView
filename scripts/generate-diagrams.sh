@@ -48,7 +48,7 @@ flowchart TD
     B --> C[React Query busca dados]
     C --> D[GET /areas/tree]
     D --> E[API Laravel]
-    E --> F[AreaController@tree]
+    E --> F[\"AreaController::tree\"]
     F --> G[Area Model]
     G --> H[Database Query]
     H --> I[PostgreSQL]
