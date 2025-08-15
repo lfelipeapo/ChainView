@@ -66,6 +66,12 @@ Senha: password
 
 ## 🏗️ **Arquitetura do Sistema**
 
+![Arquitetura 1](docs/architecture-1.png)
+![Arquitetura 2](docs/architecture-2.png)
+![Arquitetura 3](docs/architecture-3.png)
+![Arquitetura 4](docs/architecture-4.png)
+![Arquitetura 5](docs/architecture-5.png)
+
 ### **🎯 Visão Geral da Arquitetura**
 
 ```mermaid
