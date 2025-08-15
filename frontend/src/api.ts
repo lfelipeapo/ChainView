@@ -2,16 +2,12 @@ import axios from 'axios'
 
 // Detecta automaticamente a URL da API baseado no ambiente
 const getApiUrl = () => {
-  // Se estiver no Render, usa a URL do Render
-  if (window.location.hostname.includes('render.com') || window.location.hostname.includes('onrender.com')) {
-    return window.location.origin + '/api'
-  }
   // Se estiver no GitHub Pages, não tem API
   if (window.location.hostname.includes('github.io')) {
     return null
   }
-  // Local development
-  return import.meta.env.VITE_API_URL || 'http://localhost/api'
+  // Para todos os outros casos, usa a URL atual + /api
+  return import.meta.env.VITE_API_URL || `${window.location.origin}/api`
 }
 
 const apiUrl = getApiUrl()
