@@ -72,7 +72,7 @@ class AreaTest extends TestCase
         $response = $this->getJson('/api/areas?per_page=5');
 
         $response->assertStatus(200)
-                ->assertJsonPath('data.meta.per_page', '5')
+                ->assertJsonPath('data.meta.per_page', 5)
                 ->assertJsonPath('data.meta.total', 20);
     }
 

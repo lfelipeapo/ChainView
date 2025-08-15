@@ -369,7 +369,7 @@ class ProcessTest extends TestCase
     }
 
     /** @test */
-    public function cannot_delete_process_with_children()
+    public function delete_process_with_children_is_recursive()
     {
         Sanctum::actingAs($this->user);
 
@@ -382,12 +382,10 @@ class ProcessTest extends TestCase
 
         $response = $this->deleteJson("/api/processes/{$parentProcess->id}");
 
-        $response->assertStatus(422)
-                ->assertJsonPath('message', 'Não é possível remover um processo que possui subprocessos.');
+        $response->assertStatus(200)
+                ->assertJsonPath('message', 'Processo removido com sucesso!');
 
-        $this->assertDatabaseHas('processes', [
-            'id' => $parentProcess->id
-        ]);
+        $this->assertDatabaseMissing('processes', [ 'id' => $parentProcess->id ]);
     }
 
     /** @test */
