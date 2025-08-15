@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Table, Button, Drawer, Form, Input, Space } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, NodeIndexOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -15,8 +15,20 @@ interface AreaFormValues {
 export default function AreaTable({ data }: Props) {
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<AreaNode | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const [form] = Form.useForm<AreaFormValues>()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const handleAdd = () => {
     setEditing(null)
@@ -45,10 +57,31 @@ export default function AreaTable({ data }: Props) {
       key: 'actions',
       render: (_: unknown, record: AreaNode) => (
         <Space>
-          <Button icon={<EditOutlined />} onClick={() => onEdit(record)} />
-          <Button icon={<DeleteOutlined />} danger />
-          <Button icon={<NodeIndexOutlined />} onClick={() => navigate(`/flow/area/${record.id}`)}>
-            Fluxo
+          <Button 
+            icon={<EditOutlined />} 
+            onClick={() => onEdit(record)}
+            size={isMobile ? 'middle' : 'small'}
+          />
+          <Button 
+            icon={<DeleteOutlined />} 
+            danger
+            size={isMobile ? 'middle' : 'small'}
+          />
+          <Button 
+            type="primary"
+            icon={<NodeIndexOutlined />} 
+            onClick={() => navigate(`/flow/area/${record.id}`)}
+            size={isMobile ? 'middle' : 'small'}
+            style={{
+              minWidth: isMobile ? '100px' : 'auto',
+              backgroundColor: isMobile ? '#1890ff' : 'transparent',
+              color: isMobile ? 'white' : '#1890ff',
+              border: isMobile ? '1px solid #1890ff' : '1px solid #d9d9d9',
+              display: 'block',
+              marginBottom: isMobile ? '8px' : '0'
+            }}
+          >
+            {isMobile ? 'Ver Fluxo' : 'Fluxo'}
           </Button>
         </Space>
       ),

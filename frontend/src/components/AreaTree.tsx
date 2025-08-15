@@ -591,23 +591,28 @@ export default function AreaTree() {
               Adicionar Subprocesso
             </Button>
             <Button
-              type="link"
-              size="small"
+              type="primary"
+              size={isMobile ? 'middle' : 'small'}
               icon={<NodeIndexOutlined />}
               onClick={(e) => {
                 e.stopPropagation()
                 navigate(`/flow/process/${process.id}`)
               }}
               style={{
-                padding: '2px 6px',
-                borderRadius: 4,
-                border: '1px solid #d9d9d9',
+                padding: isMobile ? '6px 12px' : '2px 6px',
+                borderRadius: 6,
                 whiteSpace: 'nowrap',
-                fontSize: '11px',
-                height: '24px'
+                fontSize: isMobile ? '13px' : '11px',
+                height: isMobile ? '36px' : '24px',
+                minWidth: isMobile ? '80px' : 'auto',
+                backgroundColor: isMobile ? '#1890ff' : 'transparent',
+                color: isMobile ? 'white' : '#1890ff',
+                border: isMobile ? '1px solid #1890ff' : '1px solid #d9d9d9',
+                display: 'block',
+                marginBottom: isMobile ? '8px' : '0'
               }}
             >
-              Fluxo
+              {isMobile ? 'Ver Fluxo' : 'Fluxo'}
             </Button>
             <Button
               type="link"
@@ -1036,6 +1041,23 @@ export default function AreaTree() {
                                   }}>
                                     <Space size="small">
                                       <Button
+                                        type="primary"
+                                        size="small"
+                                        icon={<NodeIndexOutlined />}
+                                        onClick={() => navigate(`/flow/process/${process.id}`)}
+                                        style={{ 
+                                          padding: '6px 12px',
+                                          fontSize: '14px',
+                                          backgroundColor: '#1890ff',
+                                          color: 'white',
+                                          border: '1px solid #1890ff',
+                                          borderRadius: '6px',
+                                          minWidth: '80px'
+                                        }}
+                                      >
+                                        Ver Fluxo
+                                      </Button>
+                                      <Button
                                         type="link"
                                         size="small"
                                         icon={<EditOutlined />}
@@ -1128,6 +1150,23 @@ export default function AreaTree() {
                                               width: '100%'
                                             }}>
                                               <Space size="small">
+                                                <Button
+                                                  type="primary"
+                                                  size="small"
+                                                  icon={<NodeIndexOutlined />}
+                                                  onClick={() => navigate(`/flow/process/${child.id}`)}
+                                                  style={{ 
+                                                    padding: '4px 8px',
+                                                    fontSize: '12px',
+                                                    backgroundColor: '#1890ff',
+                                                    color: 'white',
+                                                    border: '1px solid #1890ff',
+                                                    borderRadius: '4px',
+                                                    minWidth: '60px'
+                                                  }}
+                                                >
+                                                  Fluxo
+                                                </Button>
                                                 <Button
                                                   type="link"
                                                   size="small"
@@ -1257,21 +1296,28 @@ export default function AreaTree() {
                               Adicionar Processo
                             </Button>
                             <Button
-                              type="link"
-                              size="small"
+                              type="primary"
+                              size={isMobile ? 'middle' : 'small'}
                               icon={<NodeIndexOutlined />}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 navigate(`/flow/area/${area.id}`)
                               }}
                               style={{
-                                padding: '4px 8px',
+                                padding: isMobile ? '8px 16px' : '4px 8px',
                                 borderRadius: 6,
-                                border: '1px solid #d9d9d9',
-                                whiteSpace: 'nowrap'
+                                whiteSpace: 'nowrap',
+                                fontSize: isMobile ? '14px' : '12px',
+                                height: isMobile ? '40px' : '28px',
+                                minWidth: isMobile ? '100px' : 'auto',
+                                backgroundColor: isMobile ? '#1890ff' : 'transparent',
+                                color: isMobile ? 'white' : '#1890ff',
+                                border: isMobile ? '1px solid #1890ff' : '1px solid #d9d9d9',
+                                display: 'block',
+                                marginBottom: isMobile ? '8px' : '0'
                               }}
                             >
-                              Fluxo
+                              {isMobile ? 'Ver Fluxo' : 'Fluxo'}
                             </Button>
                             <Popconfirm
                               title="Remover Área"
