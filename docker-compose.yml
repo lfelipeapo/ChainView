@@ -3,7 +3,7 @@ services:
   #aplicação web (PHP+NGINX)
   doc-viewer:
     container_name: doc-viewer
-    image: lfelipeapo/php-nginx-web:1.0.0
+    image: lfelipeapo/php-nginx-web:1.1.0
     build: 
       args:
         user: admin
@@ -16,6 +16,9 @@ services:
     volumes:
       - ./applications:/var/www
       - ./docker/nginx/sites:/etc/nginx/sites-available
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
     ports:
       - "80:8000" #http
       - "443:443" #https

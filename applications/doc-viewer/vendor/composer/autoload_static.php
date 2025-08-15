@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1272de4c7d43e397a57e834301d24a3f
+class ComposerStaticInit9e8a20fce13604c45167f61acf148c39
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -333,13 +333,13 @@ class ComposerStaticInit1272de4c7d43e397a57e834301d24a3f
         ),
         'Spatie\\LaravelIgnition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
-            1 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/laravel-ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/laravel-ignition',
         ),
         'Spatie\\Ignition\\' => 
         array (
-            0 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
-            1 => __DIR__ . '/..' . '/spatie/ignition/src',
+            0 => __DIR__ . '/..' . '/spatie/ignition/src',
+            1 => __DIR__ . '/..' . '/spatie/error-solutions/legacy/ignition',
         ),
         'Spatie\\FlareClient\\' => 
         array (
@@ -7136,9 +7136,9 @@ class ComposerStaticInit1272de4c7d43e397a57e834301d24a3f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1272de4c7d43e397a57e834301d24a3f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1272de4c7d43e397a57e834301d24a3f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit1272de4c7d43e397a57e834301d24a3f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9e8a20fce13604c45167f61acf148c39::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9e8a20fce13604c45167f61acf148c39::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9e8a20fce13604c45167f61acf148c39::$classMap;
 
         }, null, ClassLoader::class);
     }
