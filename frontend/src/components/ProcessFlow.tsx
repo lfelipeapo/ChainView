@@ -210,9 +210,9 @@ export default function ProcessFlow({
     // Extrair dados para mostrar informações
     const processes = useMemo(() => {
         if (!data) return [];
-        const payload: any = (data as any).data;
-        if (payload && Array.isArray(payload.processes)) return payload.processes;
-        if (payload && payload.data) return [payload.data];
+        const payload = (data as ProcessesTreeResponse | ProcessTreeResponse).data;
+        if (payload && 'processes' in payload && Array.isArray(payload.processes)) return payload.processes;
+        if (payload && 'data' in payload) return [payload.data];
         return [];
     }, [data]);
 
