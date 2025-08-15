@@ -40,6 +40,7 @@ jobs:
         cd frontend
         npm run build
       env:
+        NODE_ENV: production
         VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://lfelipeapo.github.io/ChainView/api' }}
         
     - name: Setup Pages
