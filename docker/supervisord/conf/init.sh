@@ -16,6 +16,7 @@ php artisan key:generate --force
 php artisan config:clear
 php artisan optimize:clear
 php artisan migrate --force || true
+php artisan db:seed --force || true
 
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R ug+rwx storage bootstrap/cache
