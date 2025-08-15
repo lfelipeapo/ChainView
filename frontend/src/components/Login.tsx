@@ -16,7 +16,7 @@ export default function Login() {
     const testAPI = async () => {
       try {
         console.log('Testando conexão com API...')
-        const response = await fetch('http://localhost/api/areas/tree')
+        const response = await fetch(`${window.location.origin}/api/areas/tree`)
         const data = await response.json()
         console.log('API funcionando:', data)
       } catch (error) {

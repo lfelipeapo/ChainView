@@ -11,7 +11,7 @@ const getApiUrl = () => {
     return null
   }
   // Local development
-  return import.meta.env.VITE_API_URL || 'http://localhost/api'
+  return import.meta.env.VITE_API_URL || `${window.location.origin}/api`
 }
 
 const apiUrl = getApiUrl()
