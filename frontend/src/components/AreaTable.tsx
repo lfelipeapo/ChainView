@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Table, Button, Drawer, Form, Input, Space } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, EditOutlined, DeleteOutlined, NodeIndexOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 import type { AreaNode } from '../hooks/useAreaTree'
 
 interface Props {
@@ -15,6 +16,7 @@ export default function AreaTable({ data }: Props) {
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState<AreaNode | null>(null)
   const [form] = Form.useForm<AreaFormValues>()
+  const navigate = useNavigate()
 
   const handleAdd = () => {
     setEditing(null)
@@ -45,6 +47,9 @@ export default function AreaTable({ data }: Props) {
         <Space>
           <Button icon={<EditOutlined />} onClick={() => onEdit(record)} />
           <Button icon={<DeleteOutlined />} danger />
+          <Button icon={<NodeIndexOutlined />} onClick={() => navigate(`/flow/area/${record.id}`)}>
+            Fluxo
+          </Button>
         </Space>
       ),
     },

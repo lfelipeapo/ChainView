@@ -1,7 +1,8 @@
 import { Button, Modal, Form, Input, Card, message, Tree, Collapse, Select, Popconfirm, Tooltip, Tag, Space, Image } from 'antd'
-import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
+import { PlusOutlined, FolderOutlined, FileOutlined, EditOutlined, DeleteOutlined, ToolOutlined, UserOutlined, FileTextOutlined, LinkOutlined, EyeOutlined, UpOutlined, DownOutlined, SearchOutlined, ReloadOutlined, NodeIndexOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 import api from '../api'
 import { useAreaTree, type AreaNode } from '../hooks/useAreaTree'
 
@@ -168,6 +169,7 @@ const PreviewRenderer = ({ text, type }: { text: string, type: 'description' | '
 
 export default function AreaTree() {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const { data: areas = [], isLoading: loading, error: areaError } = useAreaTree()
   const typedAreas: AreaNode[] = areas
   const [processes, setProcesses] = useState<ProcessNode[]>([])
@@ -587,6 +589,25 @@ export default function AreaTree() {
               }}
             >
               Adicionar Subprocesso
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              icon={<NodeIndexOutlined />}
+              onClick={(e) => {
+                e.stopPropagation()
+                navigate(`/flow/process/${process.id}`)
+              }}
+              style={{
+                padding: '2px 6px',
+                borderRadius: 4,
+                border: '1px solid #d9d9d9',
+                whiteSpace: 'nowrap',
+                fontSize: '11px',
+                height: '24px'
+              }}
+            >
+              Fluxo
             </Button>
             <Button
               type="link"
@@ -1234,6 +1255,23 @@ export default function AreaTree() {
                               }}
                             >
                               Adicionar Processo
+                            </Button>
+                            <Button
+                              type="link"
+                              size="small"
+                              icon={<NodeIndexOutlined />}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                navigate(`/flow/area/${area.id}`)
+                              }}
+                              style={{
+                                padding: '4px 8px',
+                                borderRadius: 6,
+                                border: '1px solid #d9d9d9',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              Fluxo
                             </Button>
                             <Popconfirm
                               title="Remover Área"
