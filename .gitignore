@@ -43,3 +43,4 @@ applications/doc-viewer/public/sitemap.xml.gz.1
 applications/doc-viewer/public/sitemap.xml.gz.2
 applications/doc-viewer/composer.lock
 applications/doc-viewer/package-lock.json
+applications/doc-viewer/.phpunit.cache/test-results
