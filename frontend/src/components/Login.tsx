@@ -15,7 +15,6 @@ export default function Login() {
   useEffect(() => {
     const testAPI = async () => {
       try {
-        console.log('Testando conexão com API...')
         const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
           ? 'http://localhost/api' 
           : `${window.location.origin}/api`

@@ -10,8 +10,17 @@
     },
     "servers": [
         {
-            "url": "http://localhost/api",
-            "description": "Servidor Local"
+            "url": "{protocol}://{host}/api",
+            "description": "Servidor Dinâmico",
+            "variables": {
+                "protocol": {
+                    "default": "http",
+                    "enum": ["http", "https"]
+                },
+                "host": {
+                    "default": "localhost"
+                }
+            }
         }
     ],
     "paths": {
