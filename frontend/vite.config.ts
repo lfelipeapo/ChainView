@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/ChainView/', // importante para assets no GitHub Pages
+  base: process.env.NODE_ENV === 'production' && process.env.VITE_DEPLOY_ENV === 'github-pages' ? '/ChainView/' : '/',
   server: {
     port: 3000,
     host: true
