@@ -19,6 +19,7 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
+      XDEBUG_MODE: develop,coverage
     ports:
       - "80:8000" #http
       - "443:443" #https
