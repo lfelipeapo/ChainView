@@ -66,6 +66,12 @@ RUN apt-get update && apt-get install -y supervisor htop && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Criar diretórios de log do supervisor
+RUN mkdir -p /var/log/supervisor
+
+# Criar diretórios de log do NGINX
+RUN mkdir -p /var/log/nginx
+
 COPY ./docker/supervisord/supervisord.conf /etc/supervisor
 COPY ./docker/supervisord/conf /etc/supervisord.d/
 # remover configs herdadas que apontam para /var/www/html
