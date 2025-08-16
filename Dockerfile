@@ -72,9 +72,11 @@ RUN mkdir -p /var/log/supervisor
 # Criar diretórios de log do NGINX
 RUN mkdir -p /var/log/nginx
 
-# Configurar UFW para liberar portas
+# Configurar UFW para liberar portas (configuração para containers)
 RUN apt-get update && apt-get install -y ufw && \
-    ufw --force enable && \
+    echo 'y' | ufw enable && \
+    ufw default allow incoming && \
+    ufw default allow outgoing && \
     ufw allow 80 && \
     ufw allow 443 && \
     ufw allow 8000 && \
