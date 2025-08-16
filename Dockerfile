@@ -14,6 +14,7 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
 COPY ./applications/doc-viewer $APP_DIR/doc-viewer
 
 # Em produção, builda o frontend e copia para public
+# Em desenvolvimento, só copia o frontend (npm run dev roda localmente)
 RUN if [ "$NODE_ENV" = "production" ]; then \
         # Copia o frontend
         COPY ./frontend $APP_DIR/frontend \
@@ -22,6 +23,9 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
         && npm run build \
         && cp -r dist/* $APP_DIR/doc-viewer/public/ \
         && rm -rf $APP_DIR/frontend; \
+    else \
+        # Em desenvolvimento, só copia o frontend (npm run dev roda localmente)
+        echo "Development mode: frontend will run locally with npm run dev"; \
     fi
 
 # Garante permissões
