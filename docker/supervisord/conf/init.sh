@@ -12,8 +12,22 @@ if [ ! -f "$APP_DIR/.env" ]; then
     cp .env.example .env
 fi
 
-# Sempre limpar cache para garantir configurações atualizadas
-echo "Limpando cache..."
+# Forçar reinicialização completa
+echo "Reinicializando Laravel..."
+rm -rf bootstrap/cache/*.php
+rm -rf storage/framework/cache/*
+rm -rf storage/framework/views/*
+rm -rf storage/framework/sessions/*
+rm -rf storage/logs/*
+
+# Recriar diretórios
+mkdir -p storage/logs
+mkdir -p storage/framework/cache
+mkdir -p storage/framework/sessions
+mkdir -p storage/framework/views
+mkdir -p bootstrap/cache
+
+# Limpar cache
 php artisan config:clear
 php artisan cache:clear
 php artisan route:clear
