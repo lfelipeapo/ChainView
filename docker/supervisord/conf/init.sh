@@ -34,8 +34,8 @@ echo "DB_DATABASE: $DB_DATABASE"
 echo "APP_ENV: $APP_ENV"
 echo "====================================="
 
-php artisan migrate --force || true
-php artisan db:seed --force || true
+php artisan migrate --force
+php artisan db:seed --force
 
 # Criar diretórios necessários
 mkdir -p storage/logs

@@ -9,6 +9,8 @@ class ProcessSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->command->info('Iniciando ProcessSeeder...');
+        
         // Processos principais (nível 1)
         $process1 = DB::table('processes')->insertGetId([
             'area_id' => 1, 
@@ -302,5 +304,7 @@ class ProcessSeeder extends Seeder
             'criticality' => 'medium',
             'status' => 'active'
         ]);
+        
+        $this->command->info('ProcessSeeder concluído com sucesso!');
     }
 }
