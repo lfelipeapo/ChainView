@@ -79,9 +79,7 @@ return [
             'prefix_indexes' => true,
             'schema' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
-            'options' => [
-                // PostgreSQL não usa MYSQL_ATTR_INIT_COMMAND
-            ],
+            'options' => [],
         ],
 
         'sqlsrv' => [

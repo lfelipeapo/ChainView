@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 # set -e  # Removido para evitar que pare no primeiro erro
 
+echo "=== INICIANDO SCRIPT DE INICIALIZAÇÃO ==="
+
 APP_DIR=/var/www/doc-viewer
+echo "APP_DIR: $APP_DIR"
+
+# Verificar se o diretório existe
+if [ ! -d "$APP_DIR" ]; then
+    echo "ERRO: Diretório $APP_DIR não existe!"
+    exit 1
+fi
+
 cd "$APP_DIR"
+echo "Diretório atual: $(pwd)"
 
 echo "Iniciando script de inicialização..."
 
 # Criar diretório de logs do supervisor
 mkdir -p /var/log/supervisor
+echo "Diretório de logs criado"
 
 if [ ! -f "$APP_DIR/vendor/autoload.php" ]; then
     composer install -n --prefer-dist
@@ -127,24 +139,27 @@ if [ ! -z "$DATABASE_URL" ]; then
     echo "DATABASE_URL configurado, Laravel irá usar automaticamente"
 fi
 
-# Testar conexão com o banco com timeout
+# Testar conexão com o banco
 echo "=== TESTE DE CONEXÃO ==="
-timeout 30 bash -c '
-until php -r "
-try {
-    require_once \"vendor/autoload.php\";
-    \$app = require_once \"bootstrap/app.php\";
-    \$app->make(\"Illuminate\Contracts\Console\Kernel\")->bootstrap();
-    DB::connection()->getPdo();
-    echo \"Conexão OK: \" . DB::connection()->getDatabaseName() . PHP_EOL;
-    exit(0);
-} catch (Exception \$e) {
-    echo \"Erro de conexão: \" . \$e->getMessage() . PHP_EOL;
-    exit(1);
-}
-"; do
-    echo "Aguardando banco de dados..."
-    sleep 2
+for i in {1..10}; do
+    if php -r "
+    try {
+        require_once 'vendor/autoload.php';
+        \$app = require_once 'bootstrap/app.php';
+        \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+        DB::connection()->getPdo();
+        echo 'Conexão OK: ' . DB::connection()->getDatabaseName() . PHP_EOL;
+        exit(0);
+    } catch (Exception \$e) {
+        echo 'Erro de conexão: ' . \$e->getMessage() . PHP_EOL;
+        exit(1);
+    }
+    "; then
+        echo "Banco de dados disponível!"
+        break
+    fi
+    echo "Tentativa $i/10 - aguardando..."
+    sleep 3
 done
 
 # Executar migrations se banco estiver disponível

@@ -16,6 +16,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./applications:/var/www
+      - ./frontend:/var/www/frontend
       - ./docker/nginx/sites:/etc/nginx/sites-available
     cap_add:
       - NET_ADMIN

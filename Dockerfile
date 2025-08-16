@@ -58,7 +58,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 
 # carregar configuração padrão do NGINX
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./docker/nginx/sites /etc/nginx/sites-available
+COPY ./docker/nginx/sites/doc-viewer.conf /etc/nginx/sites-available/
 
 # configuração do supervisor
 RUN apt-get update && apt-get install -y supervisor htop && \
