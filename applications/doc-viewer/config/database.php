@@ -69,10 +69,10 @@ return [
             // Fallback para docker-compose (serviço 'postgres') se .env não existir
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
+            'database' => env('DB_DATABASE', 'db'),
+            'username' => env('DB_USERNAME', 'postgres'),
             // Não expor senha aqui; se não houver .env, compose injeta DB_PASSWORD
-            'password' => env('DB_PASSWORD', ''),
+            'password' => env('DB_PASSWORD', 'post123'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

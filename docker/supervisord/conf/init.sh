@@ -15,6 +15,9 @@ fi
 # Configurações para produção
 if [ "$APP_ENV" = "production" ]; then
     echo "Configurando para produção..."
+    php artisan config:clear
+    php artisan cache:clear
+    php artisan optimize:clear
     php artisan config:cache
     php artisan route:cache
     php artisan view:cache
