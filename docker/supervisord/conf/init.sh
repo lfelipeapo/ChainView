@@ -27,12 +27,24 @@ mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 mkdir -p bootstrap/cache
 
+# Forçar permissões
+chmod -R 777 storage bootstrap/cache
+
 # Limpar cache
 php artisan config:clear
 php artisan cache:clear
 php artisan route:clear
 php artisan view:clear
 php artisan optimize:clear
+
+# Forçar recarregamento das configurações
+echo "Forçando recarregamento das configurações..."
+php -r "
+require_once 'vendor/autoload.php';
+\$app = require_once 'bootstrap/app.php';
+\$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+echo 'Configurações recarregadas' . PHP_EOL;
+"
 
 php artisan key:generate --force
 
