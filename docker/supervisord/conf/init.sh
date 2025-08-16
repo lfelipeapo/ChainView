@@ -12,19 +12,13 @@ if [ ! -f "$APP_DIR/.env" ]; then
     cp .env.example .env
 fi
 
-# Configurações para produção
-if [ "$APP_ENV" = "production" ]; then
-    echo "Configurando para produção..."
-    php artisan config:clear
-    php artisan cache:clear
-    php artisan optimize:clear
-    php artisan config:cache
-    php artisan route:cache
-    php artisan view:cache
-else
-    php artisan config:clear
-    php artisan optimize:clear
-fi
+# Sempre limpar cache para garantir configurações atualizadas
+echo "Limpando cache..."
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+php artisan optimize:clear
 
 php artisan key:generate --force
 
@@ -52,6 +46,7 @@ try {
 "
 echo "========================="
 
+# Migrations e seeders
 php artisan migrate --force
 php artisan db:seed --force
 
