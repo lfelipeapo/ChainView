@@ -34,6 +34,11 @@ echo "DB_DATABASE: $DB_DATABASE"
 echo "APP_ENV: $APP_ENV"
 echo "====================================="
 
+# Testar conexão com o banco
+echo "=== TESTE DE CONEXÃO ==="
+php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'Conexão OK: ' . DB::connection()->getDatabaseName(); } catch (Exception \$e) { echo 'Erro de conexão: ' . \$e->getMessage(); }"
+echo "========================="
+
 php artisan migrate --force
 php artisan db:seed --force
 
