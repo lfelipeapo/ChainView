@@ -13,20 +13,19 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
 # Copia o backend para o container (Render não usa volumes)
 COPY ./applications/doc-viewer $APP_DIR/doc-viewer
 
+# Copia o frontend
+COPY ./frontend $APP_DIR/frontend
+
 # Em produção, builda o frontend e copia para public
-# Em desenvolvimento, copia o frontend e roda npm run dev
+# Em desenvolvimento, roda npm run dev
 RUN if [ "$NODE_ENV" = "production" ]; then \
-        # Copia o frontend
-        COPY ./frontend $APP_DIR/frontend \
-        && cd $APP_DIR/frontend \
+        cd $APP_DIR/frontend \
         && npm ci --only=production \
         && npm run build \
         && cp -r dist/* $APP_DIR/doc-viewer/public/ \
         && rm -rf $APP_DIR/frontend; \
     else \
-        # Em desenvolvimento, copia o frontend e roda npm run dev
-        COPY ./frontend $APP_DIR/frontend \
-        && cd $APP_DIR/frontend \
+        cd $APP_DIR/frontend \
         && npm ci \
         && npm run dev; \
     fi
