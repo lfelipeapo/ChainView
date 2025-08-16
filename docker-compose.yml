@@ -17,6 +17,9 @@ services:
     volumes:
       - ./applications:/var/www
       - ./docker/nginx/sites:/etc/nginx/sites-available
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
     environment:
       APP_ENV: ${APP_ENV:-local}
       APP_DEBUG: ${APP_DEBUG:-true}

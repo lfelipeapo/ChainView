@@ -72,31 +72,6 @@ RUN mkdir -p /var/log/supervisor
 # Criar diretórios de log do NGINX
 RUN mkdir -p /var/log/nginx
 
-# Configurar UFW para liberar portas (configuração para containers)
-RUN apt-get update && apt-get install -y ufw && \
-    echo 'y' | ufw enable && \
-    ufw default allow incoming && \
-    ufw default allow outgoing && \
-    ufw allow 80 && \
-    ufw allow 443 && \
-    ufw allow 8000 && \
-    ufw allow 5432 && \
-    ufw allow 20000 && \
-    ufw allow 3000 && \
-    ufw allow 8080 && \
-    ufw allow 8081 && \
-    ufw allow 8082 && \
-    ufw allow 8083 && \
-    ufw allow 8084 && \
-    ufw allow 8085 && \
-    ufw allow 8086 && \
-    ufw allow 8087 && \
-    ufw allow 8088 && \
-    ufw allow 8089 && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
 COPY ./docker/supervisord/supervisord.conf /etc/supervisor
 COPY ./docker/supervisord/conf /etc/supervisord.d/
 # remover configs herdadas que apontam para /var/www/html
@@ -106,6 +81,16 @@ RUN [ ! -e /var/www/html ] && ln -s /var/www/doc-viewer /var/www/html || true
 
 WORKDIR $APP_DIR
 RUN chmod 777 -R *
+
+# instalar ufw, copiar script e entrypoint
+RUN apt-get update && apt-get install -y --no-install-recommends ufw && \
+    apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY ./docker/ufw-start.sh /usr/local/bin/ufw-start.sh
+
+RUN chmod +x /usr/local/bin/ufw-start.sh
+
+ENTRYPOINT ["/usr/local/bin/ufw-start.sh"]
 
 # Sempre inicia com o Supervisor (php-fpm, nginx, queue, etc.)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
