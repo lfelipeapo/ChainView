@@ -72,6 +72,29 @@ RUN mkdir -p /var/log/supervisor
 # Criar diretórios de log do NGINX
 RUN mkdir -p /var/log/nginx
 
+# Configurar UFW para liberar portas
+RUN apt-get update && apt-get install -y ufw && \
+    ufw --force enable && \
+    ufw allow 80 && \
+    ufw allow 443 && \
+    ufw allow 8000 && \
+    ufw allow 5432 && \
+    ufw allow 20000 && \
+    ufw allow 3000 && \
+    ufw allow 8080 && \
+    ufw allow 8081 && \
+    ufw allow 8082 && \
+    ufw allow 8083 && \
+    ufw allow 8084 && \
+    ufw allow 8085 && \
+    ufw allow 8086 && \
+    ufw allow 8087 && \
+    ufw allow 8088 && \
+    ufw allow 8089 && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY ./docker/supervisord/supervisord.conf /etc/supervisor
 COPY ./docker/supervisord/conf /etc/supervisord.d/
 # remover configs herdadas que apontam para /var/www/html

@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-set -e
+# set -e  # Removido para evitar que pare no primeiro erro
 
 APP_DIR=/var/www/doc-viewer
 cd "$APP_DIR"
+
+echo "Iniciando script de inicialização..."
 
 # Criar diretório de logs do supervisor
 mkdir -p /var/log/supervisor

@@ -18,9 +18,14 @@ services:
       - ./applications:/var/www
       - ./docker/nginx/sites:/etc/nginx/sites-available
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
+      APP_ENV: ${APP_ENV:-local}
+      APP_DEBUG: ${APP_DEBUG:-true}
       XDEBUG_MODE: develop,coverage
+      DB_HOST: ${DB_HOST:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_DATABASE: ${DB_DATABASE:-db}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-post123}
     ports:
       - "80:8000" #http
       - "443:443" #https
