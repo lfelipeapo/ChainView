@@ -426,9 +426,9 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 - [x] **Docker Setup**: Containerização completa
 - [x] **Documentação**: Swagger + Diagramas de arquitetura
 - [x] **Qualidade**: Linting, security, code coverage
+- [x] **Deploy em produção**: Link em produção usando render.com
 
 ### **🚀 Próximos Passos**
-- [ ] Deploy em produção
 - [ ] Monitoramento e logs
 - [ ] Backup automático
 - [ ] Documentação de usuário

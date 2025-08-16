@@ -25,7 +25,7 @@ COPY ./frontend $APP_DIR/frontend
 # Em desenvolvimento, NÃO roda dev no build (isso é runtime)
 RUN if [ "$NODE_ENV" = "production" ]; then \
         cd $APP_DIR/frontend \
-        && npm ci --only=production \
+        && npm ci \
         && npm run build \
         && cp -r dist/* $APP_DIR/doc-viewer/public/ \
         && rm -rf $APP_DIR/frontend; \
