@@ -2,9 +2,27 @@ FROM lfelipeapo/php-nginx-web:1.1.0
 
 ## Diretório da aplicação
 ARG APP_DIR=/var/www
+ARG NODE_ENV=production
+
+# Instalar Node.js e npm apenas em produção
+RUN if [ "$NODE_ENV" = "production" ]; then \
+        curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+        && apt-get install -y nodejs; \
+    fi
 
 # Copia o backend para o container (Render não usa volumes)
 COPY ./applications/doc-viewer $APP_DIR/doc-viewer
+
+# Em produção, builda o frontend e copia para public
+RUN if [ "$NODE_ENV" = "production" ]; then \
+        # Copia o frontend
+        COPY ./frontend $APP_DIR/frontend \
+        && cd $APP_DIR/frontend \
+        && npm ci --only=production \
+        && npm run build \
+        && cp -r dist/* $APP_DIR/doc-viewer/public/ \
+        && rm -rf $APP_DIR/frontend; \
+    fi
 
 # Garante permissões
 RUN mkdir -p $APP_DIR/doc-viewer/storage \
