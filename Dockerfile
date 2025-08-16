@@ -82,15 +82,12 @@ RUN [ ! -e /var/www/html ] && ln -s /var/www/doc-viewer /var/www/html || true
 WORKDIR $APP_DIR
 RUN chmod 777 -R *
 
-# instalar ufw, copiar script e entrypoint
+# instalar ufw, copiar script
 RUN apt-get update && apt-get install -y --no-install-recommends ufw && \
     apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY ./docker/ufw-start.sh /usr/local/bin/ufw-start.sh
-
 RUN chmod +x /usr/local/bin/ufw-start.sh
-
-ENTRYPOINT ["/usr/local/bin/ufw-start.sh"]
 
 # Sempre inicia com o Supervisor (php-fpm, nginx, queue, etc.)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
