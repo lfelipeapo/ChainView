@@ -39,14 +39,19 @@ make setup
 ```
 
 ### **3. Acesse as Aplicações**
-- 🌐 **Frontend**: http://localhost:3000
+- 🌐 **Frontend**: http://localhost:3000 (desenvolvimento automático)
 - 🔧 **Backend API**: http://localhost
 - 📖 **Documentação Swagger**: http://localhost/api/documentation
 - 🌍 **GitHub Pages**: https://lfelipeapo.github.io/ChainView
 - 🔧 **API via Pages**: https://lfelipeapo.github.io/ChainView/api
 - 📖 **Swagger via Pages**: https://lfelipeapo.github.io/ChainView/api/documentation
 
-### **4. Credenciais de Demo**
+### **4. Desenvolvimento Automático**
+O sistema detecta automaticamente o ambiente:
+- **Desenvolvimento** (`NODE_ENV=development`): Frontend roda com `npm run dev` automaticamente
+- **Produção** (`NODE_ENV=production`): Frontend é buildado e servido estaticamente
+
+### **5. Credenciais de Demo**
 ```
 Email: admin@chainview.com
 Senha: password
@@ -153,6 +158,7 @@ graph TB
 - **Cache**: Redis (configurado para futuro uso)
 - **CI/CD**: GitHub Actions
 - **Monitoramento**: Health checks implementados
+- **Desenvolvimento Automático**: Supervisor gerencia frontend dev em tempo real
 
 ## 📚 **API REST - Endpoints**
 
