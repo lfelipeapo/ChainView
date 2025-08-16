@@ -40,6 +40,40 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     */
+    public function render($request, Throwable $exception)
+    {
+        // Se for uma requisição API e houver erro de banco de dados
+        if ($request->expectsJson() && $this->isDatabaseException($exception)) {
+            return response()->json([
+                'message' => 'Erro interno do servidor',
+                'error' => config('app.debug') ? $exception->getMessage() : 'Erro de conexão com o banco de dados'
+            ], 500);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    /**
+     * Check if the exception is a database-related exception.
+     *
+     * @param  \Throwable  $exception
+     * @return bool
+     */
+    protected function isDatabaseException(Throwable $exception)
+    {
+        return $exception instanceof \Illuminate\Database\QueryException ||
+               $exception instanceof \PDOException ||
+               str_contains($exception->getMessage(), 'SQLSTATE') ||
+               str_contains($exception->getMessage(), 'connection to server');
+    }
+
+    /**
      * Convert an authentication exception into a response.
      *
      * @param  \Illuminate\Http\Request  $request

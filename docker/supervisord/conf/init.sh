@@ -26,8 +26,8 @@ LOG_DEPRECATIONS_CHANNEL=null
 LOG_LEVEL=debug
 
 DB_CONNECTION=pgsql
-DB_HOST=${DB_HOST:-postgres}
-DB_PORT=${DB_PORT:-5432}
+DB_HOST=${DB_HOST:-$([ "$APP_ENV" = "local" ] && echo "localhost" || echo "postgres")}
+DB_PORT=${DB_PORT:-$([ "$APP_ENV" = "local" ] && echo "20000" || echo "5432")}
 DB_DATABASE=${DB_DATABASE:-db}
 DB_USERNAME=${DB_USERNAME:-postgres}
 DB_PASSWORD=${DB_PASSWORD:-post123}
