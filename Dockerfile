@@ -74,7 +74,7 @@ RUN rm -f /etc/supervisord.d/queue.conf || true
 RUN [ ! -e /var/www/html ] && ln -s /var/www/doc-viewer /var/www/html || true
 
 WORKDIR $APP_DIR
-RUN chmod 755 -R *
+RUN chmod 777 -R *
 
 # Sempre inicia com o Supervisor (php-fpm, nginx, queue, etc.)
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
