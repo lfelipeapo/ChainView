@@ -24,6 +24,16 @@ else
 fi
 
 php artisan key:generate --force
+
+# Debug: verificar configurações do banco
+echo "=== DEBUG: Configurações do Banco ==="
+echo "DB_CONNECTION: $DB_CONNECTION"
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_DATABASE: $DB_DATABASE"
+echo "APP_ENV: $APP_ENV"
+echo "====================================="
+
 php artisan migrate --force || true
 php artisan db:seed --force || true
 
