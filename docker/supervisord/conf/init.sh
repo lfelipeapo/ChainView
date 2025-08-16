@@ -36,7 +36,17 @@ echo "====================================="
 
 # Testar conexão com o banco
 echo "=== TESTE DE CONEXÃO ==="
-php artisan tinker --execute="try { DB::connection()->getPdo(); echo 'Conexão OK: ' . DB::connection()->getDatabaseName(); } catch (Exception \$e) { echo 'Erro de conexão: ' . \$e->getMessage(); }"
+php -r "
+try {
+    require_once 'vendor/autoload.php';
+    \$app = require_once 'bootstrap/app.php';
+    \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
+    DB::connection()->getPdo();
+    echo 'Conexão OK: ' . DB::connection()->getDatabaseName() . PHP_EOL;
+} catch (Exception \$e) {
+    echo 'Erro de conexão: ' . \$e->getMessage() . PHP_EOL;
+}
+"
 echo "========================="
 
 php artisan migrate --force
